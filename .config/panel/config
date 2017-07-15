@@ -1,0 +1,27 @@
+# Fonts
+# PANEL_FONT1='Inconsolata'
+PANEL_FONT2='Symbola'
+PANEL_FONT1='Iosevka Regular:size=9'
+#PANEL_FONT2='Source Code Pro:size=9'
+PANEL_UNDERLINE='1'
+# Panel geometry
+PANEL_HEIGHT=14
+PANEL_WIDTH=''
+PANEL_GEOMETRY="${PANEL_WIDTH}x${PANEL_HEIGHT}+0+0"
+
+# Notification geometry
+NOTIFY_HEIGHT=$PANEL_HEIGHT
+NOTIFY_WIDTH=135
+NOTIFY_GEOMETRY="${NOTIFY_WIDTH}x${NOTIFY_HEIGHT}+0+0"
+
+# Duration of notifications
+DURATION=2
+
+# Monitor to display panel on
+# MONITOR="$(bspc query -M | tail -n1)"
+
+# Volume change clip
+CLIP="/usr/share/sounds/freedesktop/stereo/audio-volume-change.oga"
+# Length of volume bar
+BAR_LENGTH=20
+BAR_CHAR='='

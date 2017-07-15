@@ -1,0 +1,73 @@
+#include "/home/vaernil/.colors/best"
+!################
+!#	Cursor
+!################
+Xcursor.theme:                  Breeze-Obsidian
+!Xcursor.theme:                  Obsidian
+Xcursor.size:                   12
+!################
+!#	Font
+!################
+Xft.dpi:	92
+Xft.antialias:	true
+Xft.rgba:	rgb
+Xft.hinting:	true
+Xft.hintstyle:	hintslight
+Xft.autohint:   false
+Xft.lcdfilter:	lcddefault
+URxvt.font:	xft:Iosevka:style=Regular:size=10:antialias=true, \
+		xft:Wuncon\ Siji:style=Regular:size=10, \
+                xft:Symbola:style=Regular:size=10, \
+		xft:Inconsolata\ for\ Powerline:size=10, \
+		xft:DejaVu Sans Mono:style=Book:antialias=false:size=10, \
+		xft:Segoe UI:style=Regular:size=10, \
+		xft:unifont:style=Medium:antialias=false
+!URxvt.font:	xft:Source Code Pro for Powerline:size=10
+!URxvt.font:    xft:Iosevka Medium:style=Regular:size=9:antialias=true
+!URxvt.font:    xft:Hasklig Light:style=Light:size=10:antialias=true
+URxvt.letterSpace: 0
+
+!URxvt.scrollstyle: plain
+!!!! To disable the scrollbar
+!URxvt.scrollBar:          true
+URxvt.scrollBar:                false
+URxvt*perl-lib:                 /usr/lib/urxvt/perl
+URxvt*perl-ext-common:          default,matcher,clipboard,font-size
+URxvt*perl-matcher:		1
+URxvt*matcher-button:		3
+URxvt*url-launcher:		/usr/bin/google-chrome-stable
+!URxvt*matcher.button: 1
+!!URxvt*matcher.pattern.1: \\bwww\\.[\\w-]\\.[\\w./?&@#-]*[\\w/-]
+URxvt*cursorUnderline:          1
+!urxvt*fading:			10
+!urxvt*fadeColor:		#000000	
+URxvt*cursorBlink:		true
+! dunno if i have script for that
+!urxvt*dynamicColors: on
+URxvt.urgentOnBell:             true
+!urxvt.borderLess: true
+URxvt.internalBorder:           0
+URxvt.externalBorder:           0
+!
+!!!! Transparency
+!! problem is, that the font is very unsaturated, without color etc. because it applies it to the whole window I think
+! wylaczylem transparency real z comptonem
+!URxvt*depth: 32
+!URxvt*background: rgba:0000/0000/0200/c800
+!!! Fake transperency
+URxvt*background:               [80]#000000
+URxvt.transparent:              true
+! how dark a shading will be, more = more transparent
+URxvt.shading:                  50
+URxvt*tintColor:                purple
+!URxvt*tintColor:                yellow
+!URxvt*buffered:false
+!----------------
+!	Bindings
+!----------------
+URxvt.keysym.C-Up:     font-size:increase
+URxvt.keysym.C-Down:   font-size:decrease
+URxvt.keysym.C-S-Up:   font-size:incglobal
+URxvt.keysym.C-S-Down: font-size:decglobal
+URxvt.keysym.C-equal:  font-size:reset
+URxvt.keysym.C-slash:  font-size:show

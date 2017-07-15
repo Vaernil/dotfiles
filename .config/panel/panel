@@ -1,0 +1,31 @@
+#!/bin/sh
+source ${HOME}/.config/panel/config
+source ${HOME}/.config/panel/colors
+
+# detects panel running
+if [ $(pgrep -cx panel) -gt 1 ] ; then
+	printf "%s\n" "The panel is already running." >&2
+	exit 1
+fi
+
+trap 'trap - TERM; kill 0' INT TERM QUIT EXIT
+
+#[ -e "$PANEL_FIFO" ] && rm "$PANEL_FIFO"
+#mkfifo "$PANEL_FIFO"
+
+#bspc subscribe > "$PANEL_FIFO" &
+
+#echo "T" >  "$PANEL_FIFO" &
+#conky -c ./panel_conky > "$PANEL_FIFO" &
+#./notify_mpd -d &
+#xtitle -sf 'T%s' > "$PANEL_FIFO" &
+#clock -sf 'S%a %H:%M' > "$PANEL_FIFO" &
+
+${HOME}/.config/panel/top | lemonbar -p \
+		-a 20 \
+		-g "$PANEL_GEOMETRY" \
+		-u "$PANEL_UNDERLINE" \
+		-f "$PANEL_FONT1" \
+		-F "$COLOR_FOREGROUND" \
+		-B "$COLOR_BACKGROUND" | while read line; do eval "$line"; done &
+wait

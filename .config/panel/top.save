@@ -1,0 +1,101 @@
+#!/bin/sh
+
+source ${HOME}/.config/panel/config
+source ${HOME}/.config/panel/colors
+# workspaces are those dots isnt it
+panel_workspaces()
+{
+	desktop=1
+	ws=""
+	IFS=':' read -a array <<< $(bspc wm --get-status)
+	for item in "${array[@]}"
+	do
+		name=${item#?}
+		if [ "$item" == "LT" ]
+		then
+			ws="${ws}%{S+}"
+		else
+			desk=""
+			case $item in
+				O*) # focused occupied
+					desk="%{R} ${name} %{R}"
+				;;
+				F*) # focused free
+					desk="%{R} ${name} %{R}"
+				;;
+				U*) # focused urgent
+					desk="%{R} ${name} %{R}"
+				;;
+				o*) # occupied
+					desk=" ${name} "
+				;;
+				f*) # free
+					desk=" ${name} "
+				;;
+				u*) # urgent
+					desk=" {$name} "
+				;;
+			esac
+			shift
+			if [ "$desk" != "" ]
+			then
+				ws="${ws}%{A:bspc desktop -f ^$desktop:}${desk}%{A}"
+				desktop=$((desktop+1))
+			fi
+		fi
+	done
+	ws="${ws}${S0}"
+	echo "${ws}"
+}
+
+panel_title()
+{
+	title=""
+	case $(bspc query -M -m focused) in
+		DVI-I-1)
+			title="%{S1}"
+		;;
+		HDMI-0)
+			title="%{S0}"
+		;;
+		esac
+	echo "${title}$(xtitle)${S0}"
+}
+
+# amixer, show first 5 lines, look for % sound and then just extract the number
+panel_sound()
+{
+	volume=$(amixer -q | grep -A5 Master | grep '%' | cut -d'[' -f2 | cut -d'%' -f1)
+	if [ "$volume" == "0" ]
+	then
+		icon="🔇" #Mute
+	elif ((0 < volume && volume <= 33))
+	then
+		icon="🔈" #No Soundbar
+	elif ((33 < volume && volume <= 66))
+	then
+		icon="🔉" #One Soundbar
+	else
+		icon="🔊" #Three Soundbars
+	fi	
+	echo "%{A4:amixer set Master 10%+ > /dev/null:}%{A5:amixer set Master 10%- > /dev/null:}%{A:${HOME}/.config/panel/popup_sound &:}%{B$VOL_BG}%{F$VOL_FG} $icon %{F-}%{B-}%{A}%{A}%{A}"
+}
+
+panel_hostname()
+{
+	echo "%{A:${HOME}/.config/panel/popup_power &:}%{B$HOST_BG}%{F$HOST_FG} $(hostname) %{F-}%{B-}%{A}"
+}
+
+panel_clock()
+{
+	echo "%{A:${HOME}/.config/panel/popup_cal &:}%{B$CLOCK_BG}%{F$CLOCK_FG} $(date +'%a %H:%M:%S') %{A}%{F-}%{B-}"
+}
+# i need to figure out how to use xtitle and clock instead of this manual shit and PANEL_FIFO, but i just dont get it
+# print to panel
+# c centers text, r is to the right of,l i dont know what 1 and Sl is
+while [ "$(pidof bspwm)" != "" ]; do
+        echo    "%{1}$(panel_workspaces)" \
+                "%{c}$(panel_title)" \
+                "%{Sl}%{r}$(panel_sound)$(panel_hostname)$(panel_clock)"
+	sleep 0.1s
+done
