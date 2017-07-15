@@ -1,0 +1,41 @@
+Xft.dpi: 96
+Xft.lcdfilter: lcddefault
+Xft.hinting: True
+Xft.hintstyle: hintslight
+Xft.autohint: 0
+Xft.rgba: rgb
+Xft.antialias: True
+
+URxvt*font: xft:Iosevka:style=Regular:size=9:antialias=true
+!URxvt*boldFont: xft:Monaco:bold:pixelsize=15
+URxvt*letterSpace: 0
+
+!-*- Perl extensions -*-
+URxvt.perl-ext-common: default,selection-to-clipboard,pasta,matcher,keyboard-select
+URxvt.keysym.M-u:     perl:url-select:select_next
+URxvt.url-launcher:   /usr/bin/google-chrome-stable
+URxvt.underlineURLs:  True
+URxvt.matcher.button: 1 
+URxvt.keysym.M-Escape:perl:keyboard-select:activate
+URxvt.keysym.Control-Shift-V:     perl:pasta:paste
+URxvt.clipboard.autocopy: true
+
+!URxvt.keysym.Shift-Control-V: perl:clipboard:paste
+ 
+URxvt.iso14755: False
+
+URxvt.scrollstyle: plain
+URxvt.scrollBar: true
+URxvt*scrollBar_right: true
+
+! vim: set filetype=xdefaults :
+#include "/home/vaernil/.config/colors/numix_dark"
+! ------------------------------------------------------------------------------
+! ROFI Color theme
+! ------------------------------------------------------------------------------
+rofi.color-enabled: true
+rofi.color-window: argb:ee2d2d2d, #d64937, #d64937
+rofi.color-normal: argb:0000000, #dcdcdc, argb:0000000, #d64937, #2d2d2d
+rofi.color-active: argb:0000000, #6699cc, argb:0000000, #6699cc, #1b2b34
+rofi.color-urgent: argb:0000000, #d64937, argb:0000000, #d64937, #2d2d2d
+rofi.separator-style: solid

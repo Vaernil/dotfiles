@@ -1,0 +1,19 @@
+#! /bin/sh
+killall -q polybar lemonbar
+sxhkd &
+
+bspc monitor -d o o o o o o o o
+
+bspc config top_padding		15
+bspc config border_width         2
+bspc config window_gap          12
+
+bspc config split_ratio          0.52
+bspc config borderless_monocle   true
+bspc config gapless_monocle      true
+
+bspc config focus_follows_pointer true
+
+bspc rule -a Google-chrome desktop='^3'
+bspc rule -a keepassxc dekstop='^8'
+~/.config/panel/panel &
