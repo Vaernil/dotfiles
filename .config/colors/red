@@ -1,0 +1,41 @@
+! special
+*foreground:   #dedede
+!*background:   #151515
+*background:   #2d2d2d
+*cursorColor:  #D64937
+*cursorColor2: #151515
+! black
+*color0:       #151515
+*color8:       #2d2d2d
+! red
+*color1:       #D64937
+*color9:       #D64937
+! green
+*color2:       #C32D19
+*color10:      #C32D19
+! yellow
+*color3:       #AE1A07
+*color11:      #AE1A07
+! blue
+*color4:       #C23259
+*color12:      #C23259
+! magenta
+*color5:       #B11640
+*color13:      #B11640
+! cyan
+*color6:       #9D052E
+*color14:      #9D052E
+! white
+*color7:       #dedede
+*color15:      #dedede
+! bordercolors has to be the same as background otherwise its looks like shit
+URxvt*borderColor:        #151515
+URxvt*colorBD:            #ffffff
+!default is to use bg color
+URxvt*scrollColor:        #d64937
+!*color7:       #f9f9f9
+*color167:		#d64937
+!ctermfg=167 guifg=#cf6a4
+!cerm=bold ctermfg=203 guifg=#ff5f5f
+!ctermfg=215 guifg=#ffb964 cool yellowish
+

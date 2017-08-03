@@ -1,10 +1,11 @@
-!powinien byc 2d2d2d, ale jest za jasny
-*foreground: #dedede
+! vim: set filetype=xdefaults :
+*foreground: #D7D0C7
 *background: #151515
 
 !black
-!*color0:     #101010
-*color0:     #151515
+! *color0:     #AF875F
+! *color8:     #AF875F
+*color0:     #101010
 *color8:     #404040
 !red
 *color1:     #E84F4F
@@ -26,4 +27,9 @@
 *color14:    #42717B
 !white
 *color7:     #dddddd
-*color15:    #dedede
+*color15:    #dddddd
+
+URxvt*borderColor:        #151515
+URxvt*colorBD:            #ffffff
+URxvt*cursorColor:        #ff8939
+URxvt*cursorColor2:       #151515
