@@ -1,0 +1,25 @@
+# Panel color so I don't call it multiple times
+PANEL_BG="#FF2d2d2d"
+PANEL_FG="#FFd64937"
+# Fonts
+PANEL_FONT1='Hasklig:size=9'
+PANEL_FONT2='FontAwesome:size=8'
+PANEL_FONT3='DejaVu Sans Mono:Size:10'
+PANEL_UNDERLINE='1'
+# Panel geometry
+PANEL_HEIGHT=16
+PANEL_WIDTH=''
+PANEL_GEOMETRY="${PANEL_WIDTH}x${PANEL_HEIGHT}+0+0"
+
+# Notification geometry
+NOTIFY_HEIGHT=$PANEL_HEIGHT
+NOTIFY_WIDTH=135
+NOTIFY_GEOMETRY="${NOTIFY_WIDTH}x${NOTIFY_HEIGHT}+0+0"
+
+# Duration of notifications
+DURATION=2
+# Volume change clip
+CLIP="/usr/share/sounds/freedesktop/stereo/audio-volume-change.oga"
+# Length of volume bar
+BAR_LENGTH=20
+BAR_CHAR='='
