@@ -1,4 +1,8 @@
-#setting fonts, even though i already did it in xorg conf.d
-#xset +fp /usr/share/fonts/Hasklig
-[[ -f ~/.Xresources ]] && xrdb -merge ~/.Xresources
-exec bspwm
+sh ~/.scripts/fehbg &
+# if Xresources exists then merge
+[[ -f ~/.Xresources ]] && xrdb -merge ${HOME}/.Xresources
+numlockx &
+# xbindkeys &
+#exec bspwm "$PANEL_FIFO" -p W -c ${HOME}/.config/bspwm/bspwmrc
+# i dont get -p flag
+exec bspwm -p W -c ${HOME}/.config/bspwm/bspwmrc
