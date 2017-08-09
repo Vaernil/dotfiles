@@ -7,5 +7,9 @@ For now I decided to split it into 2 branches, depending on the computer I'm usi
 I have no idea what master branch is supposed to be. Neutral configs I port anywhere I want? And then add the extras if needed? Dunno yet.
 
 ## PC
+### Screenshot
 
 ## Laptop
+### Screenshot
+09-08-17</br>
+![Starting to take shape](https://github.com/Vaernil/my-dotfiles/raw/laptop/images/screenshots/2017-08-09-210831_1600x900_scrot.png)</br>
