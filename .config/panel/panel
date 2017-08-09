@@ -88,9 +88,9 @@ p_title()
 	# instead of passing the output to variable just pipe it to wc -m
 	# command between `` executes instead of passing the string to variable
 	lentitle=`xtitle | wc -m` 
-	# i still dont know good amount, for now its 150
-	if (( $lentitle >= 150 )); then
-		output="%{F$c3}$(xtitle | cut -c 1-150) (...)${S0}%{F-}"
+	# i still dont know good amount, for now its 130
+	if (( $lentitle >= 130 )); then
+		output="%{F$c3}$(xtitle | cut -c 1-130) (...)${S0}%{F-}"
 	else
 		output="%{F$c3}${title}$(xtitle)${S0}%{F-}"
 	fi
@@ -219,6 +219,7 @@ done < "$fifo" | lemonbar -p \
 		-a 20 \
 		-g "$PANEL_GEOMETRY" \
 		-u "$PANEL_UNDERLINE" \
+		-U "$UNDERLINE_COLOR" \
 		-o -1 -f "$PANEL_FONT1" \
 		-o -3 -f "$PANEL_FONT2" \
 		-o -1 -f "$PANEL_FONT3" \

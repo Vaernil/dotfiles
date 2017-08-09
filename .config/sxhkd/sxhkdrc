@@ -113,23 +113,27 @@ bspc config pointer_action2 move
 bspc config pointer_action1 resize_side
 bspc config pointer_action2 resize_corner
 
-# Fn keys
-#here tuxonice hibernation
-XF86Sleep
-	#sleep 0.5 && hibernate
-
-XF86Display
-	sleep 0.5 && xset dpms force off
-
 # toggle redshift
 control + apostrophe
     pkill -USR1 redshift; notify-send "redshift toggled"
+    
+# Fn keys
+#here tuxonice hibernation
+# Fn + F3
+XF86Sleep
+	#sleep 0.5 && hibernate
+
+# Fn + F4
+XF86Display
+	sleep 0.5 && xset dpms force off
+
+# Fn + F8
+XF86Battery
+	~/.config/panel/notifications/popitup_bat 0
 
 # Fn + F11
 # mute volume
-NoSymbol
-    amixer sset Master toggle; echo "Mute toggled"
-    ~/.config/panel/notifications/popitup_vol2 0 
+#NoSymbol
 # lower volume, raise volume
 {XF86AudioLowerVolume, XF86AudioRaiseVolume}
     #amixer sset Master 5%{-,+}
@@ -137,6 +141,13 @@ NoSymbol
 # Fn + F9, Fn + F10
 {XF86MonBrightnessDown, XF86MonBrightnessUp}
 	xbacklight -{dec,inc} 10%
+
+# Mute key top right
+XF86AudioMute
+    #amixer sset Master toggle; echo "Mute toggled"
+     ~/.config/panel/notifications/popitup_vol2 0 
+XF86Calculator
+     ~/.config/panel/notifications/popitup_cal 0 
 #
 Menu
 	echo "Menu pressed"

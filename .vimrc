@@ -104,9 +104,12 @@ map i <Up>
 map j <Left>
 map k <Down>
 noremap h i
-"remap ik so so that it jumps to the next row in the editor
+" remap ik so so that it jumps to the next row in the editor
 nnoremap k gj
 nnoremap i gk
+" remap popup navigation to ctrl i and k, for consistency
+inoremap <expr> <C-i> pumvisible() ? "\<C-P>" : "\<C-i>"
+inoremap <expr> <C-k> pumvisible() ? "\<C-N>" : "\<C-k>"
 " remape ctrl f and b to pgup and pgdown
 noremap <C-f> <C-b>
 noremap <C-b> <C-f>
