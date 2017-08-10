@@ -64,6 +64,11 @@
 ## Control + mouse button 2 release event starts rxvt
 #"rxvt"
 #  Control + b:2 + Release
-##################################
+#
+#Mouse
+	#Thumb, works on G700
+	# Close Tab Ctrl + W
+	"xvkbd -text "\[Control_L]\[w]""
+	  m:0x0 + b:11##################################
 # End of xbindkeys configuration #
 ##################################
