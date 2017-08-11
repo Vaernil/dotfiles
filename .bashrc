@@ -26,7 +26,9 @@ export PANEL_FIFO="/tmp/panel-fifo"
 export PATH="$PATH:/home/vaernil/.config/bspwm/panel"
 export EDITOR="/usr/bin/vim"
 export QT_QPA_PLATFORMTHEME="qt5ct"
-
+#LIB=lib64
+# steam
+#export LD_PRELOAD="/usr/$LIB/libstdc++.so.6 /usr/$LIB/libgcc_s.so.1 /usr/$LIB/libxcb.so.1 /usr/$LIB/libgpg-error.so"
 HISTCONTROL=ignoredups:erasedups  # no duplicate entries
 #ALIASY
 edn="nano -w"
@@ -70,7 +72,8 @@ alias nmkconf="sudo nano -w /etc/portage/make.conf"
 alias vmkconf="sudo ${ed2lrn} /etc/portage/make.conf"
 alias vpuse="sudo ${ed2lrn} /etc/portage/package.use"
 alias vpmask="sudo ${ed2lrn} /etc/portage/package.mask"
-#GIT
+# GIT
+# maintaining dotfiles
 alias cfg="/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME"
 #finding out the name of a window for bspwm rules
 alias brulez="xprop |awk '/WM_CLASS/{print $4}'"

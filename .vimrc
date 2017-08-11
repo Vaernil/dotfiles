@@ -3,7 +3,7 @@
 call plug#begin('~/.vim/plugged')
 Plug 'tpope/vim-sensible'		" sensible defaults
 Plug 'chrisbra/Colorizer'		" colorizes hex values, though incorrectly sometimes, to investigate
-Plug 'scrooloose/nerdtree'		" browse tree
+Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' } "NERDtree will be loaded on the first invocation of NERDTreeToggle command
 Plug 'Chiel92/vim-autoformat'
 Plug 'gerw/vim-HiLinkTrace'		" :HLT! lets you track highlight groups
 " themes and colors
@@ -18,12 +18,15 @@ Plug 'tomasiser/vim-code-dark'
 " promptline
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+Plug 'tpope/vim-surround'		" surround text easily
+Plug 'tpope/vim-repeat'			" let's you repeat . not only native commands
+Plug 'terryma/vim-multiple-cursors'	" sublime-like multiple cursors
 "Plug 'edkolev/promptline.vim'
 "Plug 'itchyny/lightline.vim'
 "Plug 'cocopon/lightline-hybrid.vim'
 call plug#end()
 "################
-set mouse=a						" use mouse, I know, I know it's mainly for scrolling, might reconsider 
+set mouse=a						" mouse, I know, I know, it's mainly for scrolling, might reconsider 
 set clipboard=unnamedplus		" global clipboard
 set number						" show line numbers 
 set autoindent noexpandtab tabstop=4 shiftwidth=4|	"tab 4 spaces

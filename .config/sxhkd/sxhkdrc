@@ -73,7 +73,7 @@ super + {_,shift + }{1-9,0}
 	bspc {desktop -f,node -d} '^{1-9,10}'
 
 #
-# preselect
+# preselect - then spawn new with super + enter in the preselected space
 #
 
 # preselect the direction
@@ -87,13 +87,13 @@ super + ctrl + {1-9}
 # cancel the preselection for the focused node
 super + ctrl + space
 	bspc node -p cancel
-
+	#bspc query -N -d | xargs -I id -n 1 bspc node id -p cancel
 # cancel the preselection for the focused desktop
 super + ctrl + shift + space
 	bspc query -N -d | xargs -I id -n 1 bspc node id -p cancel
 
 #
-# move/resize
+# move/resize - might spaw it around, feels more natural
 #
 
 # expand a window by moving one of its side outward
@@ -107,6 +107,7 @@ super + alt + shift + {j,k,i,l}
 # move a floating window
 super + {Left,Down,Up,Right}
 	bspc node -v {-20 0,0 20,0 -20,20 0}
+#can i move them to absolute cords?
 # Mouse floating:
 bspc config pointer_modifier mod4
 bspc config pointer_action2 move
@@ -151,3 +152,8 @@ XF86Calculator
 #
 Menu
 	echo "Menu pressed"
+#Print
+#    scrot.sh 0
+
+# Terminal navigation, but i think it will work on top of my other keybinds like vim
+#alt + i
