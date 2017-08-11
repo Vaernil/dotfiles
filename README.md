@@ -17,8 +17,8 @@ I'm starting to lean towards using just one branch.
 ## TODO
 * tweak vim colors and change few highlight groups
 * change vim airline prompt and also change colors
-* try changing gtk colors so I can distinguish active chrome tabs from inactive ones
-* write notification and popup scripts, dimensions should be based on text and geometry from where they were called from, basically I want them to show up bellow and perfectly centered, I could hardcore it but where is the fun in that
+* try changing gtk colors so I can distinguish active chrome tabs from inactive ones, right now it's way to dark, or find a way to add an accent somehow
+* write notification and popup scripts, dimensions should be based on text and geometry from where they were called from, basically I want them to show up bellow and perfectly centered, I could hardcode it, but where is the fun in that
 * make dropdown menu for apps, networks, powerdown actions
 * move your modified vim themes to separate files
 * migrate to zsh and  work on a prompt script
