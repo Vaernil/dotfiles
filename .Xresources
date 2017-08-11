@@ -19,7 +19,7 @@ URxvt*font: 					xft:Iosevka:style=Regular:pixelsize=13:antialias=true, \
 !URxvt*boldFont: 				xft:Iosevka:style=Bold:pixelsize=13:antialias=true, \
 !								xft:FontAwesome:size=8:minspace=false
 !URxvt*italicFont: 				xft:Iosevka:style=Italic:pixelsize=13:antialias=true, \
-!								xft:FontAwesome:size=8:minspace=false 
+!								xft:FontAwesome:size=8:minspace=false
 !URxvt*boldFont: xft:Monaco:bold:pixelsize=15
 URxvt*letterSpace:				0
 ! do not scroll with output
@@ -33,7 +33,7 @@ URxvt.perl-ext-common:			default,selection-to-clipboard,pasta,matcher,keyboard-s
 URxvt.keysym.M-u:     			perl:url-select:select_next
 URxvt.url-launcher:   			/usr/bin/google-chrome-stable
 URxvt.underlineURLs:  			True
-URxvt.matcher.button: 			1 
+URxvt.matcher.button: 			1
 URxvt.keysym.M-Escape:			perl:keyboard-select:activate
 URxvt.keysym.Control-Shift-V:	perl:pasta:paste
 URxvt.clipboard.autocopy:		true
@@ -41,7 +41,7 @@ URxvt.clipboard.autocopy:		true
 ! alt + shfit + i scrolls half the page
 !URxvt.keysym.M-Shift-I:			command:\033]720;50\007
 !URxvt.keysym.M-Shift-K:			command:\033]721;50\007
-! alt + i / k scrolls the buffer one line up, dont overwrite vim settings though 
+! alt + i / k scrolls the buffer one line up, dont overwrite vim settings though
 !URxvt.keysym.Control-M-i:		command:\033]720;1\007
 !URxvt.keysym.Control-M-k:		command:\033]721;1\007
 ! add something similar for last commands as to avoid arrow keys
@@ -51,7 +51,7 @@ URxvt.scrollBar:				true
 URxvt*scrollBar_right:			true
 ! inner border or something
 ! dunno about that
-URxvt*depth:					32 
+URxvt*depth:					32
 ! ------------------------------------------------------------------------------
 ! ROFI Color theme
 ! ------------------------------------------------------------------------------
@@ -68,8 +68,8 @@ rofi.bw: 						0
 rofi.location: 					3
 rofi.yoffset: 					16
 rofi.font: 						Hasklig Regular 9
-rofi.fake-transparency: 		false 
-!rofi.fake-transparency: true 
-rofi.click-to-exit:             true 
+rofi.fake-transparency: 		false
+!rofi.fake-transparency: true
+rofi.click-to-exit:             true
 
 ! vim: set filetype=xdefaults :

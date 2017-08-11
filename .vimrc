@@ -3,7 +3,7 @@
 call plug#begin('~/.vim/plugged')
 Plug 'tpope/vim-sensible'		" sensible defaults
 Plug 'chrisbra/Colorizer'		" colorizes hex values, though incorrectly sometimes, to investigate
-Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' } "NERDtree will be loaded on the first invocation of NERDTreeToggle command
+Plug 'scrooloose/nerdtree'
 Plug 'Chiel92/vim-autoformat'
 Plug 'gerw/vim-HiLinkTrace'		" :HLT! lets you track highlight groups
 " themes and colors
@@ -21,6 +21,7 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'tpope/vim-surround'		" surround text easily
 Plug 'tpope/vim-repeat'			" let's you repeat . not only native commands
 Plug 'terryma/vim-multiple-cursors'	" sublime-like multiple cursors
+Plug 'ntpeters/vim-better-whitespace'
 "Plug 'edkolev/promptline.vim'
 "Plug 'itchyny/lightline.vim'
 "Plug 'cocopon/lightline-hybrid.vim'

@@ -3,7 +3,7 @@
 # change spaces to tabs
 # split charge symbol and change its sleep time to something faster
 # work on popups
-# 
+#
 barpid="$$"
 trap "trap - TERM; kill 0" INT TERM QUIT EXIT
 # only one instance running
@@ -87,7 +87,7 @@ p_title()
 		esac
 	# instead of passing the output to variable just pipe it to wc -m
 	# command between `` executes instead of passing the string to variable
-	lentitle=`xtitle | wc -m` 
+	lentitle=`xtitle | wc -m`
 	# i still dont know good amount, for now its 130
 	if (( "$lentitle" >= 130 )); then
 		output="%{F$c3}$(xtitle | cut -c 1-130) (...)${S0}%{F-}"
@@ -121,7 +121,7 @@ p_hostname()
 
 p_clock()
 {
-	echo "%{A:${HOME}/.config/panel/popup_cal &:}%{B$CLOCK_BG}%{F$CLOCK_FG}$(date +'%d-%m-%y')%{A}%{F-}%{B-}%{B$DATE_BG}%{F$DATE_FG} $(date +'%a %H:%M')%{F-}%{B-}" 
+	echo "%{A:${HOME}/.config/panel/popup_cal &:}%{B$CLOCK_BG}%{F$CLOCK_FG}$(date +'%d-%m-%y')%{A}%{F-}%{B-}%{B$DATE_BG}%{F$DATE_FG} $(date +'%a %H:%M')%{F-}%{B-}"
 }
 
 p_temp()

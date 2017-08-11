@@ -14,7 +14,7 @@ bspc monitor -d $pitrm $pichr $pistm $ws2 $ws2 $ws2 $ws2 $ws2
 #----------------
 bspc config top_padding				18
 bspc config border_width         	2
-bspc config window_gap          	20
+bspc config window_gap          	18
 bspc config split_ratio          	0.50
 bspc config borderless_monocle   	true
 bspc config gapless_monocle      	true
@@ -51,7 +51,9 @@ redshift -c ~/.config/redshift.conf &
 sxhkd -c ~/.config/sxhkd/sxhkdrc &
 ~/.config/panel/panel &
 #welcome urxvt with gentoo logo
-urxvt -e bash -c "neofetch -d '-shell'; bash" &
+#using my local fork until the patch 
+neo="./dev/neofetch/neofetch"
+urxvt -e bash -c "$neo -d '-shell'; bash" &
 #compton --config ${HOME}/.compton.conf &
 google-chrome-stable &
 steam &
