@@ -1,0 +1,38 @@
+# Preallocate files; reduces defragmentation on filesystems.
+system.file_allocate.set = yes
+
+# Maximum and minimum number of peers to connect to per torrent.
+min_peers = 40
+max_peers = 100
+
+# Same as above but for seeding completed torrents (-1 = same as downloading)
+min_peers_seed = 10
+max_peers_seed = 50
+
+# Maximum number of simultanious uploads per torrent.
+max_uploads = 15
+
+# Global upload and download rate in KiB. "0" for unlimited.
+download_rate = 0
+upload_rate = 50
+
+# Default directory to save the downloaded torrents.
+directory = ~/Downloads/torrent/dl
+
+# Default session directory. Make sure you don't run multiple instance
+# of rtorrent using the same session directory. Perhaps using a
+# relative path?
+session = ~/Downloads/torrents
+
+# Watch a directory for new torrents, and stop those that have been
+# deleted.
+schedule = watch_directory,10,10,load_start=~/Downloads/torrent/dlme/*.torrent
+schedule = tied_directory,10,10,start_tied=
+schedule = untied_directory,10,10,close_untied=
+
+# Close torrents when diskspace is low.
+schedule = low_diskspace,5,60,close_low_diskspace=100M
+
+# Move torrents on finish
+#on_finished = move_complete,"execute=mv,-u,$d.get_base_path=,/media/store/pub/VERIFIED/;d.set_directory=/media/store/pub/VERIFIED/"
+system.method.set_key =event.download.finished,move_complete,"execute=mv,-u,$d.get_base_path=,~/Downloads/torrent/dled;d.set_directory=~/Downloads/torrent/dled"
