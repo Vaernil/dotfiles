@@ -8,14 +8,20 @@ fi
 #powerline is super slow
 #. /usr/share/powerline/bash/powerline.sh
 # use promptline instead
-source ~/.shell_prompt.sh
-source ~/.shell_ext_fzf
+source ~/.scripts/shell_prompt.sh
+source ~/.scripts/shell_ext_fzf
 # fzf functions
 # fuzzy completion
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+[ -f ~/.scripts/fzf.bash ] && source ~/.scripts/fzf.bash
+# works also with bash
+. ~/.vim/plugged/neoman.vim/scripts/nman.zsh
+# I also have it in bash_profile, but I don't think it works properly
+# start keychain (ssh-agent) so I don't go full Tetsuo having to type passphrase bazilion times a day
+eval `keychain -Q -q --eval --agents ssh id_rsa`
 #----------------
 # EXPORTS
 #----------------
+export XAUTHORITY="/home/vaernil/.Xauthority"
 # pipes ag-silver searcher so the can fzf shows hidden files
 export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
 # To apply the command to CTRL-T as well
@@ -78,4 +84,4 @@ alias cfg="/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME"
 #finding out the name of a window for bspwm rules
 alias brulez="xprop |awk '/WM_CLASS/{print $4}'"
 alias xmrg="xrdb -merge ~/.Xresources"
-
+# change some of those aliases to functions

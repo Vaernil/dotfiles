@@ -21,9 +21,15 @@ Plug 'tpope/vim-surround'				" surround text easily
 Plug 'tpope/vim-repeat'					" let's you repeat (using '.') not only native commands
 Plug 'terryma/vim-multiple-cursors'		" sublime-like multiple cursors
 Plug 'ntpeters/vim-better-whitespace'	" remove trailing whitespace
+Plug 'nhooyr/neoman.vim'				" man pages in nvim
 "Plug 'edkolev/promptline.vim'
 "Plug 'itchyny/lightline.vim'
 "Plug 'cocopon/lightline-hybrid.vim'
+Plug 'vim-syntastic/syntastic'			" syntax checking
+"Plug 'Shougo/neocomplete.vim'			" neo-completion with cache
+if has("nvim")
+	Plug 'OmniSharp/omnisharp-vim'			" IDE like abilities for C#
+endif
 call plug#end()
 "################
 set mouse=a								" mouse, I know, I know, it's mainly for scrolling, might reconsider, seeing as it's causing me more headaches, with accidental palming of the touchpad, than it's worth
@@ -81,6 +87,14 @@ let g:NERDTreeIgnore=['.git$[[dir]]', '\.serverauth\.[0-9]{3,}', '\~$']	" ignore
 let g:NERDTreeMouseMode = 2						" single click opens directory, double - files
 let g:NERDTreeShowHidden = 1					" display hidden files by default
 let g:NERDTreeAutoDeleteBuffer = 1
+" Disable AutoComplPop.
+let g:acp_enableAtStartup = 0
+" Use neocomplete.
+let g:neocomplete#enable_at_startup = 1
+" Use smartcase.
+let g:neocomplete#enable_smart_case = 1
+" Set minimum syntax keyword length.
+let g:neocomplete#sources#syntax#min_keyword_length = 3
 "################
 "#	KEYBINDS
 "################
@@ -153,13 +167,13 @@ nnoremap <M-w> <C-w>q
 " equalize splits
 nnoremap <M-=> <C-w>=
 " open NERDTree browsing
-map <C-n> :NERDTreeToggle<CR>
+map <C-[> :NERDTreeToggle<CR>
 " change key because i is up, dunno if it unmaps it or just changes to
 " obscure \ key
 let NERDTreeMapOpenSplit='\i'
 " open NERDTree automatically if vim is opened without arguments
-autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+" autocmd StdinReadPre * let s:std_in=1
+" autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 " close NERDTree if its the only window left
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 """"""""""""""""""""""""""""
