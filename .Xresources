@@ -1,4 +1,4 @@
-#include "/home/vaernil/.config/colors/greyredpurple"
+#include "/home/vaernil/.colors/greyredpurple"
 Xft.dpi:						96
 Xft.lcdfilter:					lcddefault
 Xft.hinting:					True
