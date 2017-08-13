@@ -1,0 +1,237 @@
+#!/bin/sh
+#TODO understand some of this code
+# change spaces to tabs
+# split charge symbol and change its sleep time to something faster
+# work on popups
+#
+barpid="$$"
+trap "trap - TERM; kill 0" INT TERM QUIT EXIT
+# only one instance running
+if [ $(pgrep -cx panel) -gt 1 ] ; then
+	printf "%s\n" "The panel is already running." >&2
+	exit 1
+fi
+# FIFO
+fifo="/tmp/panel_fifo"
+[ -e "$fifo" ] && rm "$fifo"
+mkfifo "$fifo"
+# IMPORTS
+. ~/.config/panel/colors_elements
+. ~/.config/panel/config
+# FUNCTIONS
+
+p_workspaces()
+{
+	desktop="1"
+	ws=""
+	IFS=":" read -a array <<< "$(bspc wm --get-status)"
+	for item in "${array[@]}"
+	do
+		name="${item#?}"
+		if [ "$item" == "LT" ]
+		then
+			ws="${ws}%{S+}"
+		else
+			desk=""
+			# ok, bspc wm --get-status produces WMLVDS:O:o:o:oo:oo:fo:fo:fo:LT:TT:G so
+			# first O means occupied, then icon, so i could manipulate it to change both icons and colors
+			# now knowing that i could make it look up icons and stuff, maybe?
+			# R swaps background and foreground
+			case $item in
+				O*) # focused occupied
+					desk="%{R} ${name} %{R}"
+				;;
+				F*) # focused free
+					desk="%{R} ${name} %{R}"
+				;;
+				U*) # focused urgent
+					desk="%{R} ${name} %{R}"
+				;;
+				o*) # occupied
+					desk=" ${name} "
+				;;
+				f*) # free
+					desk=" ${name} "
+				;;
+				u*) # urgent
+					desk=" ${name} "
+				;;
+			esac
+			shift
+			if [ "$desk" != "" ]
+			then
+				# A is clickable area, that calls bspc to switch to desktop ^number
+				ws="${ws}%{A:bspc desktop -f ^$desktop:}${desk}%{A}"
+				desktop="$((desktop+1))"
+			fi
+		fi
+	done
+	# dont understand what S0 is, is it some bash parameter? cant find anything in documentation
+	ws="${ws}${S0}"
+	echo "${ws}"
+}
+
+p_title()
+{
+	title=""
+	case "$(bspc query -M -m focused)" in
+		# gets the title from focused window, altough now it has different format, it outputs ids
+		# so i either go by id or pass it through json table which has those ids
+		DVI-I-1)
+			# temp variable?
+			title="%{S1}"
+		;;
+		HDMI-0)
+			title="%{S0}"
+		;;
+		esac
+	# instead of passing the output to variable just pipe it to wc -m
+	# command between `` executes instead of passing the string to variable
+	lentitle=`xtitle | wc -m`
+	# i still dont know good amount, for now its 130
+	if (( "$lentitle" >= 130 )); then
+		output="%{F$c3}$(xtitle | cut -c 1-130) (...)${S0}%{F-}"
+	else
+		output="%{F$c3}${title}$(xtitle)${S0}%{F-}"
+	fi
+	echo "$output"
+	# use cut -c to shorten xtitle if its longer than X characters and if it is then concatenate "(...)"
+	# xtitle -t NUMBER has the same effect, truncates the title, but i disliked output format
+}
+
+p_sound()
+{
+	volume="$(amixer -q | grep -A5 Master | grep '%' | cut -d'[' -f2 | cut -d'%' -f1)"
+	if (( $volume == 0 )); then
+		icon="🔇 " #Mute
+	elif (( 0 < $volume && $volume < 33 )); then
+		icon="🔈 " #No Soundbar
+	elif (( 33 < $volume && $volume < 66 )); then
+		icon="🔉 " #One Soundbar
+	else
+		icon="🔊 " #Three Soundbars
+	fi
+	echo "%{A4:amixer set Master 10%+ > /dev/null:}%{A5:amixer set Master 10%- > /dev/null:}%{A:${HOME}/.config/panel/popup_sound &:}%{B$VOL_BG}%{F$VOL_FG} $icon $volume%{F-}%{B-}%{A}%{A}%{A}"
+}
+
+p_hostname()
+{
+	echo "%{A:${HOME}/.config/panel/popup_power &:}%{B$HOST_BG}%{F$HOST_FG}$(hostname)%{F-}%{B-}%{A}"
+}
+
+p_clock()
+{
+	echo "%{A:${HOME}/.config/panel/popup_cal &:}%{B$CLOCK_BG}%{F$CLOCK_FG}$(date +'%d-%m-%y')%{A}%{F-}%{B-}%{B$DATE_BG}%{F$DATE_FG} $(date +'%a %H:%M')%{F-}%{B-}"
+}
+
+p_temp()
+{
+	itemp44=""
+	itemp04=""
+	itemp14=""
+	itemp24=""
+	itemp34=""
+	valtemp="$(sensors | grep "Physical id 0" | cut -d'+' -f2 | head -c2)"
+	if (( 105 > "$valtemp" && "$valtemp" >= 90 )); then
+		icon="$itemp44"
+	elif (( 90 > "$valtemp" && "$valtemp" >= 70 )); then
+		icon="$itemp34"
+	elif (( 70 > "$valtemp" && "$valtemp" >= 50 )); then
+		icon="$itemp24"
+	elif (( 50 > "$valtemp" && "$valtemp" >= 30 )); then
+		icon="$itemp14"
+	elif (( 30 > "$valtemp" && "$valtemp" >= 0 )); then
+		icon="$itemp04"
+	else
+		icon="superdanger"
+	fi
+	output="%{F$c3}$icon%{F-} $valtemp°"
+	echo "$output"
+}
+
+p_battery()
+{
+	# for future: make the icon changing between states depending whether its charging or discharging, ya feel me
+	icap44=""
+	icap04=""
+	icap14=""
+	icap24=""
+	icap34=""
+	batcap="/sys/class/power_supply/BAT0/capacity"
+	batstat="/sys/class/power_supply/BAT0/status"
+	#outputs value of command to the variable
+	valcap="$(cat $batcap)"
+	if (( 100 >= "$valcap" && "$valcap" >= 80 )); then
+		icon="$icap44"
+	elif (( 80 > "$valcap" && "$valcap" >= 50 )); then
+		icon="$icap34"
+	elif (( 50 > "$valcap" && "$valcap" >= 25 )); then
+		icon="$icap24"
+	elif (( 25 > "$valcap" && "$valcap" >= 10 )); then
+		icon="$icap14"
+	elif (( 10 > "$valcap" && "$valcap" >= 0 )); then
+		icon="$icap04"
+	else
+		icon="error"
+	fi
+	# prepend percentage with a '+' if charging, '-' otherwise, discharging works, charging shows unknown
+	#test "`cat $batstat`" = "Discharging" && echo -n '-' || echo -n '+'
+	test "`cat $batstat`" = "Discharging" && symbol="-" || symbol="+"
+	# print out the content (forced myself to use `sed` :P) `` makes echo execute the command $ is value of variable
+	#out=`sed -n p $batcap`
+	output="%{A:${HOME}/.config/panel/notifications/popitup $symbol$valcap &:}%{F$c3}$icon%{F-}%{A} $symbol$valcap"
+	echo "$output"
+}
+# loops, they output to fifo, echo the name and contents of the function, sleep for some time to save cpu
+while :; do echo "Workspaces" $(p_workspaces); sleep 0.2s; done > "$fifo" &
+while :; do echo "Title" "$(p_title)"; sleep 0.4s; done > "$fifo" &
+while :; do echo "Clock" "$(p_clock)"; sleep 60s; done > "$fifo" &
+while :; do echo "Temperature" "$(p_temp)"; sleep 30s; done > "$fifo" &
+while :; do echo "Battery" "$(p_battery)"; sleep 60s; done > "$fifo" &
+while :; do echo "Hostname" "$(p_hostname)"; sleep 90s; done > "$fifo" &
+# loop that reads line looking for names set in the previous part and outputing the value to variable, so that it can be read by echo and lemonbar
+# it trims the name+space, that we echoed before, so it doesnt show up as well messing up the syntax, need to think about line:# solution
+while read -r line ; do
+    case $line in
+        Workspaces*)
+            wp="${line:11}"
+            ;;
+        Clock*)
+            cl="${line:6}"
+            ;;
+        Battery*)
+            bt="${line:8}"
+            ;;
+        Temperature*)
+            tp="${line:12}"
+            ;;
+        Title*)
+            tl="${line:6}"
+            ;;
+        Hostname*)
+            hn="${line:9}"
+            ;;
+    esac
+	echo "%{1}$wp%{c}$tl%{r}$hn $tp $bt $cl"
+#pipe fifo to lemonbar and set flags, dont understand why we're piping to sh
+# i could also put above in a script and pipe from it, instead of done statement
+done < "$fifo" | lemonbar -p \
+		-a 20 \
+		-g "$PANEL_GEOMETRY" \
+		-u "$PANEL_UNDERLINE" \
+		-U "$UNDERLINE_COLOR" \
+		-o -1 -f "$PANEL_FONT1" \
+		-o -3 -f "$PANEL_FONT2" \
+		-o -1 -f "$PANEL_FONT3" \
+		-B "$PANEL_BG" \
+		-F "$PANEL_FG" | sh &
+# fix, so panel isn't above fullscreen windows
+wid="$(xdo id -a "$PANEL_WM_NAME")"
+tries_left="20"
+	while [ -z "$wid" -a "$tries_left" -gt 0 ] ; do
+	sleep 0.05
+	wid="$(xdo id -a "$PANEL_WM_NAME")"
+	tries_left="$((tries_left - 1))"
+done
+[ -n "$wid" ] && xdo above -t "$(xdo id -N Bspwm -n root | sort | head -n 1)" "$wid"
+wait

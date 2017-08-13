@@ -1,0 +1,19 @@
+#!/bin/bash
+layman_root="/var/lib/layman/"
+overlay_manage_root="/usr/local/portage/overlay_manage/"
+echo "${2%/*}"
+
+if [[ $1 = gentoo ]]; then
+    echo "gentoo overlay switch"
+    if [[ -h $overlay_manage_root$2 ]]; then
+        echo $overlay_manage_root$2
+        rm $overlay_manage_root$2
+    fi
+
+elif [[ -d $layman_root$1 ]]; then
+    echo "$1 overlay switch"
+    if [[ ! -d $overlay_manage_root${2%/*} ]]; then
+        mkdir $overlay_manage_root${2%/*}
+    fi
+    ln -sf $layman_root$1/$2 $overlay_manage_root$2
+fi

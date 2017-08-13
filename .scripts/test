@@ -1,0 +1,22 @@
+#!/bin/sh
+errpanel="${HOME}/.scripts/log"
+#errpanel3="~/.scripts/log"
+# this wont work because i invoke scripts with dot .
+errpanel2="${HOME}/.scripts/log/tescik"
+errpanel2="${HOME}/.scripts/log/tescik"
+# this makes file errpanel and then puts value of echo inside
+#echo "test" > "errpanel"
+#echo "test2" > $errpanel/$0
+#echo "test3" > $errpanel/wut
+#print variable value
+#echo $errpanel
+#echo $errpanel2
+errortest()
+{
+	echo $errpanel
+	echo "to jest error" 
+	# specjalnie error
+	cd /veve/
+} 2>$errpanel2
+errortest
+#echo "${errortest}"

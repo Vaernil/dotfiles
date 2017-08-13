@@ -1,0 +1,75 @@
+#include "/home/vaernil/.config/colors/greyredpurple"
+Xft.dpi:						96
+Xft.lcdfilter:					lcddefault
+Xft.hinting:					True
+Xft.hintstyle:					hintslight
+Xft.autohint: 					0
+Xft.rgba:						rgb
+Xft.antialias:					True
+!pixelsize 13 is about 10 size
+URxvt*font: 					xft:Iosevka:style=Regular:pixelsize=13:antialias=true, \
+								xft:Wuncon\ Siji:style=Regular:size=10, \
+            					xft:Symbola:style=Regular:size=10, \
+								xft:Inconsolata\ for\ Powerline:size=10, \
+								xft:DejaVu Sans Mono:style=Book:antialias=false:size=10, \
+								xft:Segoe UI:style=Regular:size=10, \
+								xft:FontAwesome:size=8:minspace=false, \
+								xft:Unifont:style=Medium:antialias=false
+! below doesnt work, airline shows unknown symbols on unfocused buffer
+!URxvt*boldFont: 				xft:Iosevka:style=Bold:pixelsize=13:antialias=true, \
+!								xft:FontAwesome:size=8:minspace=false
+!URxvt*italicFont: 				xft:Iosevka:style=Italic:pixelsize=13:antialias=true, \
+!								xft:FontAwesome:size=8:minspace=false
+!URxvt*boldFont: xft:Monaco:bold:pixelsize=15
+URxvt*letterSpace:				0
+! do not scroll with output
+URxvt*scrollTtyOutput:			false
+! scroll in relation to buffer (with mouse scroll or Shift+Page Up)
+URxvt*scrollWithBuffer:			true
+! scroll back to the bottom on keypress
+URxvt*scrollTtyKeypress:		true
+!-*- Perl extensions -*-
+URxvt.perl-ext-common:			default,selection-to-clipboard,pasta,matcher,keyboard-select
+URxvt.keysym.M-u:     			perl:url-select:select_next
+URxvt.url-launcher:   			/usr/bin/google-chrome-stable
+URxvt.underlineURLs:  			True
+URxvt.matcher.button: 			1
+URxvt.keysym.M-Escape:			perl:keyboard-select:activate
+URxvt.keysym.Control-Shift-V:	perl:pasta:paste
+URxvt.clipboard.autocopy:		true
+!URxvt.keysym.Shift-Control-V: perl:clipboard:paste
+! alt + shfit + i scrolls half the page
+!URxvt.keysym.M-Shift-I:			command:\033]720;50\007
+!URxvt.keysym.M-Shift-K:			command:\033]721;50\007
+! alt + i / k scrolls the buffer one line up, dont overwrite vim settings though
+!URxvt.keysym.Control-M-i:		command:\033]720;1\007
+!URxvt.keysym.Control-M-k:		command:\033]721;1\007
+! add something similar for last commands as to avoid arrow keys
+URxvt.iso14755:					False
+URxvt.scrollstyle: 				plain
+URxvt.scrollBar:				true
+URxvt*scrollBar_right:			true
+! inner border or something
+! dunno about that
+URxvt*depth:					32
+! ------------------------------------------------------------------------------
+! ROFI Color theme
+! ------------------------------------------------------------------------------
+rofi.color-enabled: 			true
+rofi.color-window:				argb:ff2d2d2d, #d64937, #d64937
+rofi.color-normal: 				argb:0000000, #dcdcdc, argb:0000000, #d64937, #2d2d2d
+rofi.color-active: 				argb:0000000, #6699cc, argb:0000000, #6699cc, #1b2b34
+rofi.color-urgent: 				argb:0000000, #d64937, argb:0000000, #d64937, #2d2d2d
+rofi.separator-style: 			solid
+!ROFI config
+rofi.lines: 					10
+rofi.width: 					20
+rofi.bw: 						0
+rofi.location: 					3
+rofi.yoffset: 					16
+rofi.font: 						Hasklig Regular 9
+rofi.fake-transparency: 		false
+!rofi.fake-transparency: true
+rofi.click-to-exit:             true
+
+! vim: set filetype=xdefaults :
