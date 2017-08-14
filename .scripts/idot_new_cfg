@@ -35,7 +35,7 @@ cfg()
 
 now=$(date +"%Y-%m-%d_%H-%M")
 # --parents
-mkdir -p .dotfiles-backup/$now
+mkdir -p dotfiles-backup/$now
 nowprevious=$now
 cfg checkout
 
@@ -43,8 +43,7 @@ if [ $? = 0 ]; then
 	echo "Checked out cfg."
 else
 	echo "Backing up pre-existing .dotfiles."
-	cfg checkout 2>&1 | egrep "\s+\." | awk {'print $1'} | xargs -I{} mv {} .dotfiles-backup/$nowprevious/{}
-	#config checkout 2>&1 | egrep "\s+\." | awk {'print $1'} | xargs -I{} mv {} .config-backup/{}
+	cfg checkout 2>&1 | egrep "\s+\." | awk {'print $1'} | xargs -I{} mv {} dotfiles-backup/$nowprevious/{}
 fi
 
 cfg checkout
