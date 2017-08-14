@@ -12,6 +12,14 @@ I'm starting to lean towards using just one - master - branch.
 * [@neeasade](https://github.com/neeasade/dotfiles)
 * [@durdn](https://developer.atlassian.com/blog/2016/02/best-way-to-store-dotfiles-git-bare-repo/)
 	
+## PC
+### Screenshot
+
+## Laptop
+### Screenshot
+09-08-17</br>
+![Starting to take shape](https://github.com/Vaernil/my-dotfiles/raw/laptop/images/screenshots/2017-08-09-210831_1600x900_scrot.png)</br>
+
 ## Install on new machines - not tested
 ## Requirements
 
@@ -47,13 +55,6 @@ curl -Lks bit.do/cfg_install | /bin/bash
 This is a short url that leads to:
 [my-dotfiles/.scripts/idot_new_cfg](https://raw.githubusercontent.com/Vaernil/my-dotfiles/master/.scripts/idot_new_cfg)
 
-## PC
-### Screenshot
-
-## Laptop
-### Screenshot
-09-08-17</br>
-![Starting to take shape](https://github.com/Vaernil/my-dotfiles/raw/laptop/images/screenshots/2017-08-09-210831_1600x900_scrot.png)</br>
 ## Reading material for myself
 * [General]
 * [Linux]
