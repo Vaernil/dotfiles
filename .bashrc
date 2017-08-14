@@ -17,6 +17,7 @@ source ~/.scripts/shell_ext_fzf
 . ~/.vim/plugged/neoman.vim/scripts/nman.zsh
 # I also have it in bash_profile, but I don't think it works properly
 # start keychain (ssh-agent) so I don't go full Tetsuo having to type passphrase bazilion times a day
+# make it if hostname or grep linux distro, cuz it's different on my arch server
 eval `keychain -Q -q --eval --agents ssh id_rsa`
 #----------------
 # EXPORTS
@@ -41,7 +42,7 @@ edn="nano -w"
 ed2lrn="vim"
 ednvim="nvim"
 por="/etc/portage"
-cfg="~/.config"
+pcfg="~/.config"
 # NAVIGATION
 #wczesniejsza lokacja
 alias .-="cd -"
@@ -68,11 +69,11 @@ alias vres="${ed2lrn} ~/.Xresources; xrdb -merge ~/.Xresources"
 alias e="sudo emerge"
 #.CONFIGS
 alias nxres="nano -w ~/.Xresources"
-alias nsxhkd="nano -w ${cfg}/sxhkd/sxhkdrc"
-alias nbspwm="nano -w ${cfg}/bspwm/bspwmrc"
-alias npanel="nano -w ${cfg}/bspwm/panel/panel"
+alias nsxhkd="nano -w ${pcfg}/sxhkd/sxhkdrc"
+alias nbspwm="nano -w ${pcfg}/bspwm/bspwmrc"
+alias npanel="nano -w ${pcfg}/bspwm/panel/panel"
 alias nxinit="${edn} ~/.xinitrc"
-alias ntop="${edn} ${cfg}/bspwm/panel/top"
+alias ntop="${edn} ${pcfg}/bspwm/panel/top"
 #PORTAGE
 alias nmkconf="sudo nano -w /etc/portage/make.conf"
 alias vmkconf="sudo ${ed2lrn} /etc/portage/make.conf"
