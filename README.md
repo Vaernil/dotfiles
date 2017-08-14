@@ -4,8 +4,28 @@ It's just a bunch of dotfiles for my linux machines. It's very WIP, haven't uplo
 I'm still learning gentoo, basic scripting and git usage. This is basically my sandbox, so don't look at me and my files judgingly :)
 
 For now I decided to split it into 2 branches, depending on the computer I'm using. Might reconsider it, as I learn more about git.
-I have no idea what master branch is supposed to be. Neutral configs I port anywhere I want? And then add the extras if needed? Dunno yet.
-I'm starting to lean towards using just one branch.
+I have no idea what master branch is supposed to be. Neutral configs I port anywhere I want? And then add the extras if needed? Dunno yet.<br>
+I'm starting to lean towards using just one - master - branch.
+## Inspiration
+	r/unixporn
+	@z3bra
+	@neeasade
+	https://developer.atlassian.com/blog/2016/02/best-way-to-store-dotfiles-git-bare-repo/
+	
+## Install on new machines - not tested
+## Requirements
+
+* Git
+* Curl
+
+## Install
+
+Install .dotfiles tracking in your $HOME by running:
+``` bash
+	curl -Lks bit.do/cfg_install | /bin/sh
+```
+This is a short url that leads to:
+[my-dotfiles/.scripts/idot_new_cfg](https://raw.githubusercontent.com/Vaernil/my-dotfiles/master/.scripts/idot_new_cfg)
 
 ## PC
 ### Screenshot
