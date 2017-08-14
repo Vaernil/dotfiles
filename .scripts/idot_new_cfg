@@ -32,7 +32,8 @@ cfg()
 {
 	/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME $@
 }
-
+# export function to bash
+export -f cfg
 now=$(date +"%Y-%m-%d_%H-%M")
 # --parents
 #mkdir -p "dotfiles-backup/$now"
