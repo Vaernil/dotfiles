@@ -12,12 +12,14 @@ if [ -e "$HOME/.cfg" ]; then
 			# remove and clone repository
 			rm -rf ~/.cfg
 			git clone --bare git@github.com:Vaernil/my-dotfiles.git $HOME/.cfg
-			continue
+			#continue
+			break
 			;;
 		*)
 			echo "OK. Bye!"
 			echo "Script can't continue, either rename or remove .cfg folder."
-			break
+			#break
+			exit
 			;;
 		esac
 	done
