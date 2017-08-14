@@ -27,7 +27,7 @@ else
 	git clone --bare git@github.com:Vaernil/my-dotfiles.git $HOME/.cfg
 fi
 
-cfg
+cfg()
 {
 	/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME $@
 }
