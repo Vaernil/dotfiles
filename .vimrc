@@ -25,11 +25,11 @@ Plug 'nhooyr/neoman.vim'				" man pages in nvim
 "Plug 'edkolev/promptline.vim'
 "Plug 'itchyny/lightline.vim'
 "Plug 'cocopon/lightline-hybrid.vim'
-Plug 'vim-syntastic/syntastic'			" syntax checking
+"Plug 'vim-syntastic/syntastic'			" syntax checking
 "Plug 'Shougo/neocomplete.vim'			" neo-completion with cache
-if has("nvim")
-	Plug 'OmniSharp/omnisharp-vim'			" IDE like abilities for C#
-endif
+"if has("nvim")
+"	Plug 'OmniSharp/omnisharp-vim'			" IDE like abilities for C#
+"endif
 call plug#end()
 "################
 set mouse=a								" mouse, I know, I know, it's mainly for scrolling, might reconsider, seeing as it's causing me more headaches, with accidental palming of the touchpad, than it's worth
@@ -168,6 +168,7 @@ nnoremap <M-w> <C-w>q
 nnoremap <M-=> <C-w>=
 " open NERDTree browsing
 map <C-[> :NERDTreeToggle<CR>
+" nnoremap <silent><leader> <C-n> :NERDTreeToggle<CR>
 " change key because i is up, dunno if it unmaps it or just changes to
 " obscure \ key
 let NERDTreeMapOpenSplit='\i'
