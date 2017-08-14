@@ -3,29 +3,28 @@
 #fatal: destination path '/home/vaernil/.cfg' already exists and is not an empty directory.
 # WIP doesn't work for now
 if [ -e "$HOME/.cfg" ]; then
-	echo ".cfg exists - remove? y/n";
-	while read -r prompt; do
-    	if [ "$prompt" = "yes" || "$prompt" = "no" ]; then
-        	git clone --bare git@github.com:Vaernil/my-dotfiles.git $HOME/.cfg
-        	break
-		elif [ "$prompt" = "no" || "$prompt" = "no" ]; then
-			echo "script can't continue, either rename or remove .cfg folder";
-			# redundant?
+	while read line
+	do
+#		echo ".cfg exists - remove? [Y/n]:";
+		read -p '.cfg exists - remove? [Y/n]: ' prompt_remove </dev/tty
+		case "${prompt_remove}" in
+		Y|y)
+			# remove and clone repository
+			rm -rf ~/.cfg
+			git clone --bare git@github.com:Vaernil/my-dotfiles.git $HOME/.cfg
 			continue
-		else
-        	echo "Input not understood";
-		fi
+			;;
+		*)
+			echo "OK. Bye!"
+			echo "Script can't continue, either rename or remove .cfg folder."
+			break
+			;;
+		esac
 	done
-	read prompt_exists
-#	if [ "$promp_exists" == "y" ]; then
-#		git clone --bare git@github.com:Vaernil/my-dotfiles.git $HOME/.cfg
-#	elif [ "$promp_exists" == "n" ]; then
-#		echo "script can't continue, either rename or remove .cfg folder";
-#	else
-#		exit 1
 else
 	git clone --bare git@github.com:Vaernil/my-dotfiles.git $HOME/.cfg
 fi
+
 cfg
 {
 	/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME $@
@@ -34,9 +33,9 @@ now=$(date +"%Y-%m-%d_%H-%M")
 mkdir -p .dotfiles-backup/$now
 cfg checkout
 if [ $? = 0 ]; then
-	echo "Checked out cfg.";
+	echo "Checked out cfg."
 else
-	echo "Backing up pre-existing .dotfiles.";
+	echo "Backing up pre-existing .dotfiles."
 	cfg checkout 2>&1 | egrep "\s+\." | awk {'print $1'} | xargs -I{} mv {} .dotfiles-backup/{}
 fi
 cfg checkout
