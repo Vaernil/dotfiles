@@ -55,7 +55,12 @@ This is a short url that leads to:
 09-08-17</br>
 ![Starting to take shape](https://github.com/Vaernil/my-dotfiles/raw/laptop/images/screenshots/2017-08-09-210831_1600x900_scrot.png)</br>
 ## Reading material for myself
-
+* [General]
+* [Linux]
+	* [SSH](https://wiki.archlinux.org/index.php/Secure_Shell)
+	* [SSH-keys](https://wiki.archlinux.org/index.php/SSH_keys)
+* [Gentoo]
+* [Arch]
 ## TODO
 * tweak vim colors and change few highlight groups
 * change vim airline prompt and also change colors
