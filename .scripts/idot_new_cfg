@@ -47,7 +47,7 @@ else
 	# mv: cannot move '.vim/.netrwhist' to '.dotfiles-backup/2017-08-14_20-30/.vim/.netrwhist': No such file or directory
 	# create directories before? something wrong with variables?
 	#cfg checkout 2>&1 | egrep "\s+\." | awk {'print $1'} | xargs -I{} mv {} "dotfiles-backup/$nowprevious/"{}
-	cfg checkout 2>&1 | egrep "\s+\." | awk {'print $1'} | xargs -I{} mv {} "dotfiles-backup/"{}
+	cfg checkout 2>&1 | egrep "\s+\." | awk {'print $1'} | xargs -I{} mv {} dotfiles-backup/{}
 fi
 
 cfg checkout
