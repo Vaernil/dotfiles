@@ -21,7 +21,7 @@ Plug 'tpope/vim-surround'				" surround text easily
 Plug 'tpope/vim-repeat'					" let's you repeat (using '.') not only native commands
 Plug 'terryma/vim-multiple-cursors'		" sublime-like multiple cursors
 Plug 'ntpeters/vim-better-whitespace'	" remove trailing whitespace
-Plug 'nhooyr/neoman.vim'				" man pages in nvim
+"Plug 'nhooyr/neoman.vim'				" man pages in nvim
 "Plug 'edkolev/promptline.vim'
 "Plug 'itchyny/lightline.vim'
 "Plug 'cocopon/lightline-hybrid.vim'
