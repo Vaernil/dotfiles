@@ -1,0 +1,61 @@
+#!/bin/sh
+# fix later
+#fatal: destination path '/home/vaernil/.cfg' already exists and is not an empty directory.
+# WIP doesn't work for now
+if [ -e "$HOME/.cfg" ]; then
+	while read -r prompt; do
+ 	echo ".cfg exists - remove? y/n";
+	if [ "$prompt" = "yes" || "$prompt" = "no" ]; then
+        	git clone --bare git@github.com:Vaernil/my-dotfiles.git $HOME/.cfg
+        	break
+		elif [ "$prompt" = "no" || "$prompt" = "no" ]; then
+			echo "script can't continue, either rename or remove .cfg folder";
+			# redundant?
+			continue
+		else
+        	echo "Input not understood";
+		fi
+	done
+	read prompt_exists
+#	if [ "$promp_exists" == "y" ]; then
+#		git clone --bare git@github.com:Vaernil/my-dotfiles.git $HOME/.cfg
+#	elif [ "$promp_exists" == "n" ]; then
+#		echo "script can't continue, either rename or remove .cfg folder";
+#	else
+#		exit 1
+else
+	git clone --bare git@github.com:Vaernil/my-dotfiles.git $HOME/.cfg
+fi
+while read line
+do
+	echo -e "reset\nset log\nset xrange$xr\nset yrange$yr\nset xlabel \"Frequency [Hz]\"\nset ylabel \"F_{/Symbol n} [Jy Hz]\"\nset key top left\nplot \"$line.dat\" u 3:(\$3*\$4)*1e26 w l ti \"$line^o\" \n"> plt.gp
+    gnuplot plt.gp
+
+    read -p 'Do you want to continue? [Y/n]: ' want_to_continue </dev/tty
+    case "${want_to_continue}" in
+    Y|y)
+        continue
+        ;;
+    *)
+        echo "OK. Bye!"
+		echo "Script can't continue, either rename or remove .cfg folder."
+        break
+        ;;
+    esac
+done
+cfg
+{
+	/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME $@
+}
+now=$(date +"%Y-%m-%d_%H-%M")
+mkdir -p .dotfiles-backup/$now
+cfg checkout
+if [ $? = 0 ]; then
+	echo "Checked out cfg.";
+else
+	echo "Backing up pre-existing .dotfiles.";
+	cfg checkout 2>&1 | egrep "\s+\." | awk {'print $1'} | xargs -I{} mv {} .dotfiles-backup/{}
+fi
+cfg checkout
+cfg config status.showUntrackedFiles no
+echo "Untracked files hidden."
