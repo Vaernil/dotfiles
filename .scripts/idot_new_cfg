@@ -2,6 +2,7 @@
 # fix later
 #fatal: destination path '/home/vaernil/.cfg' already exists and is not an empty directory.
 # WIP doesn't work for now
+# check if exists
 if [ -e "$HOME/.cfg" ]; then
 	while read line
 	do
@@ -31,15 +32,19 @@ cfg()
 {
 	/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME $@
 }
+
 now=$(date +"%Y-%m-%d_%H-%M")
 mkdir -p .dotfiles-backup/$now
+nowprevious=$now
 cfg checkout
+
 if [ $? = 0 ]; then
 	echo "Checked out cfg."
 else
 	echo "Backing up pre-existing .dotfiles."
-	cfg checkout 2>&1 | egrep "\s+\." | awk {'print $1'} | xargs -I{} mv {} .dotfiles-backup/{}
+	cfg checkout 2>&1 | egrep "\s+\." | awk {'print $1'} | xargs -I{} mv {} .dotfiles-backup/$nowprevious/{}
 fi
+
 cfg checkout
 cfg config status.showUntrackedFiles no
 echo "Untracked files hidden."
