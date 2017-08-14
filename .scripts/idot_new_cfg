@@ -1,5 +1,31 @@
 #!/bin/sh
-git clone --bare git@github.com:Vaernil/my-dotfiles.git $HOME/.cfg
+# fix later
+#fatal: destination path '/home/vaernil/.cfg' already exists and is not an empty directory.
+# WIP doesn't work for now
+if [ -e "$HOME/.cfg" ]; then
+	echo ".cfg exists - remove? y/n";
+	while read -r prompt; do
+    	if [ "$prompt" = "yes" || "$prompt" = "no" ]; then
+        	git clone --bare git@github.com:Vaernil/my-dotfiles.git $HOME/.cfg
+        	break
+		elif [ "$prompt" = "no" || "$prompt" = "no" ]; then
+			echo "script can't continue, either rename or remove .cfg folder";
+			# redundant?
+			continue
+		else
+        	echo "Input not understood";
+		fi
+	done
+	read prompt_exists
+#	if [ "$promp_exists" == "y" ]; then
+#		git clone --bare git@github.com:Vaernil/my-dotfiles.git $HOME/.cfg
+#	elif [ "$promp_exists" == "n" ]; then
+#		echo "script can't continue, either rename or remove .cfg folder";
+#	else
+#		exit 1
+else
+	git clone --bare git@github.com:Vaernil/my-dotfiles.git $HOME/.cfg
+fi
 cfg
 {
 	/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME $@
@@ -12,7 +38,7 @@ if [ $? = 0 ]; then
 else
 	echo "Backing up pre-existing .dotfiles.";
 	cfg checkout 2>&1 | egrep "\s+\." | awk {'print $1'} | xargs -I{} mv {} .dotfiles-backup/{}
-fi;
+fi
 cfg checkout
 cfg config status.showUntrackedFiles no
-echo "Untracked files hidden.";
+echo "Untracked files hidden."
