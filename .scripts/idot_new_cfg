@@ -35,7 +35,7 @@ cfg()
 
 now=$(date +"%Y-%m-%d_%H-%M")
 # --parents
-mkdir -p dotfiles-backup/$now
+mkdir -p "dotfiles-backup/$now"
 nowprevious=$now
 cfg checkout
 
@@ -43,6 +43,8 @@ if [ $? = 0 ]; then
 	echo "Checked out cfg."
 else
 	echo "Backing up pre-existing .dotfiles."
+	# mv: cannot move '.vim/.netrwhist' to '.dotfiles-backup/2017-08-14_20-30/.vim/.netrwhist': No such file or directory
+	# create directories before? something wrong with variables?
 	cfg checkout 2>&1 | egrep "\s+\." | awk {'print $1'} | xargs -I{} mv {} dotfiles-backup/$nowprevious/{}
 fi
 
