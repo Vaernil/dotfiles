@@ -167,7 +167,8 @@ nnoremap <M-w> <C-w>q
 " equalize splits
 nnoremap <M-=> <C-w>=
 " open NERDTree browsing
-map <C-[> :NERDTreeToggle<CR>
+" breaks, something wrong with escape characters, figure out different keybind
+"map <C-[> :NERDTreeToggle<CR>
 " nnoremap <silent><leader> <C-n> :NERDTreeToggle<CR>
 " change key because i is up, dunno if it unmaps it or just changes to
 " obscure \ key
