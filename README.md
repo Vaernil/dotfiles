@@ -75,5 +75,7 @@ This is a short url that leads to:
 * backlight
 * refactor
 * should I even consider uploading files like world or make.conf?
+* remove vim plugins and just PlugInstall them normally,
+* convert your modified themes to normal repos so you can load them with vimplug
 
 and much more
