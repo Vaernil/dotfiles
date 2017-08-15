@@ -14,7 +14,7 @@ source ~/.scripts/shell_ext_fzf
 # fuzzy completion
 [ -f ~/.scripts/fzf.bash ] && source ~/.scripts/fzf.bash
 # works also with bash
-. ~/.vim/plugged/neoman.vim/scripts/nman.zsh
+#. ~/.vim/plugged/neoman.vim/scripts/nman.zsh
 # I also have it in bash_profile, but I don't think it works properly
 # start keychain (ssh-agent) so I don't go full Tetsuo having to type passphrase bazilion times a day
 # make it if hostname or grep linux distro, cuz it's different on my arch server
