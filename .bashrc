@@ -8,19 +8,18 @@ fi
 # fuzzy completion
 [ -f ~/.scripts/fzf.bash ] && source ~/.scripts/fzf.bash
 [ -f ~/.scripts/shell_ext_fzf ] && source ~/.scripts/shell_ext_fzf
-HISTCONTROL=ignoredups:erasedups  # no duplicate entries
+HISTCONTROL=ignoredups:erasedups								# no duplicate entries
 ################
 # EXPORTS
 ################
-export EDITOR="/usr/bin/vim"
-# pipes ag-silver searcher so the can fzf shows hidden files
-export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
-# To apply the command to CTRL-T as well
-export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export EDITOR="/usr/bin/nvim"
+export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'	# pipes ag-silver searcher so the can fzf shows hidden files
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"				# apply the command to CTRL-T as well
 export FZF_DEFAULT_OPTS="--bind ctrl-k:down,ctrl-i:up"
 export PANEL_FIFO="/tmp/panel-fifo"
 export PATH="${PATH}:/usr/non-portage/bin:~/.bin/bin"
 export QT_QPA_PLATFORMTHEME="qt5ct"
+export VISUAL="/usr/bin/nvim"
 export XAUTHORITY="/home/vaernil/.Xauthority"
 ################
 # ALIASES
@@ -30,50 +29,39 @@ ed2lrn="vim"
 ednvim="nvim"
 por="/etc/portage"
 pcfg="~/.config"
+colorflag="--color"
 # NAVIGATION
-#wczesniejsza lokacja
 alias .-="cd -"
 alias ..="cd .."
 alias ...="cd ../.."
-alias d="cd ~/Dev"
+alias d="cd ~/dev"
 alias dl="cd ~/Downloads"
 alias dt="cd ~/Desktop"
 alias p="cd ~/projects"
-#ls
-# List all files colorized in long format
-alias l="ls -lF ${colorflag}"
-# List all files colorized in long format, including dot files
-alias la="ls -laF ${colorflag}"
-# List only directories
-alias lsd="ls -lF ${colorflag} | grep --color=never '^d'"
-#dogs rule!
-alias dog="pygmentize -g"
-#ALIASY
-alias nalias="${edn} ~/.bashrc; . ~/.bashrc"
-alias valias="${ed2lrn} ~/.bashrc; . ~/.bashrc"
-alias vres="${ed2lrn} ~/.Xresources; xrdb -merge ~/.Xresources"
-#EMERGE
+# EMERGE
 alias e="sudo emerge"
-#.CONFIGS
-alias nxres="nano -w ~/.Xresources"
-alias nsxhkd="nano -w ${pcfg}/sxhkd/sxhkdrc"
-alias nbspwm="nano -w ${pcfg}/bspwm/bspwmrc"
-alias npanel="nano -w ${pcfg}/bspwm/panel/panel"
-alias nxinit="${edn} ~/.xinitrc"
-alias ntop="${edn} ${pcfg}/bspwm/panel/top"
-#PORTAGE
-alias nmkconf="sudo nano -w /etc/portage/make.conf"
+# .CONFIGS
+alias vsxhkd="${ed2lrn} ${pcfg}/sxhkd/sxhkdrc"
+alias vbspwm="${ed2lrn} ${pcfg}/bspwm/bspwmrc"
+alias vpanel="${ed2lrn}nano -w ${pcfg}/bspwm/panel/panel"
+alias vxinit="${ed2lrn} ~/.xinitrc"
+# .CONFIGS PORTAGE
 alias vmkconf="sudo ${ed2lrn} /etc/portage/make.conf"
 alias vpuse="sudo ${ed2lrn} /etc/portage/package.use"
 alias vpmask="sudo ${ed2lrn} /etc/portage/package.mask"
 # GIT
-# maintaining dotfiles
-alias cfg="/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME"
+alias cfg="/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME"	# maintaining dotfiles
+# ls
+alias l="ls -lF ${colorflag}"								# ls colorized, in long format
+alias la="ls -laF ${colorflag}"								# ls colorized, in long format + dotfiles
+alias lsd="ls -lF ${colorflag} | grep --color=never '^d'" 	# ls only directories
+alias dog="pygmentize -g"									# dogs rule!
+alias valias="${ed2lrn} ~/.bashrc; . ~/.bashrc"
+alias vres="${ed2lrn} ~/.Xresources; xrdb -merge ~/.Xresources"
 #finding out the name of a window for bspwm rules
 alias brulez="xprop |awk '/WM_CLASS/{print $4}'"
 alias xmrg="xrdb -merge ~/.Xresources"
-# substitue man with vim plugin
-alias man=vim_man
+alias man=vim_man											# substitue man with vim plugin
 # change some of those aliases to functions
 
 # I also have it in bash_profile, but I don't think it works properly

@@ -77,5 +77,6 @@ This is a short url that leads to:
 * should I even consider uploading files like world or make.conf?
 * remove vim plugins and just PlugInstall them normally,
 * convert your modified themes to normal repos so you can load them with vimplug
-
+* consider removing vim plugins and just do PlugInstall
+* check if your scripts are POSIX, either port them or stick to #!/usr/bin/env
 and much more
