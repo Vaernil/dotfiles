@@ -25,11 +25,11 @@ export XAUTHORITY="/home/vaernil/.Xauthority"
 # ALIASES
 ################
 edn="nano -w"
-ed2lrn="vim"
-ednvim="nvim"
+ed2lrn="nvim"
 por="/etc/portage"
 pcfg="~/.config"
 colorflag="--color"
+alias sudo='sudo '													# aliases can be sudoed, is that good approach?
 # NAVIGATION
 alias .-="cd -"
 alias ..="cd .."
@@ -38,8 +38,15 @@ alias d="cd ~/dev"
 alias dl="cd ~/Downloads"
 alias dt="cd ~/Desktop"
 alias p="cd ~/projects"
+# https://xkcd.com/1168/
+alias t="tar -xzvf"
 # EMERGE
 alias e="sudo emerge"
+# update world
+# emerge world
+# deplcean world
+# compiling kernel, oldconfigs and stuff
+# empty trash
 # .CONFIGS
 alias vsxhkd="${ed2lrn} ${pcfg}/sxhkd/sxhkdrc"
 alias vbspwm="${ed2lrn} ${pcfg}/bspwm/bspwmrc"
@@ -56,15 +63,16 @@ alias l="ls -lF ${colorflag}"								# ls colorized, in long format
 alias la="ls -laF ${colorflag}"								# ls colorized, in long format + dotfiles
 alias lsd="ls -lF ${colorflag} | grep --color=never '^d'" 	# ls only directories
 alias dog="pygmentize -g"									# dogs rule!
-alias valias="${ed2lrn} ~/.bashrc; . ~/.bashrc"
+alias vbsh="${ed2lrn} ~/.bashrc; . ~/.bashrc"
 alias vres="${ed2lrn} ~/.Xresources; xrdb -merge ~/.Xresources"
-#finding out the name of a window for bspwm rules
-alias brulez="xprop |awk '/WM_CLASS/{print $4}'"
 alias xmrg="xrdb -merge ~/.Xresources"
 alias man=vim_man											# substitue man with vim plugin
+#finding out the name of a window for bspwm rules
+alias brulez="xprop |awk '/WM_CLASS/{print $4}'"
 # change some of those aliases to functions
-
 # I also have it in bash_profile, but I don't think it works properly
 # start keychain (ssh-agent) so I don't go full Tetsuo having to type passphrase bazilion times a day
 # make it if hostname or grep linux distro, cuz it's different on my arch server
+# SSH
 eval `keychain -Q -q --eval --agents ssh id_rsa`
+
