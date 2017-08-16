@@ -1,25 +1,41 @@
 #! /bin/sh
 # 8 workspaces
-#bspc monitor -d o o o o o o o o
-ws1=
-ws2=o
-pichr=
-pistm=
-pitrm=
-piset=
-#make if here based on hostname and shit
-bspc monitor -d $pitrm $pichr $pistm $ws2 $ws2 $ws2 $ws2 $ws2
+# icons, move somewhere else
+ws1=""
+ws2="o"
+pichr=""
+pistm=""
+pitrm=""
+piset=""
+# since I'm not willing to change my pets's hostname on my home network for now, I like "wintermute" too much, and don't wanna name the other machine "neuromancer", this code is meaningless unless I come up with different naming convention or solution based on something else
+# wintermute tachikoma fuchikoma
+# or go with suffix like desktop laptop, but the name would be to long, lone D and L doesnt look great
+# wintermute_d wintermute_l
+case $(hostname) in
+	wintermute|wintermute_d)
+		bspc monitor -d $pitrm $pichr $pistm $ws2 $ws2 $ws2 $ws2 $ws2
+	;;
+	wintermute_l)
+		bspc monitor -d $pitrm $pichr $pistm $ws2 $ws2 $ws2 $ws2 $ws2
+	;;
+	ansgar.us)
+		bspc monitor -d $pitrm $pichr $pistm $ws2 $ws2 $ws2 $ws2 $ws2
+	;;
+	*)
+		bspc monitor -d o o o o o o o o
+	;;
+esac
 #----------------
 # SETTINGS
 #----------------
-bspc config top_padding				18
-bspc config border_width         	2
-bspc config window_gap          	18
-bspc config split_ratio          	0.50
-bspc config borderless_monocle   	true
-bspc config gapless_monocle      	true
-#bspc config focus_by_distance    	true
-bspc config focus_follows_pointer	true
+bspc config top_padding					18
+bspc config border_width       		  	2
+bspc config window_gap          		18
+bspc config split_ratio         	 	0.50
+bspc config borderless_monocle   		true
+bspc config gapless_monocle      		true
+#bspc config focus_by_distance    		true
+bspc config focus_follows_pointer		true
 #----------------
 # COLORS
 #----------------t
@@ -32,8 +48,7 @@ bspc config presel_feedback_color		"#d64937"
 bspc config ignore_ewmh_focus			true
 # Apply ICCCM window size hints, though it fucks up urxvt by few pixels
 bspc config honor_size_hints 			false
-
-#this puts layout in monocle mode, so the steam can start in this setting
+# this puts layout in monocle mode, so the steam can start in this setting
 bspc desktop $pichr --layout monocle
 #----------------
 # RULES
@@ -47,14 +62,14 @@ bspc rule -a Steam:Steam -o node=@^1:^3:/2 follow=false
 #----------------
 #cursor
 xsetroot -cursor_name left_ptr &
-redshift -c ~/.config/redshift.conf &
 sxhkd -c ~/.config/sxhkd/sxhkdrc &
 ~/.config/panel/panel &
-#welcome urxvt with gentoo logo
-#using my local fork until the patch 
+#using my local fork until the patch
 neo="./dev/neofetch/neofetch"
 urxvt -e bash -c "$neo -d '-shell'; bash" &
-#compton --config ${HOME}/.compton.conf &
+#compton --config ~/.compton.conf &
+redshift -c ~/.config/redshift.conf &
 google-chrome-stable &
-steam &
+#steam &
+# think about some other scheme for cronie to load from grive and upload on change, maybe using wendy
 keepassxc &

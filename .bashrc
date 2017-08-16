@@ -2,42 +2,29 @@ if [[ $- != *i* ]] ; then
 	# Shell is non-interactive.  Be done now!
 	return
 fi
-#source /etc/profile.d/bash-completion.sh
-. /etc/profile
-. /etc/profile.d/bash-eix-completion.sh
-#powerline is super slow
-#. /usr/share/powerline/bash/powerline.sh
-# use promptline instead
-source ~/.scripts/shell_prompt.sh
-source ~/.scripts/shell_ext_fzf
-# fzf functions
+[ -f /etc/profile ] && source /etc/profile
+[ -f /etc/profile.d/bash-eix-completion.sh ] && source /etc/profile.d/bash-eix-completion.sh
+[ -f ~/.scripts/shell_prompt.sh ] && source ~/.scripts/shell_prompt.sh
 # fuzzy completion
 [ -f ~/.scripts/fzf.bash ] && source ~/.scripts/fzf.bash
-# works also with bash
-#. ~/.vim/plugged/neoman.vim/scripts/nman.zsh
-# I also have it in bash_profile, but I don't think it works properly
-# start keychain (ssh-agent) so I don't go full Tetsuo having to type passphrase bazilion times a day
-# make it if hostname or grep linux distro, cuz it's different on my arch server
-eval `keychain -Q -q --eval --agents ssh id_rsa`
-#----------------
+[ -f ~/.scripts/shell_ext_fzf ] && source ~/.scripts/shell_ext_fzf
+HISTCONTROL=ignoredups:erasedups  # no duplicate entries
+################
 # EXPORTS
-#----------------
-export XAUTHORITY="/home/vaernil/.Xauthority"
+################
+export EDITOR="/usr/bin/vim"
 # pipes ag-silver searcher so the can fzf shows hidden files
 export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
 # To apply the command to CTRL-T as well
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_DEFAULT_OPTS="--bind ctrl-k:down,ctrl-i:up"
-export PATH="/usr/non-portage/bin:${PATH}"
 export PANEL_FIFO="/tmp/panel-fifo"
-export PATH="$PATH:/home/vaernil/.config/bspwm/panel"
-export EDITOR="/usr/bin/vim"
+export PATH="${PATH}:/usr/non-portage/bin:~/.bin/bin"
 export QT_QPA_PLATFORMTHEME="qt5ct"
-#LIB=lib64
-# steam
-#export LD_PRELOAD="/usr/$LIB/libstdc++.so.6 /usr/$LIB/libgcc_s.so.1 /usr/$LIB/libxcb.so.1 /usr/$LIB/libgpg-error.so"
-HISTCONTROL=ignoredups:erasedups  # no duplicate entries
-#ALIASY
+export XAUTHORITY="/home/vaernil/.Xauthority"
+################
+# ALIASES
+################
 edn="nano -w"
 ed2lrn="vim"
 ednvim="nvim"
@@ -85,4 +72,11 @@ alias cfg="/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME"
 #finding out the name of a window for bspwm rules
 alias brulez="xprop |awk '/WM_CLASS/{print $4}'"
 alias xmrg="xrdb -merge ~/.Xresources"
+# substitue man with vim plugin
+alias man=vim_man
 # change some of those aliases to functions
+
+# I also have it in bash_profile, but I don't think it works properly
+# start keychain (ssh-agent) so I don't go full Tetsuo having to type passphrase bazilion times a day
+# make it if hostname or grep linux distro, cuz it's different on my arch server
+eval `keychain -Q -q --eval --agents ssh id_rsa`

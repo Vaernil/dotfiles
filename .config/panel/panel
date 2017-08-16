@@ -87,7 +87,7 @@ p_title()
 		esac
 	# instead of passing the output to variable just pipe it to wc -m
 	# command between `` executes instead of passing the string to variable
-	lentitle=`xtitle | wc -m`
+	lentitle=$(xtitle | wc -m)
 	# i still dont know good amount, for now its 130
 	if (( "$lentitle" >= 130 )); then
 		output="%{F$c3}$(xtitle | cut -c 1-130) (...)${S0}%{F-}"
@@ -176,7 +176,8 @@ p_battery()
 	fi
 	# prepend percentage with a '+' if charging, '-' otherwise, discharging works, charging shows unknown
 	#test "`cat $batstat`" = "Discharging" && echo -n '-' || echo -n '+'
-	test "`cat $batstat`" = "Discharging" && symbol="-" || symbol="+"
+	# command substitution `` does the same as $()
+	test "$(cat $batstat)" = "Discharging" && symbol="-" || symbol="+"
 	# print out the content (forced myself to use `sed` :P) `` makes echo execute the command $ is value of variable
 	#out=`sed -n p $batcap`
 	output="%{A:${HOME}/.config/panel/notifications/popitup $symbol$valcap &:}%{F$c3}$icon%{F-}%{A} $symbol$valcap"

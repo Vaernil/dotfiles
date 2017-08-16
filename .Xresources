@@ -52,6 +52,7 @@ URxvt*scrollBar_right:			true
 ! inner border or something
 ! dunno about that
 URxvt*depth:					32
+URxvt*cursorBlink:				false
 ! ------------------------------------------------------------------------------
 ! ROFI Color theme
 ! ------------------------------------------------------------------------------

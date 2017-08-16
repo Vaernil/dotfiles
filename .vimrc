@@ -1,4 +1,3 @@
-" Plugins will be downloaded under the specified directory.
 call plug#begin('~/.vim/plugged')
 Plug 'tpope/vim-sensible'				" sensible defaults
 Plug 'chrisbra/Colorizer'				" colorizes hex values,  incorrectly sometimes, to investigate
@@ -21,10 +20,6 @@ Plug 'tpope/vim-surround'				" surround text easily
 Plug 'tpope/vim-repeat'					" let's you repeat (using '.') not only native commands
 Plug 'terryma/vim-multiple-cursors'		" sublime-like multiple cursors
 Plug 'ntpeters/vim-better-whitespace'	" remove trailing whitespace
-"Plug 'nhooyr/neoman.vim'				" man pages in nvim
-"Plug 'edkolev/promptline.vim'
-"Plug 'itchyny/lightline.vim'
-"Plug 'cocopon/lightline-hybrid.vim'
 "Plug 'vim-syntastic/syntastic'			" syntax checking
 "Plug 'Shougo/neocomplete.vim'			" neo-completion with cache
 "if has("nvim")
@@ -52,8 +47,14 @@ set t_vb=								" disable last and first line flashing
 set splitbelow							" more natural split behavior I guess
 set splitright
 set t_Co=256							" set 256 colors
+"set guicursor=
 " set t_Co=16							" will only use the colors in your .Xresources
+let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 0
+
 syntax on								" activate syntax highlighting
+let &t_SI = "\<Esc>[6 q"				" IBeam shape in insert mode
+let &t_SR = "\<Esc>[4 q"				" underline shape in replace mode
+let &t_EI = "\<Esc>[2 q"				" block shape in normal mode
 let g:BASH_Ctrl_j = 'off'				" disable ctrl j, not sure if needed
 " set termguicolors						" truecolor, but since urxvt doesn't support it, it's moot
 set background=dark
@@ -168,7 +169,7 @@ nnoremap <M-w> <C-w>q
 nnoremap <M-=> <C-w>=
 " open NERDTree browsing
 " breaks, something wrong with escape characters, figure out different keybind
-"map <C-[> :NERDTreeToggle<CR>
+"map <C-n> :NERDTreeToggle<CR>
 " nnoremap <silent><leader> <C-n> :NERDTreeToggle<CR>
 " change key because i is up, dunno if it unmaps it or just changes to
 " obscure \ key
@@ -179,15 +180,3 @@ let NERDTreeMapOpenSplit='\i'
 " close NERDTree if its the only window left
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 """"""""""""""""""""""""""""
-" Read-only .doc through antiword
-autocmd BufReadPre *.doc silent set ro
-autocmd BufReadPost *.doc silent %!antiword "%"
-" Read-only odt/odp through odt2txt
-autocmd BufReadPre *.odt,*.odp silent set ro
-autocmd BufReadPost *.odt,*.odp silent %!odt2txt "%"
-" Read-only pdf through pdftotext
-autocmd BufReadPre *.pdf silent set ro
-autocmd BufReadPost *.pdf silent %!pdftotext -nopgbrk -layout -q -eol unix "%" - | fmt -w78
-" Read-only rtf through unrtf
-autocmd BufReadPre *.rtf silent set ro
-autocmd BufReadPost *.rtf silent %!unrtf --text
