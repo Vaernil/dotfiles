@@ -53,6 +53,9 @@ URxvt*scrollBar_right:			true
 ! dunno about that
 URxvt*depth:					32
 URxvt*cursorBlink:				false
+URxvt.shading:	50
+URxvt.transparent:	true
+URxvt.underlineURLs:	True
 ! ------------------------------------------------------------------------------
 ! ROFI Color theme
 ! ------------------------------------------------------------------------------
