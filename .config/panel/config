@@ -1,14 +1,11 @@
-# Panel color so I don't call it multiple times
-PANEL_BG="#FF2d2d2d"
-PANEL_FG="#FFd64937"
 # Fonts
-PANEL_FONT1='Hasklig:size=9'
-PANEL_FONT2='FontAwesome:size=8'
-PANEL_FONT3='DejaVu Sans Mono:Size:10'
-PANEL_UNDERLINE='4'
-UNDERLINE_COLOR="#d64937"
+# PANEL_FONT1='Inconsolata'
+PANEL_FONT2='Symbola'
+PANEL_FONT1='Iosevka Regular:size=9'
+#PANEL_FONT2='Source Code Pro:size=9'
+PANEL_UNDERLINE='1'
 # Panel geometry
-PANEL_HEIGHT=18
+PANEL_HEIGHT=14
 PANEL_WIDTH=''
 PANEL_GEOMETRY="${PANEL_WIDTH}x${PANEL_HEIGHT}+0+0"
 
@@ -19,6 +16,10 @@ NOTIFY_GEOMETRY="${NOTIFY_WIDTH}x${NOTIFY_HEIGHT}+0+0"
 
 # Duration of notifications
 DURATION=2
+
+# Monitor to display panel on
+# MONITOR="$(bspc query -M | tail -n1)"
+
 # Volume change clip
 CLIP="/usr/share/sounds/freedesktop/stereo/audio-volume-change.oga"
 # Length of volume bar

@@ -1,34 +1,47 @@
-# wm independent hotkeys
+#
+# APPS
+#
+# Starts ranger
+ctrl + shift + r
+        urxvt -e ranger
+ctrl + shift + a
+        google-chrome-stable
 # terminal emulator
 super + Return
-	urxvt
+	urxvt -b 0
+
 # program launcher
 super + space
 	rofi -show run
+
 # make sxhkd reload its configuration files:
 super + Escape
 	pkill -USR1 -x sxhkd
-# bspwm hotkeys
-super + ctrl + Escape
-	pkill -9 panel & pkill -9 lemonbar && ~/.config/panel/panel
-# quit bspwm normally
+
+# quit bspwm normally and kill panel
 super + alt + Escape
-#	bspc quit
-	bspc quit && pkill bar && pkill -9 panel && pkill lemon_bar && pkill lemonbar && killall -9 panel
+        pkill lemonbar & bspc quit 1
+
 # close and kill
 super + {_,shift + }w
 	bspc node -{c,k}
+
 # alternate between the tiled and monocle layout
+# this makes it so my workspaces "jump" to my left monitor and double them, it works fine on the main one
 super + m
 	bspc desktop -l next
+#	bspc node -l next
 # if the current node is automatic, send it to the last manual, otherwise pull the last leaf
 super + y
 	bspc query -N -n focused.automatic && bspc node -n last.!automatic || bspc node last.leaf -n focused
+
 # swap the current node and the biggest node
 super + g
 	bspc node -s biggest
 
+#
 # state/flags
+#
 
 # set the window state
 super + {t,shift + t,s,f}
@@ -69,11 +82,18 @@ super + {o,i}
 	bspc wm -h on
 
 # focus or send to the given desktop
-super + {_,shift + }{1-9,0}
-	bspc {desktop -f,node -d} '^{1-9,10}'
+# super + {_,shift + }{1-9,0}
+#this one works that it adds up available workspaces so to access 2nd monitor you have to go for 5-8
+#       bspc {desktop -f,node -d} ^{1-9,10}
+
+super + {1-9,0}
+        bspc desktop focused:^{1-9,0} -f
+# Move window from one desktop to another within the same monitor
+super + shift {1-9,0}
+        bspc node -d $(bspc query -M -m):^{1-9,10}
 
 #
-# preselect - then spawn new with super + enter in the preselected space
+# preselect
 #
 
 # preselect the direction
@@ -87,73 +107,30 @@ super + ctrl + {1-9}
 # cancel the preselection for the focused node
 super + ctrl + space
 	bspc node -p cancel
-	#bspc query -N -d | xargs -I id -n 1 bspc node id -p cancel
+
 # cancel the preselection for the focused desktop
 super + ctrl + shift + space
 	bspc query -N -d | xargs -I id -n 1 bspc node id -p cancel
 
 #
-# move/resize - might spaw it around, feels more natural
+# move/resize
 #
-
-# expand a window by moving one of its side outward
-super + alt + {j,k,i,l}
-	bspc node -z {left -20 0,bottom 0 20,top 0 -20,right 20 0}
-
-# contract a window by moving one of its side inward
-super + alt + shift + {j,k,i,l}
-	bspc node -z {right -20 0,top 0 20,bottom 0 -20,left 20 0}
 
 # move a floating window
 super + {Left,Down,Up,Right}
 	bspc node -v {-20 0,0 20,0 -20,20 0}
-#can i move them to absolute cords?
-# Mouse floating:
-bspc config pointer_modifier mod4
-bspc config pointer_action2 move
-bspc config pointer_action1 resize_side
-bspc config pointer_action2 resize_corner
+# mouse resize, move
+# focus i dont think i need that
+~button1
+	bspc node pointed -f
+# start move/resize
+# bspc pointer -g focus has been changed to bspc node pointed -f
+super + button{1-3}
+        bspc pointer -g {resize_corner,resize_side,move}
 
-# toggle redshift
-control + apostrophe
-    pkill -USR1 redshift; notify-send "redshift toggled"
-    
-# Fn keys
-#here tuxonice hibernation
-# Fn + F3
-XF86Sleep
-	#sleep 0.5 && hibernate
+super + !button{1-3}
+	bspc pointer --track %i %i
 
-# Fn + F4
-XF86Display
-	sleep 0.5 && xset dpms force off
-
-# Fn + F8
-XF86Battery
-	~/.config/panel/notifications/popitup_bat 0
-
-# Fn + F11
-# mute volume
-#NoSymbol
-# lower volume, raise volume
-{XF86AudioLowerVolume, XF86AudioRaiseVolume}
-    #amixer sset Master 5%{-,+}
-    ~/.config/panel/notifications/popitup_vol2 {-1,1}
-# Fn + F9, Fn + F10
-{XF86MonBrightnessDown, XF86MonBrightnessUp}
-	xbacklight -{dec,inc} 10%
-
-# Mute key top right
-XF86AudioMute
-    #amixer sset Master toggle; echo "Mute toggled"
-     ~/.config/panel/notifications/popitup_vol2 0 
-XF86Calculator
-     ~/.config/panel/notifications/popitup_cal 0 
-#
-Menu
-	echo "Menu pressed"
-#Print
-#    scrot.sh 0
-
-# Terminal navigation, but i think it will work on top of my other keybinds like vim
-#alt + i
+# end move/resize
+super + @button{1-3}
+        bspc pointer -u
