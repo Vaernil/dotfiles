@@ -1,37 +1,37 @@
 ! special
-*foreground:   #dedede
-*background:   #151515
-*cursorColor:  #D64937
+*foreground:			#dedede
+*background:			#151515
+*cursorColor:			#d64937
 !default is to use bg color
-*scrollColor:	#d64937
+*scrollColor:			#d64937
 ! bordercolors has to be the same as background otherwise its looks like shit
-URxvt*borderColor:	#151515
+URxvt*borderColor:		#151515
 ! italic bold underline
-!URxvt.colorIT:      #87af5f
-!URxvt.colorBD:      #d7d7d7
-!URxvt.colorUL:      #87afd7
+!URxvt.colorIT:			#87af5f
+!URxvt.colorBD:			#d7d7d7
+!URxvt.colorUL:			#87afd7
 ! black
-*color0:       #151515
-*color8:       #2d2d2d
+*color0:				#151515
+*color8:				#2d2d2d
 !red
-*color1:       #D64937
-*color9:       #E36B5B
+*color1:				#d64937
+*color9:				#e36b5b
 !green
-*color2:       #FF513A
-*color10:      #CF342C
+*color2:				#FF513A
+*color10:				#CF342C
 !yellow
-*color3:       #c64b48
-*color11:      #FF9C8F
+*color3:				#c64b48
+*color11:				#FF9C8F
 !blue
 !need to change alsamixer invisible
-*color4:      #FFA23A
-*color12:       #FF8838
+*color4:				#FFA23A
+*color12:				#FF8838
 !magenta
-*color5:       #BF315C
-*color13:      #CB5176
+*color5:				#BF315C
+*color13:				#CB5176
 !cyan
-*color6:       #922E3E
-*color14:      #8A2B48
+*color6:				#922E3E
+*color14:				#8A2B48
 !white
-*color7:       #dedede
-*color15:      #525252
+*color7:				#dedede
+*color15:				#525252

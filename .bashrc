@@ -9,9 +9,9 @@ fi
 [ -f ~/.scripts/fzf.bash ] && source ~/.scripts/fzf.bash
 [ -f ~/.scripts/shell_ext_fzf ] && source ~/.scripts/shell_ext_fzf
 HISTCONTROL=ignoredups:erasedups								# no duplicate entries
-################
-# EXPORTS
-################
+################################
+####		EXPORTS
+################################
 export EDITOR="/usr/bin/nvim"
 export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'	# pipes ag-silver searcher so the can fzf shows hidden files
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"				# apply the command to CTRL-T as well
@@ -21,15 +21,15 @@ export PATH="${PATH}:/usr/non-portage/bin:~/.bin/bin"
 export QT_QPA_PLATFORMTHEME="qt5ct"
 export VISUAL="/usr/bin/nvim"
 export XAUTHORITY="/home/vaernil/.Xauthority"
-################
-# ALIASES
-################
+################################
+####		ALIASES
+################################
 edn="nano -w"
 ed2lrn="nvim"
 por="/etc/portage"
 pcfg="~/.config"
 colorflag="--color"
-alias sudo='sudo '													# aliases can be sudoed, is that good approach?
+alias sudo='sudo '												# aliases can be sudoed, is that good approach?
 # NAVIGATION
 alias .-="cd -"
 alias ..="cd .."
@@ -41,10 +41,13 @@ alias p="cd ~/projects"
 # https://xkcd.com/1168/
 alias t="tar -xzvf"
 # EMERGE
-alias e="sudo emerge"
-# update world
-# emerge world
-# deplcean world
+alias e="sudo emerge -av"
+alias e1="sudo emerge -1av"
+alias es="sudo eix-sync"
+alias erd="sudo emerge --update --newuse --deep --keep-going @world" # run before depclean
+alias eupd="sudo emerge -uDU --with-bdeps=y --keep-going @world"
+alias edep="sudo emerge -av --depclean"
+alias ewrld="sudo emerge -av --noreplace "
 # compiling kernel, oldconfigs and stuff
 # empty trash
 # .CONFIGS
@@ -56,6 +59,8 @@ alias vxinit="${ed2lrn} ~/.xinitrc"
 alias vmkconf="sudo ${ed2lrn} /etc/portage/make.conf"
 alias vpuse="sudo ${ed2lrn} /etc/portage/package.use"
 alias vpmask="sudo ${ed2lrn} /etc/portage/package.mask"
+alias vpkey="sudo ${ed2lrn} /etc/portage/package.accept_keywords"
+alias vworld="sudo ${ed2lrn} /var/lib/portage/world"
 # GIT
 alias cfg="/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME"	# maintaining dotfiles
 # ls
@@ -66,8 +71,8 @@ alias dog="pygmentize -g"									# dogs rule!
 alias vbsh="${ed2lrn} ~/.bashrc; . ~/.bashrc"
 alias vres="${ed2lrn} ~/.Xresources; xrdb -merge ~/.Xresources"
 alias xmrg="xrdb -merge ~/.Xresources"
-alias man=vim_man											# substitue man with vim plugin
-#finding out the name of a window for bspwm rules
+alias man=vim_man											# substitute man with vim plugin
+# finding out the name of a window for bspwm rules
 alias brulez="xprop |awk '/WM_CLASS/{print $4}'"
 # change some of those aliases to functions
 # I also have it in bash_profile, but I don't think it works properly

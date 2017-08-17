@@ -17,7 +17,7 @@ if &t_Co >= 256 || has("gui_running")
     hi NonText ctermbg=bg ctermfg=88 cterm=NONE guibg=bg guifg=#870000 gui=NONE
     hi Comment ctermbg=bg ctermfg=95 cterm=NONE guibg=bg guifg=#874B5F gui=NONE
     hi Constant ctermbg=bg ctermfg=7 cterm=NONE guibg=bg guifg=#ffffff gui=NONE
-    hi Error ctermbg=88 ctermfg=230 cterm=NONE guibg=#870000 guifg=#ffffd7 gui=NONE
+    hi Error ctermbg=52 ctermfg=7 cterm=NONE guibg=#870000 guifg=#ffffd7 gui=NONE
     hi Identifier ctermbg=bg ctermfg=7 cterm=NONE guibg=bg guifg=#a8a8a8 gui=NONE
     hi Ignore ctermbg=bg ctermfg=95 cterm=NONE guibg=bg guifg=#874B5F gui=NONE
     hi PreProc ctermbg=bg ctermfg=10 cterm=NONE guibg=bg guifg=#ffaf5f gui=NONE
@@ -27,7 +27,10 @@ if &t_Co >= 256 || has("gui_running")
     hi Number ctermbg=bg ctermfg=6 cterm=NONE guibg=bg guifg=#5f87af gui=NONE
     hi Todo ctermbg=5 ctermfg=7 cterm=bold guibg=bg guifg=#ffffff gui=bold
     hi Type ctermbg=bg ctermfg=11 cterm=NONE guibg=bg guifg=#ffd7af gui=NONE
-    hi Underlined ctermbg=8 ctermfg=1 cterm=NONE guibg=#262626 guifg=#ffd75f gui=NONE
+    hi Underlined ctermbg=8 ctermfg=7 cterm=NONE guibg=#262626 guifg=#ffd75f gui=NONE
+    " statusline is the window you get after pressing :
+    " but also other buffers and stuff, to investigate
+    " The currently focused window is highlight group Statusline, other windows are StatuslineNC.
     hi StatusLine ctermbg=bg ctermfg=5 cterm=NONE guibg=bg guifg=#d7875f gui=NONE
     hi StatusLineNC ctermbg=bg ctermfg=8 cterm=NONE guibg=bg guifg=#262626 gui=NONE
     hi VertSplit ctermbg=bg ctermfg=8 cterm=NONE guibg=bg guifg=#262626 gui=NONE
@@ -43,6 +46,7 @@ if &t_Co >= 256 || has("gui_running")
     hi helpNormal ctermbg=bg ctermfg=7 cterm=NONE guibg=bg guifg=#ffffff gui=NONE
     hi Visual ctermbg=1 ctermfg=0 cterm=NONE guibg=#ffaf5f guifg=#000000 gui=NONE
     hi VisualNOS ctermbg=bg ctermfg=7 cterm=NONE guibg=bg guifg=#ffffff gui=NONE
+    " popup completion
     hi Pmenu ctermbg=8 ctermfg=7 cterm=NONE guibg=#262626 guifg=#a8a8a8 gui=NONE
     hi PmenuSbar ctermbg=bg ctermfg=7 cterm=NONE guibg=bg guifg=#ffffff gui=NONE
     hi PmenuSel ctermbg=8 ctermfg=1 cterm=NONE guibg=#262626 guifg=#ffd75f gui=NONE
@@ -55,8 +59,8 @@ if &t_Co >= 256 || has("gui_running")
     hi DiffChange ctermbg=8 ctermfg=7 cterm=NONE guibg=#262626 guifg=#a8a8a8 gui=NONE
     hi DiffDelete ctermbg=bg ctermfg=88 cterm=NONE guibg=bg guifg=#870000 gui=NONE
     hi DiffText ctermbg=8 ctermfg=5 cterm=NONE guibg=#262626 guifg=#d7875f gui=NONE
-    hi IncSearch ctermbg=9 ctermfg=0 cterm=NONE guibg=#d75f00 guifg=#000000 gui=NONE
-    hi Search ctermbg=11 ctermfg=0 cterm=NONE guibg=#d7af87 guifg=#000000 gui=NONE
+    hi IncSearch ctermbg=6 ctermfg=0 cterm=NONE guibg=#d75f00 guifg=#000000 gui=NONE
+    hi Search ctermbg=6 ctermfg=0 cterm=NONE guibg=#d7af87 guifg=#000000 gui=NONE
     hi Directory ctermbg=bg ctermfg=12 cterm=bold guibg=bg guifg=#ffffff gui=NONE
     hi MatchParen ctermbg=95 ctermfg=1 cterm=bold guibg=#874B5F guifg=#ffd75f gui=bold
     hi SpellBad ctermbg=NONE ctermfg=88 cterm=NONE guibg=NONE guifg=#870000 gui=NONE guisp=#870000
@@ -68,7 +72,8 @@ if &t_Co >= 256 || has("gui_running")
     hi ErrorMsg ctermbg=88 ctermfg=7 cterm=NONE guibg=#870000 guifg=#ffffff gui=NONE
     hi ModeMsg ctermbg=bg ctermfg=1 cterm=NONE guibg=bg guifg=#ffd75f gui=NONE
     hi MoreMsg ctermbg=bg ctermfg=1 cterm=NONE guibg=bg guifg=#ffd75f gui=NONE
-    hi Question ctermbg=bg ctermfg=230 cterm=NONE guibg=bg guifg=#ffffd7 gui=NONE
+    " confirmation
+    hi Question ctermbg=bg ctermfg=13 cterm=NONE guibg=bg guifg=#ffffd7 gui=NONE
     hi WarningMsg ctermbg=bg ctermfg=1 cterm=NONE guibg=bg guifg=#ffd75f gui=NONE
     hi Cursor ctermbg=9 ctermfg=0 cterm=NONE guibg=#d75f00 guifg=#000000 gui=NONE
     hi CursorColumn ctermbg=8 ctermfg=NONE cterm=NONE guibg=#262626 guifg=NONE gui=NONE
@@ -159,7 +164,7 @@ elseif &t_Co == 8 || $TERM !~# '^linux' || &t_Co == 16
     hi ErrorMsg ctermbg=darkred ctermfg=white cterm=NONE
     hi ModeMsg ctermbg=bg ctermfg=yellow cterm=NONE
     hi MoreMsg ctermbg=bg ctermfg=yellow cterm=NONE
-    hi Question ctermbg=bg ctermfg=white cterm=NONE
+    hi Question ctermbg=6 ctermfg=bg cterm=NONE
     hi WarningMsg ctermbg=bg ctermfg=yellow cterm=NONE
     hi Cursor ctermbg=red ctermfg=black cterm=NONE
     hi CursorColumn ctermbg=darkgray ctermfg=NONE cterm=NONE

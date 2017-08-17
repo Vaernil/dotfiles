@@ -20,6 +20,7 @@ Plug 'tpope/vim-surround'				" surround text easily
 Plug 'tpope/vim-repeat'					" let's you repeat (using '.') not only native commands
 Plug 'terryma/vim-multiple-cursors'		" sublime-like multiple cursors
 Plug 'ntpeters/vim-better-whitespace'	" remove trailing whitespace
+Plug 'gentoo/gentoo-syntax'				" syntax highlight specific for gentoo files
 "Plug 'vim-syntastic/syntastic'			" syntax checking
 "Plug 'Shougo/neocomplete.vim'			" neo-completion with cache
 "if has("nvim")

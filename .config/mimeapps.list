@@ -1,7 +1,9 @@
 [Default Applications]
 inode/directory=pcmanfm.desktop
+image/jpeg=userapp-meh-6MFW4Y.desktop
 
 [Removed Associations]
 
 [Added Associations]
 text/plain=userapp-urxvt -e vim-L0JR3Y.desktop;
+image/jpeg=userapp-meh-6MFW4Y.desktop;
