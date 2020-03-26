@@ -1,0 +1,173 @@
+#!/usr/bin/env bash
+#!/usr/bin/env dash
+
+#### main bspwm config
+# colors theme
+. "${XDG_CONFIG_HOME}/wm/themes/wm_numixlike"
+# may take one bool arg: gaps or ungapped
+# path to source scripts
+PATH="$PATH:${XDG_CONFIG_HOME}/wm/scripts/visual"
+# if errors then terminate
+#set -a
+
+# if none set, keep whatever is open.
+# gapped=$1
+# [ -z "$gapped" ] && gapped=$(iif "! [ $(bspc config window_gap) -le 0 ]")
+
+## what does it do?
+# is it some
+# +%s executes date with seconds, in this case since the epoch
+
+# xinit=$(iif "[ $(( $(date +%s) - xstart )) -lt 2 ]")
+
+# which command is used to identify the location of a given executable that is
+# executed when you type the executable name (command) in the terminal prompt.
+# The command searches for the executable specified as an argument in the
+# directories listed in the PATH environment variable
+
+# relaunch_panel=$(iif "kill -s TERM $(cat /tmp/panel-pid) 2>/dev/null")
+
+#----------------------------
+# since I'm not willing to change my pets's hostname on my home network for
+# now, I like "wintermute" too much, and don't wanna name the other machine
+# "neuromancer", this code is meaningless unless I come up with different
+# naming convention or solution based on something else
+# wintermute tachikoma fuchikoma
+
+# count the floating windows
+# bspc query -T | grep " f"| wc -lH
+# how to get names
+# bspc query -D -d focused --names
+# will show focues in human readable font, its and icon of the desktop for example
+# chrome icon
+# wm -d shows current layout
+# bspc wm -d | jq '.monitors[].rectangle' bspc wm -d | jq ' learn that json operationss
+#  You can convert a decimal ID to an hexadecimal ID from a shell script with wid=$(printf '0x%08X' "$id")
+#----------------
+# COLORS
+#----------------
+# https://linuxize.com/post/linux-which-command/
+#theme_name=$
+### CHANGE THE WAY THEMES ARE CALLED
+# do rules overwrite my monitors?
+# bspc config external_rules_command			"$(which exrules.sh)"
+# external rules
+bspc config external_rules_command "$XDG_CONFIG_HOME/wm/scripts/visual/exrules.sh"
+
+#bspc config external_rules_command			"$(which spawnpresel.sh)"
+
+bspc config focused_border_color			$foc_brd_c
+bspc config normal_border_color				$nrl_brd_c
+bspc config active_border_color				$act_brd_c
+bspc config presel_feedback_color			$pre_fdb_c
+# absolute path to commands used to retrieve rule consequence
+
+#bspc desktop  -l monocle
+
+# 8-10 workspaces
+# case $(hostname) in
+#     wintermute|wintermute_d)
+#         bspc monitor -d $p_icon_trm $p_icon_chr $p_icon_stm $p_icon_cod $ws2 $ws2 $ws2 $ws2
+#         ;;
+#     wintermute_l|nb-N850)
+#         # bspc monitor -d "\$p_icon_trm" "\$p_icon_chr "\$p_icon_stm" $"p_icon_dis" $p_icon_cod $ws2 $ws2 $p_icon_spo $p_icon_ky2 $p_icon_fex
+#         bspc monitor -d $p_icon_trm $p_icon_chr $p_icon_stm $p_icon_dis $p_icon_cod $ws2 $ws2 $p_icon_spo $p_icon_ky2 $p_icon_fex
+#         ;;
+#     ansgar.us)
+#         bspc monitor -d $p_icon_trm $p_icon_chr $p_icon_stm $ws2 $ws2 $p_icon_spo $ws2 $ws2
+#         ;;
+#     *)
+#         bspc monitor -d o o o o o o o o
+#         ;;
+# esac
+bspc monitor -d [1] [2] [3] [4] [5] [6] [7] [8] [9] [0]
+         # bspc monitor -d $p_icon_trm $p_icon_chr $p_icon_stm $p_icon_dis $p_icon_cod $ws2 $ws2 $p_icon_spo $p_icon_ky2 $p_icon_fex
+         # bspc monitor -d $p_icon_trm $p_icon_chr $p_icon_stm $p_icon_dis $p_icon_cod $ws2 $ws2 $p_icon_spo $p_icon_ky2 $p_icon_fex
+#----------------
+# SETTINGS
+#----------------
+bspc config top_padding					$t_pad
+bspc config border_width				$brd_w
+bspc config window_gap					$w_gap
+bspc config split_ratio					$s_rat
+bspc config borderless_monocle			$bls_m
+bspc config gapless_monocle				$gls_m
+# single_monocle
+# Set the desktop layout to monocle if there’s only one tiled window
+# in the tree.
+
+#bspc config focus_by_distance			$fbdis
+bspc config focus_follows_pointer		$fpoin
+bspc config ignore_ewmh_focus			$iewmh
+# Apply ICCCM window size hints, though it fucks up urxvt by few pixels
+bspc config honor_size_hints			$hshin
+
+#if $relaunch_panel && ! ps -p $(cat /tmp/panel-pid); then
+	#"{{p_launch_cmd}}" &
+#fi
+
+#p_launch_cmd="$HOME/.wm/panel/limebar.sh"
+
+## extensions may be defined in themes here:
+#{{b_bspwmrc_extend}}
+
+#----------------
+# RULES
+#----------------
+# im sure its class prop | xgrep WM_CLASS
+# better tool wmctrl -lx
+#bspc desktop $p_icon_chr --layout monocle		# puts layout in monocle mode, so the steam can start in this setting
+# for some reason $icon doesn't work
+#bspc desktop $p_icon_chr -l monocle
+# can i just add rule for one desktop?
+
+# bspc desktop   -l monocle
+# double quotes fucked this
+# bspc desktop $p_icon_ky2 -l monocle
+# case sensitive use alias brl to find the name and then type $2:$1
+# change stacking location or size
+# shortcut to start terminal as floating by win + ctrl + enter
+# external rules, fuck those
+# bspc rule -a URxvt:floatingterm state=floating
+# bspc rule -a floatingterm state=floating
+# bspc rule -a floatingcat state=floating
+# bspc rule -a *:floatingterm state=floating
+# bspc rule -a *:floatingterm state=floating
+
+#----------------
+# AUTOSTART
+#----------------
+# start first because of secret service
+keepassxc &
+#compton --config ~/.compton.conf &
+xiccd &
+# temporary disable touchpad
+# synclient TouchpadOff=1 &
+# "${XDG_CONFIG_HOME}/wm/panel/limebar" &
+"${XDG_CONFIG_HOME}/wm/panel/vaerpanel" &
+# spawn terminal execute shell that executes commant and then execute shell to
+# wait for prompt
+alacritty -e zsh -c "neofetch -d '-shell'; zsh" &
+# spawn quake ranger, todo think about classes, make it so bspwm always spawns
+# it that way in rules?
+#	tdrop -a -m -w 40% -h 70% -n 2 alacritty -e zsh -c 'export TERM=xterm; ranger'
+# google-chrome-stable &
+firefox &
+# discord &
+# spotify &
+# steam &
+nemo &
+# ranger &
+# think about some other scheme for cronie to load from grive and upload on change, maybe using wendy
+# color profile, thnk abnout dex or somethig
+# It seems to me that when I use 'ck-launch-session' when launching my window manager, it makes the processes launched from my .xinitrc to become zombies. What happens if you remove it?
+# IDEAS
+# add floating window for sx.hkd0 shortcuts, or notification, make ctrl printreen copy imgur link to clipboard, fix killing panel
+# add super plus scroll <= => to choose next desktop
+
+# script to return previous session layout
+# initial wm startup actions
+#if $xinit; then
+	#$HOME/.wm/startup.sh &
+	#"{{p_launch_cmd}}" &
+#fi

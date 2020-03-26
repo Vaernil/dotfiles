@@ -1,0 +1,47 @@
+#----------------
+# PANEL ICONS
+#----------------
+# workspaces
+ws1=""
+#ws2=""
+ws2=""
+ws3="o"
+# programs
+p_icon_chr=""
+p_icon_stm=""
+p_icon_trm=""
+p_icon_set=""
+p_icon_cod=""
+p_icon_key=""
+p_icon_ky2=""
+p_icon_fpr=""
+p_icon_dis=""
+p_icon_fex=""
+p_icon_spo=""
+p_icon_cld=""
+p_icon_clc=""
+icon_volm=""
+icon_vold=""
+icon_volu=""
+#----------------
+# COLORS
+#----------------
+#D64937
+foc_brd_c="#d64937"
+#foc_brd_c="#2d2d2d"
+nrl_brd_c="#2d2d2d"
+act_brd_c="#2d2d2d"
+pre_fdb_c="#d64937"
+#----------------
+# SETTINGS
+#----------------
+t_pad=18
+brd_w=1
+w_gap=18
+s_rat=0.50
+bls_m=true
+gls_m=true
+#fbdis=true
+fpoin=true
+iewmh=true
+hshin=false

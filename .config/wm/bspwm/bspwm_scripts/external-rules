@@ -1,0 +1,183 @@
+#!/usr/bin/env dash
+#
+# bspwm: external_rules_command
+#
+# Absolute path to the command used to retrieve rule consequences.
+# The command will receive the following arguments: window ID, class
+# name, instance name, and intermediate consequences. The output of
+# that command must have the following format: key1=value1
+# key2=value2 ...  (the valid key/value pairs are given in the
+# description of the rule command).
+#
+#
+# Rule
+#    General Syntax
+# 	   rule COMMANDS
+#
+#    Commands
+# 	   -a, --add (<class_name>|*)[:(<instance_name>|*)] [-o|--one-shot]
+# 	   [monitor=MONITOR_SEL|desktop=DESKTOP_SEL|node=NODE_SEL]
+# 	   [state=STATE] [layer=LAYER] [split_dir=DIR] [split_ratio=RATIO]
+# 	   [(hidden|sticky|private|locked|marked|center|follow|manage|focus|border)=(on|off)]
+# 	   [rectangle=WxH+X+Y]
+# 		   Create a new rule.
+#
+# 	   -r, --remove
+# 	   ^<n>|head|tail|(<class_name>|*)[:(<instance_name>|*)]...
+# 		   Remove the given rules.
+#
+# 	   -l, --list
+# 		   List the rules.
+
+border= \
+center= \
+class=$2
+desktop= \
+focus= \
+follow= \
+hidden= \
+id=${1?} \
+instance=$3 \
+layer= \
+locked= \
+manage= \
+marked= \
+misc=$4 \
+monitor= \
+node= \
+private= \
+rectangle= \
+split_dir= \
+split_ratio= \
+state= \
+sticky= \
+urgent=;
+
+discord() {
+			desktop=^4;
+			state=tiled;
+			follow=off;
+}
+
+firefox() {
+			desktop=^6;
+}
+
+gimp() {
+			follow=on;
+}
+
+mplayer() {
+			state=floating;
+			layer=normal;
+}
+
+spotify() {
+			desktop=^4;
+}
+
+steam() {
+			desktop=^3;
+}
+
+chromium() {
+			desktop=^2;
+}
+
+chrome() {
+			desktop=^2;
+			follow=off;
+}
+libreoffice() {
+			state=tiled;
+			layer=normal;
+}
+
+mpv() {
+			desktop=^10;
+			#state=floating;
+			state=tiled;
+			layer=normal;
+}
+
+feh() {
+			desktop=^10;
+			state=tiled;
+			layer=normal;
+}
+
+pqiv() {
+			desktop=^10;
+			state=tiled;
+			layer=normal;
+}
+
+nemo() {
+			desktop=^10;
+}
+
+pavucontrol() {
+			desktop=^1;
+			state=floating;
+			# works but not sure if right approach
+			#notify-send --app-name=$class "'$class' spawned | id : $id | instance : $instance | misc : $4 ";
+}
+
+keepassxc() {
+			desktop=^9;
+}
+
+discord() {
+			desktop=^4;
+			follow=off
+}
+# notify-send appname
+case $instance.$class in
+			(*.Chromium) chromium;;
+			(*.Google-chrome) chrome;;
+			(*.[Ff]irefox) firefox;;
+			(*.[Ss]team) steam;;
+			(*.Gimp) gimp;;
+			(*.Spotify) spotify;;
+			([lL]ibre[oO]ffice*) libreoffice;;
+			(*.Nemo) nemo;;
+			(*.mpv) mpv;;
+			(*.feh) feh;;
+			(*.discord) discord;;
+			(*.[Pp]avucontrol) pavucontrol;;
+			(*.[Kk]ee[Pp]ass[Xx][Cc]) keepassxc;;
+			# also works but also not sure about approach
+			#(*.[Pp]avucontrol) pavucontrol;notify-send --app-name=$class "'$class' spawned | id : $id | instance : $instance | misc : $4 ";;
+			(.)
+					case $(ps -p "$(xdo pid "$id")" -o comm= 2>/dev/null) in
+							(spotify) spotify;;
+					esac;;
+			#*)
+							#notify-send --app-name=$class "'$class' spawned | id : $id | instance : $instance | misc : $4 ";;
+
+esac;
+#exec xst &
+# works but not sure about approach
+notify-send --app-name=$class "'$class' spawned | id : $id | instance : $instance | misc : $4 ";
+echo \
+			${border:+"border=$border"} \
+			${center:+"center=$center"} \
+			${desktop:+"desktop=$desktop"} \
+			${focus:+"focus=$focus"} \
+			${follow:+"follow=$follow"} \
+			${hidden:+"hidden=$hidden"} \
+			${layer:+"layer=$layer"} \
+			${locked:+"locked=$locked"} \
+			${manage:+"manage=$manage"} \
+			${marked:+"marked=$marked"} \
+			${monitor:+"monitor=$monitor"} \
+			${node:+"node=$node"} \
+			${private:+"private=$private"} \
+			${rectangle:+"rectangle=$rectangle"} \
+			${split_dir:+"split_dir=$split_dir"} \
+			${split_ratio:+"split_ratio=$split_ratio"} \
+			${state:+"state=$state"} \
+			${sticky:+"sticky=$sticky"} \
+			${urgent:+"urgent=$urgent"};
+
+# vim: set ft=sh :

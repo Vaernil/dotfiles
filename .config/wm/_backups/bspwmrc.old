@@ -1,0 +1,167 @@
+#!/usr/bin/env bash
+
+# main bspwm config
+
+# LOGGING
+SCRIPT_LOG=/home/vaernil/.log/bspwm_SystemOut.log
+touch $SCRIPT_LOG
+. ~/.config/bspwm/themes/numixlike
+function SCRIPTENTRY(){
+	timeAndDate=`date`
+	script_name=`basename "$0"`
+	script_name="${script_name%.*}"
+	echo "[$timeAndDate] [DEBUG]  > $script_name $FUNCNAME" >> $SCRIPT_LOG
+}
+
+function SCRIPTEXIT(){
+	script_name=`basename "$0"`
+	script_name="${script_name%.*}"
+	echo "[$timeAndDate] [DEBUG]  < $script_name $FUNCNAME" >> $SCRIPT_LOG
+}
+
+function ENTRY(){
+	local cfn="${FUNCNAME[1]}"
+	timeAndDate=`date`
+	echo "[$timeAndDate] [DEBUG]  > $cfn $FUNCNAME" >> $SCRIPT_LOG
+}
+
+function EXIT(){
+	local cfn="${FUNCNAME[1]}"
+	timeAndDate=`date`
+	echo "[$timeAndDate] [DEBUG]  < $cfn $FUNCNAME" >> $SCRIPT_LOG
+}
+
+function INFO(){
+	local function_name="${FUNCNAME[1]}"
+	local msg="$1"
+	timeAndDate=`date`
+	echo "[$timeAndDate] [INFO]  $msg" >> $SCRIPT_LOG
+}
+
+function DEBUG(){
+	local function_name="${FUNCNAME[1]}"
+	local msg="$1"
+	timeAndDate=`date`
+	echo "[$timeAndDate] [DEBUG]  $msg" >> $SCRIPT_LOG
+}
+
+function ERROR(){
+	local function_name="${FUNCNAME[1]}"
+	local msg="$1"
+	timeAndDate=`date`
+	echo "[$timeAndDate] [ERROR]  $msg" >> $SCRIPT_LOG
+}
+
+#----------------------------
+# since I'm not willing to change my pets's hostname on my home network for now, I like "wintermute" too much, and don't wanna name the other machine "neuromancer", this code is meaningless unless I come up with different naming convention or solution based on something else
+# wintermute tachikoma fuchikoma
+
+# count the floating windows
+# bspc query -T | grep " f"| wc -lH
+# how to get names
+# bspc query -D -d focused --names
+# will show focues in human readable font, its and icon of the desktop for example
+# chrome icon
+# bspc wm -d | jq '.monitors[].rectangle' bspc wm -d | jq ' learn that json operationss
+#  You can convert a decimal ID to an hexadecimal ID from a shell script with wid=$(printf '0x%08X' "$id")
+#----------------
+# COLORS
+#----------------
+# path to source scripts
+PATH=$PATH:$HOME/.wm/scripts/visual
+# https://linuxize.com/post/linux-which-command/
+# which command is used to identify the location of a given executable that is executed when you type the executable name (command) in the terminal prompt. The command searches for the executable specified as an argument in the directories listed in the PATH environment variable
+#theme_name=$
+#bspc config external_rules_command			~/.config/bspwm/bspwm_scripts/external_rules
+#bspc config external_rules_command			~/.config/bspwm/bspwm_scripts/titlemove
+#bspc config external_rules_command			~/.config/bspwm/bspwm_scripts/test2
+#bspc config external_rules_command			~/.config/bspwm/bspwm_scripts/brules
+#bspc config external_rules_command			~/.config/bspwm/bspwm_scripts/external-rules
+# external rules
+#bspc config external_rules_command			"$(which external_rules.sh)"
+bspc config external_rules_command			"$(which spawnpresel.sh)"
+
+bspc config focused_border_color			$foc_brd_c
+bspc config normal_border_color				$nrl_brd_c
+bspc config active_border_color				$act_brd_c
+bspc config presel_feedback_color			$pre_fdb_c
+# absolute path to commands used to retrieve rule consequence
+#bspc desktop  -l monocle
+# 8-10 workspaces
+case $(hostname) in
+	wintermute|wintermute_d)
+		bspc monitor -d $p_icon_trm $p_icon_chr $p_icon_stm $p_icon_cod $ws2 $ws2 $ws2 $ws2
+	;;
+	wintermute_l|nb-N850)
+		bspc monitor -d $p_icon_trm $p_icon_chr $p_icon_stm $p_icon_dis $p_icon_cod $ws2 $ws2 $p_icon_spo $p_icon_ky2 $p_icon_fex
+	;;
+	ansgar.us)
+		bspc monitor -d $p_icon_trm $p_icon_chr $p_icon_stm $ws2 $ws2 $p_icon_spo $ws2 $ws2
+	;;
+	*)
+		bspc monitor -d o o o o o o o o
+	;;
+esac
+#----------------
+# SETTINGS
+#----------------
+bspc config top_padding					$t_pad
+bspc config border_width				$brd_w
+bspc config window_gap					$w_gap
+bspc config split_ratio					$s_rat
+bspc config borderless_monocle			$bls_m
+bspc config gapless_monocle				$gls_m
+#bspc config focus_by_distance			$fbdis
+bspc config focus_follows_pointer		$fpoin
+bspc config ignore_ewmh_focus			$iewmh
+bspc config honor_size_hints			$hshin			# Apply ICCCM window size hints, though it fucks up urxvt by few pixels
+#----------------
+# RULES
+#----------------
+# im sure its class prop | xgrep WM_CLASS
+# better tool wmctrl -lx
+#bspc desktop $p_icon_chr --layout monocle		# puts layout in monocle mode, so the steam can start in this setting
+# for some reason $icon doesn't work
+#bspc desktop $p_icon_chr -l monocle
+bspc desktop   -l monocle
+bspc desktop $p_icon_ky2 -l monocle
+# case sensitive use alias brl to find the name and then type $2:$1
+#bspc rule -a firefox:firefox node=@^1:^2:/ follow=off
+#bspc rule -a Google-chrome:google-chrome node=@^1:^2:/ follow=off
+#bspc rule -a discord:discord node=@^1:^4:/ follow=off
+#bspc rule -a KeePassXC:keepassxc node=@^1:^9:/
+#bspc rule -a KeePass2:keepass2 node=@^1:^7:/
+#bspc rule -a Nemo:nemo node=@^1:^10:/
+#bspc rule -a feh:feh node=@^1:^10:/ state=pseudo_tiled
+#bspc rule -a mpv:mpv node=@^1:^10:/ state=pseudo_tiled
+# add one instance of urxvt to 5th window with -o oneshot option, what will happen to neo tho, make 2 rules?
+## testing
+# change stacking location or size
+bspc rule -a URxvt:floatingterm state=floating
+#----------------
+# AUTOSTART
+#----------------
+#compton --config ~/.compton.conf &
+xsetroot -cursor_name left_ptr &						#cursor
+# temporary disable touchpad
+synclient TouchpadOff=1 &
+redshift -c ~/.config/redshift.conf &
+sxhkd -c ~/.config/sxhkd/sxhkdrc &
+#~/.config/panel/panel &
+panelvaer &
+neo="~/dev/neofetch/neofetch"							#using my local fork until the patch
+urxvtc -e zsh -c "$neo -d '-shell'; zsh" &
+google-chrome-stable &
+firefox &
+discord &
+spotify &
+steam &
+# think about some other scheme for cronie to load from grive and upload on change, maybe using wendy
+keepassxc &
+# color profile, thnk abnout dex or somethig
+xiccd &
+nemo &
+# It seems to me that when I use 'ck-launch-session' when launching my window manager, it makes the processes launched from my .xinitrc to become zombies. What happens if you remove it?
+# IDEAS
+# add floating window for sx.hkd0 shortcuts, or notification, make ctrl printreen copy imgur link to clipboard, fix killing panel
+# add super plus scroll <= => to choose next desktop

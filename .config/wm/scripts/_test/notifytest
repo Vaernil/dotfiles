@@ -1,0 +1,15 @@
+#!/bin/sh
+id="${1?}" \
+instance="$3" \
+class="$2";
+pro=xprop -id "$id" _NET_WM_NAME;
+#export PROID=$1
+case "$class" in
+	([pP]avucontrol)
+		echo state=floating\ desktop=^1
+		notify-send "'$class' spawned, its id is $id and instance $instance 4 is $4 xprop=$pro" $class;;
+esac;
+#necho="id $wid\nclass $class\ninst $instance\ntitle $title\n"
+# commands here spawn always everytime something is executed
+#notify-send "Pavucontrol spawned, it's class is " $necho
+# vim: set ft=sh :

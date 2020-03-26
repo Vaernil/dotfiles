@@ -1,0 +1,18 @@
+# FUNCTION ICONS
+block_l="  "
+block_r="   "
+sep_r="   "
+icon="🔇" # Mute
+icon="🔈" # No Soundbar
+icon="🔉" # One Soundbar
+icon="🔊" # Three Soundbars
+itemp04=""
+itemp14=""
+itemp24=""
+itemp34=""
+itemp44=""
+icap04=""
+icap14=""
+icap24=""
+icap34=""
+icap44=""

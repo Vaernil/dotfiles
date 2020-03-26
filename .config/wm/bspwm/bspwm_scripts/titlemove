@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+WID=$1
+
+if [[ $(xtitle $WID) == 'test2 Updater' ]]; then
+	#echo 'state=pseudo_tiled'
+	echo 'state=floating'
+fi

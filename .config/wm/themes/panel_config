@@ -1,0 +1,32 @@
+# panel color so i don't call it multiple times
+panel_bg="#2D2D2D"
+panel_fg="#D64937"
+# fonts
+# panel_font1="Hasklug Nerd Font:style=Regular:size=9"
+# panel_font2="Font Awesome 5 Free Regular:style=Regular:size=9"
+# panel_font3="Font Awesome 5 Brands Regular:style=Regular:size=9"
+panel_font1="Hasklug Nerd Font:style=Regular:size=10"
+panel_font2="Font Awesome 5 Free Regular:style=Regular:size=10"
+panel_font3="Font Awesome 5 Brands Regular:style=Regular:size=10"
+panel_underline=2
+underline_color="#D64937"
+# panel geometry
+panel_border=1
+panel_height=20
+# to fix right border adjust below
+#panel_width="1598"
+panel_width=""
+panel_geometry="${panel_width}x${panel_height}+0+0"
+
+# notification geometry
+notify_height=$panel_height
+notify_width=135
+notify_geometry="${notify_width}x${notify_height}+0+0"
+
+# duration of popups
+pop_duration=5
+# volume change clip
+clip="/usr/share/sounds/freedesktop/stereo/audio-volume-change.oga"
+# length of volume bar
+bar_length=20
+bar_char="="

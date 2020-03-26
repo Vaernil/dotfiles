@@ -1,0 +1,399 @@
+#!/usr/bin/env bash
+
+# Just a simple Lemonbar script
+# Only clickable workspaces, window title, and clock
+# Spamming command every second using shell to generate statusline is not really efficient
+# So I only put those three items
+# If I need other status informations
+# I'd rather to call them using Dunst
+
+# Workspace indicator is generated using bspc subscribe
+# Which only update if there is an reaction on bspwm
+# Window title is generated using xtitle
+# Which also has subscribe event ability
+# Clock is generated using looped date command
+# Only update every thirty seconds
+
+# Based on default example from Bspwm GitHub repository
+# Some parts are modified to make them look like what i want
+# Cheers! Addy
+# breaks on error
+# set -eE  # same as: `set -o errexit -o errtrace`
+function notify {
+  echo "Something went wrong!"
+}
+
+# trap notify "$_getdate" "${BASH_SOURCE}" "${LINENO}" ERR
+# # trap 'error "$_getdate" "${BASH_SOURCE}" "${LINENO}"' ERR
+# trap notify ERR
+_getdate="$(date +%Y.%m.%d-%H:%M:%S)"
+_error() {
+   local sourcefile=$1
+   local lineno=$2
+   local imathird=$3
+   local dd=$4
+   echo "err: $sourcefile $lineno $imathird $dd"
+}
+
+trap '_error "${BASH_SOURCE}" "${LINENO}" "siemanko" ${_getdate}' ERR
+# nonexisting_command &
+
+# getcolors () {
+#     FOREGROUND=$(xrdb -query | grep 'foreground:'| awk '{print $NF}')
+#     BACKGROUND=$(xrdb -query | grep 'background:'| awk '{print $NF}')
+#     BLACK=$(xrdb -query | grep 'color0:'| awk '{print $NF}')
+#     RED=$(xrdb -query | grep 'color1:'| awk '{print $NF}')
+#     GREEN=$(xrdb -query | grep 'color2:'| awk '{print $NF}')
+#     YELLOW=$(xrdb -query | grep 'color3:'| awk '{print $NF}')
+#     BLUE=$(xrdb -query | grep 'color4:'| awk '{print $NF}')
+#     MAGENTA=$(xrdb -query | grep 'color5:'| awk '{print $NF}')
+#     CYAN=$(xrdb -query | grep 'color6:'| awk '{print $NF}')
+#     WHITE=$(xrdb -query | grep 'color7:'| awk '{print $NF}')
+# }
+
+# Only use the function above if the cache of paintee couldn't be found
+# if [ -e ~/.cache/paintee ]; then
+#     . ~/.cache/paintee
+#     else
+#     getcolors
+# fi
+
+# Palette
+####
+background="#151515"
+foreground="#DEDEDE"
+color00="#151515"
+color08="#2D2D2D"
+#red
+color01="#D64937"
+color09="#F9546D"
+#green
+# color2="#FF513A"
+color02="0x9DD7D7"
+color10="#17B6B8"
+#yellow
+color03="#EEDF77"
+color11="#FF9C8F"
+#blue
+color04="#F92672"
+color12="#ff6c6c"
+#magenta
+color05="#922E3E"
+color13="#D700AF"
+#cyan
+color06="#BF315C"
+color14="#CB5176"
+#white
+color07="#DEDEDE"
+color15="#525252"
+####
+panel_bg="$color08"
+panel_fg="$color01"
+############
+
+# Panel configurations
+
+PANEL_FIFO=/tmp/panel-fifo
+# fonts
+# panel_font1="Iosevka Nerd Font:style=Regular:size=10"
+panel_font1="Hasklug Nerd Font:style=Regular:size=10"
+panel_font2="Font Awesome 5 Free Regular:style=Regular:size=10"
+panel_font3="Font Awesome 5 Brands Regular:style=Regular:size=10"
+# fallbackfont
+panel_underline=2
+underline_color="$foreground"
+# panel geometry
+panel_border=1
+panel_height=20
+# to fix right border adjust below
+#panel_width="1598"
+panel_width=""
+panel_geometry="${panel_width}x${panel_height}+0+0"
+
+# notification geometry
+notify_height=$panel_height
+notify_width=135
+notify_geometry="${notify_width}x${notify_height}+0+0"
+
+# duration of popups
+pop_duration=5
+# volume change clip
+clip="/usr/share/sounds/freedesktop/stereo/audio-volume-change.oga"
+# length of volume bar
+bar_length=20
+bar_char="="
+##
+COLOR_FOCUSED_OCCUPIED_FG="#F6F9F6"
+COLOR_FOCUSED_OCCUPIED_BG="#5C5955"
+
+COLOR_FOCUSED_FREE_FG="#F6F9F6"
+COLOR_FOCUSED_FREE_BG="#6D561C"
+
+COLOR_FOCUSED_URGENT_FG="#34322E"
+COLOR_FOCUSED_URGENT_BG="#F9A299"
+
+COLOR_OCCUPIED_FG="#A3A6AB"
+COLOR_OCCUPIED_BG="#34322E"
+
+COLOR_FREE_FG="#6F7277"
+COLOR_FREE_BG="#34322E"
+
+COLOR_URGENT_FG="#F9A299"
+COLOR_URGENT_BG="#34322E"
+
+COLOR_LAYOUT_FG="#A3A6AB"
+COLOR_LAYOUT_BG="#34322E"
+
+COLOR_TITLE_FG="#A3A6AB"
+COLOR_TITLE_BG="#34322E"
+
+COLOR_STATUS_FG="#A3A6AB"
+COLOR_STATUS_BG="#34322E"
+
+COLOR_STATE_FG="$background"
+COLOR_STATE_BG="$background"
+
+HOST_BG="$panel_bg"
+HOST_FG="$foreground"
+# COLOR_SYS_BG="$color8"
+COLOR_SYS_BG="$panel_bg"
+COLOR_SYS_FG="$foreground"
+CLOCK_BG="#2d2d2d"
+CLOCK_FG="#dedede"
+
+VOL_BG="#2d2d2d"
+VOL_FG="#dedede"
+# just change places
+# clickable shit
+bg="$background"
+fg="$foreground"
+bg_alt="$fg"
+fg_alt="$bg"
+[ -e "$PANEL_FIFO" ] && rm "$PANEL_FIFO"
+mkfifo "$PANEL_FIFO"
+
+clock() {
+    while true; do
+        date +"S%a %-d %b %H:%M"
+        sleep 60
+    done
+}
+_clock() {
+		local interval="$1s"
+        date +"S%a %-d %b %H:%M"
+		sleep "$interval"
+}
+
+_datetime() {
+    local label output
+
+    # label is just a string duuuuuuhhhhhh
+    label="D:"
+    output="$(date +'%a %-d %b %H:%M')"
+
+    echo "%{F$fg_alt}${label}%{F-} $output"
+}
+
+p_clock() {
+	# echo "%{A:${HOME}/.config/panel/popup_cal &:}%{B$bg_alt}%{F$CLOCK_FG} $(date +'%d-%m-%y')%{A}%{F-}%{B-}%{B$DATE_BG}%{F$DATE_FG} $(date +'%a %H:%M') %{F-}%{B-}"
+	local label output
+	label="Dejt:"
+	echo "%{B$bg}%{F$fg}${output}%{F-}%{B-}"
+	# %{B$DATE_BG}%{F$DATE_FG} $(date +'%a %H:%M') %{B-}%{F-}"
+}
+# Just to make sure there is no double process
+# killall -9 bar-border lemonbar xtitle xdo clock
+# pgrep -x lemonbar > /dev/null && pkill -x lemonbar & pkill xtitle
+
+# Echo every modules to PANEL_FIFO
+#
+# remeber, you need to run those processes in the background "&"
+
+_update_fifo()
+{
+	local interval="$1"s
+	# clock &
+	xtitle -t 70 -sf 'T%s\n' &
+# while :; do echo "Clock" "$(p_clock)"; sleep 60s; done > "$PANEL_FIFO" &
+	while true; do _clock 60; done &
+	#     sleep 60
+	# done &
+
+	# bspc subscribe report &
+	# bspc subscribe report > "$PANEL_FIFO" &
+	sleep "$interval"
+}
+
+_update_fifo 0.1 > "$PANEL_FIFO" &
+bspc subscribe report > "$PANEL_FIFO" &
+# clock > "$PANEL_FIFO" &
+# xtitle -t 70 -sf 'T%s\n' > "$PANEL_FIFO" &
+_modules() {
+    while true; do
+        echo "B" "$(_battery)"
+        echo "T" "$(_temperature)"
+        echo "D" "$(_datetime)"
+        echo "K" "$(_keyboard)"
+        echo "V" "$(_volume)"
+        sleep 1s
+    done
+}
+# query monitor id | count numer of monitors
+num_mon="$(bspc query -M | wc -l)"
+
+# Then read those value
+panel_bar() {
+while read -r line ; do
+	case $line in
+		S*)
+			# clock output
+			sys="%{F$COLOR_SYS_FG}%{B$COLOR_SYS_BG} ${line#?} %{B-}%{F-}"
+			;;
+		T*)
+			# xtitle output
+			title="%{F$COLOR_TITLE_FG}%{B$COLOR_TITLE_BG} ${line#?} %{B-}%{F-}"
+			;;
+		W*)
+			# WMeDP-1-1:o:f:f:O:o:o:o:o:o:o:LT:TF:G
+			# IFS sets the separator
+			# workspaces output
+			# loop which iterates over bspwm's report to get desktop
+			# (worskpaces) names and their states and apply color to it
+			wm=""
+			IFS=':'
+			set -- ${line#?}
+			while [ $# -gt 0 ] ; do
+				item=$1
+				name=${item#?}
+				case $item in
+					# m - monitor
+					# M - monitor focused
+					[mM]*)
+						case $item in
+							m*)
+								# monitor
+								FG=$COLOR_MONITOR_FG
+								BG=$COLOR_MONITOR_BG
+								on_focused_monitor=
+								;;
+							M*)
+								# focused monitor
+								FG=$COLOR_FOCUSED_MONITOR_FG
+								BG=$COLOR_FOCUSED_MONITOR_BG
+								on_focused_monitor=1
+								;;
+						esac
+						[ $num_mon -lt 2 ] && shift && continue
+						wm="${wm}%{F${FG}}%{B${BG}}%{A:bspc monitor -f ${name}:} ${name} %{A}%{B-}%{F-}"
+						;;
+
+                    # {Free,Occupied,Urgent} focused
+					[fFoOuU]*)
+						case $item in
+							f*)
+								# free desktop
+								FG=$COLOR_FREE_FG
+								BG=$COLOR_FREE_BG
+								UL=$BG
+								;;
+							F*)
+								if [ "$on_focused_monitor" ] ; then
+									# focused free desktop
+									FG=$COLOR_FOCUSED_FREE_FG
+									BG=$COLOR_FOCUSED_FREE_BG
+									UL=$BG
+								else
+									# active free desktop
+									FG=$COLOR_FREE_FG
+									BG=$COLOR_FREE_BG
+									UL=$COLOR_FOCUSED_FREE_BG
+								fi
+								;;
+							o*)
+								# occupied desktop
+								FG=$COLOR_OCCUPIED_FG
+								BG=$COLOR_OCCUPIED_BG
+								UL=$BG
+								;;
+							O*)
+								if [ "$on_focused_monitor" ] ; then
+									# focused occupied desktop
+									FG=$COLOR_FOCUSED_OCCUPIED_FG
+									BG=$COLOR_FOCUSED_OCCUPIED_BG
+									UL=$BG
+								else
+									# active occupied desktop
+									FG=$COLOR_OCCUPIED_FG
+									BG=$COLOR_OCCUPIED_BG
+									UL=$COLOR_FOCUSED_OCCUPIED_BG
+								fi
+								;;
+							u*)
+								# urgent desktop
+								FG=$COLOR_URGENT_FG
+								BG=$COLOR_URGENT_BG
+								UL=$BG
+								;;
+							U*)
+								if [ "$on_focused_monitor" ] ; then
+									# focused urgent desktop
+									FG=$COLOR_FOCUSED_URGENT_FG
+									BG=$COLOR_FOCUSED_URGENT_BG
+									UL=$BG
+								else
+									# active urgent desktop
+									FG=$COLOR_URGENT_FG
+									BG=$COLOR_URGENT_BG
+									UL=$COLOR_FOCUSED_URGENT_BG
+								fi
+								;;
+						esac
+						wm="${wm}%{F${FG}}%{B${BG}}%{U${UL}}%{+u}%{A:bspc desktop -f ${name}:} ${name} %{A}%{B-}%{F-}%{-u}"
+						;;
+					[LTG]*)
+						# layout, state and flags
+						wm="${wm}%{F$COLOR_STATE_FG}%{B$COLOR_STATE_BG} ${name} %{B-}%{F-}"
+						;;
+				esac
+				shift
+			done
+			;;
+	esac
+	printf "%s\n" "%{l}${wm}%{c}${title}%{r}${sys}"
+done
+}
+
+# Get all the results of the modules above then pipe them to Lemonbar
+# panel_bar < "$PANEL_FIFO" | bar-border -a 12 \
+# -g "$panel_width"x"$PANEL_HEIGHT"+"$PANEL_HORIZONTAL_OFFSET"+"$PANEL_VERTICAL_OFFSET" \
+# -f "$PANEL_FONT" -F "$COLOR_DEFAULT_FG" -B "$COLOR_DEFAULT_BG" -n "$PANEL_WM_NAME" | bash &
+_PANEL_WM_NAME="jamjestpanel"
+
+#
+# main() {
+#     local var
+
+# }
+panel_bar < "$PANEL_FIFO" \
+	| bar-border -n "$_PANEL_WM_NAME" -p \
+				-R "$panel_fg" \
+				-r 0 \
+				-a 20 \
+				-g "$panel_geometry" \
+				-o -0 -f "$panel_font1" \
+				-o -1 -f "$panel_font2" \
+				-o -1 -f "$panel_font3" \
+				-B "$panel_bg" \
+				-F "$panel_fg" | sh &
+sleep 0.75
+# Trigger the PANEL_FIFO to make it instantly refreshed after bspwmrc reloaded
+echo "dummy" > "$PANEL_FIFO"
+
+sleep 0.5
+# Rule the panel to make it hiding below fullscreen window
+# I add 'sleep 0.5' to avoid xdo executed before the Lemonbar fully loaded
+# grep panel name, it was set by lemonbar -n
+wid=$(xdo id -a "$_PANEL_WM_NAME")
+xdo above -t "$(xdo id -N Bspwm -n root | sort | head -n 1)" "$wid"
+# Don't close this process
+wait
