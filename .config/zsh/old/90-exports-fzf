@@ -1,0 +1,37 @@
+# just source
+export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
+# sems that i misunderstood rg
+# FZF_DEFAULT_OPTS="--height 20% --border --layout=reverse --inline-info --preview='bat --color=always {}' "
+# fzf colors:
+# - fg      Text
+# - bg      Background
+# - hl      Highlighted substrings
+# - fg+     Text (current line)
+# - bg+     Background (current line)
+# - gutter  Gutter on the left (defaults to bg+)
+# - hl+     Highlighted substrings (current line)
+# - info    Info
+# - border  Border of the preview window and horizontal separators (--border)
+# - prompt  Prompt
+# - pointer Pointer to the current line
+# - marker  Multi-select marker
+# - spinner Streaming input indicator
+# - header  Header
+FZF_DEFAULT_OPTS="--height 50% --border --layout=reverse --inline-info "
+FZF_DEFAULT_OPTS+="--preview 'bat --style=numbers --color=always {} | head -400' "
+FZF_DEFAULT_OPTS+="--color=fg:14,bg:0,hl:7,fg+:#ffffff,bg+:8,hl+:2,info:11,prompt:14,spinner:2,pointer:#ffffff,marker:4 "
+FZF_DEFAULT_OPTS+="--bind=ctrl-i:up "
+FZF_DEFAULT_OPTS+="--bind=ctrl-k:down "
+FZF_DEFAULT_OPTS+="--bind 'ctrl-o:execute(nvim {})' "
+FZF_DEFAULT_OPTS+="--bind 'ctrl-O:execute(mpv {})+abort' "
+FZF_DEFAULT_OPTS+="--bind=ctrl-t:toggle-preview "
+FZF_DEFAULT_OPTS+="--bind 'ctrl-r:execute(open -R {})+abort' "
+export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS"
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_CTRL_T_OPTS="--preview 'bat --style=numbers --color=always {} | head -500' "
+export FZF_CTRL_R_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_CTRL_R_OPTS="$FZF_DEFAULT_OPTS"
+export FZF_ALT_C_OPTS="--preview 'exa -ah --git --tree -L2 --icons --color=always {} | head -400' "
+# completion trigger from **
+export FZF_COMPLETION_TRIGGER="**"
+# bat doesnt work always redo

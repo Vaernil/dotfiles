@@ -144,7 +144,9 @@ xiccd &
 # temporary disable touchpad
 # synclient TouchpadOff=1 &
 # "${XDG_CONFIG_HOME}/wm/panel/limebar" &
-"${XDG_CONFIG_HOME}/wm/panel/vaerpanel" &
+
+# "${XDG_CONFIG_HOME}/wm/panel/vaerpanel" &
+
 # spawn terminal execute shell that executes commant and then execute shell to
 # wait for prompt
 alacritty -e zsh -c "neofetch -d '-shell'; zsh" &

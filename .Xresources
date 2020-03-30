@@ -1,0 +1,94 @@
+! vim: set ft=xdefaults
+
+! source theme
+#include "/home/vaernil/.colors/greyredpurple"
+! set settings based on theme
+! if termname=*rxvt*
+! st.termName:					xterm-256color
+! st.shell:						/bin/zsh
+!URxvt.termName:					rxvt-unicode-256color
+! URxvt*termName:					rxvt-unicode-256color
+st.cursorshape:					1
+! use script here to set dpi
+! Xft.dpi:						200
+! Xft.dpi:						144
+Xft.dpi:						102
+! Xft.dpi:						96
+! this does have an impact in alacritty even tho i set dpi somewhere else
+Xft.lcdfilter:					lcddefault
+Xft.hinting:					True
+Xft.hintstyle:					hintslight
+Xft.autohint: 					0
+Xft.rgba:						rgb
+Xft.antialias:					True
+
+! Xcursor.theme: Capitaine Cursors
+Xcursor.theme: deepin
+Xcursor.size: 12
+URxvt.letterSpace:				0
+URxvt*cursorBlink:				False
+! font settings
+! *font:						xft:Iosevka Nerd Font:style=Medium:pixelsize=18:antialias=true
+! Xft.font:						xft: Iosevka Nerd Font:style=Book:pixelsize=17:antialias=true;
+Xft.font:						xft: Iosevka Nerd Font:style=Medium:pixelsize=17:antialias=true;
+st.font:						Iosevka Nerd Font:style=Regular:pixelsize=17:antialias=true;
+! *.font:						Iosevka Nerd Font:style=Regular:pixelsize=10:antialias=true;
+! Xft.font:                         Iosevka Nerd Font:style=Medium:pixelsize=14:antialias=true; \
+!                                 MesloLGS NF:style=Regular:pixelsize=14:antialias=true; \
+!                                 3270Medium Nerd Font:style=Medium:pixelsize=14; \
+!                                 Font Awesome 5 Free Regular:style=Regular:size=8:minspace=false; \
+!                                 Font Awesome 5 Brands Regular:style=Regular:size=8:minspace=false,
+URxvt.font:						xft:Iosevka Nerd Font:style=Medium:pixelsize=14:antialias=true; \
+								xft:Iosevka:style=Regular:pixelsize=14:antialias=true, \
+								xft:MesloLGS NF:style=Regular:pixelsize=15, \
+								xft:3270Medium Nerd Font Mono:style=Medium:pixelsize=15, \
+								xft:Font Awesome 5 Free Regular:style=Regular:size=10:minspace=false, \
+								xft:Font Awesome 5 Brands Regular:style=Regular:size=10:minspace=false,
+!URxvt*font:						xft:Iosevka Nerd Font:style=Medium:pixelsize=14:antialias=true, \
+! URxvt.font:						xft:Iosevka Nerd Font:style=Medium:pixelsize=14:antialias=true; \
+! below doesnt work, airline shows unknown symbols on unfocused buffer
+URxvt*boldfont:					xft:Iosevka Nerd Font:style=Medium:pixelsize=14:antialias=true;
+!URxvt*italicFont: 				xft:Iosevka:style=Italic:pixelsize=13:antialias=true, \
+!								xft:FontAwesome:size=8:minspace=false
+!
+! do not scroll with output
+URxvt*scrollTtyOutput:			False
+! scroll in relation to buffer (with mouse scroll or Shift+Page Up)
+URxvt*scrollWithBuffer:			True
+! scroll back to the bottom on keypress
+URxvt*scrollTtyKeypress:		True
+!-*- Perl extensions -*-
+URxvt.perl-ext-common:			default,selection-to-clipboard,pasta,matcher,keyboard-select
+URxvt.keysym.M-u:     			perl:url-select:select_next
+URxvt.url-launcher:   			/usr/bin/google-chrome-stable
+URxvt.underlineURLs:  			True
+URxvt.matcher.button: 			1
+URxvt.keysym.M-Escape:			perl:keyboard-select:activate
+URxvt.keysym.Control-Shift-V:	perl:pasta:paste
+URxvt.clipboard.autocopy:		True
+URxvt.secondaryScreen:			1
+URxvt.secondaryScroll:			0
+URxvt.secondaryWheel:			1
+! escape sequances like XTERM
+! YUO CHANGED THIS
+! URxvt.keysym.Control-Up:     \033[1;5A
+! URxvt.keysym.Control-Down:   \033[1;5B
+! URxvt.keysym.Control-Left:   \033[1;5D
+! URxvt.keysym.Control-Right:  \033[1;5C
+! URxvt.keysym.Shift-Control-V: perl:clipboard:paste
+! alt + shfit + i scrolls half the page
+!URxvt.keysym.Control-Shift-I:			command:\033]720;50\007
+!URxvt.keysym.Control-Shift-K:			command:\033]721;50\007
+! alt + i / k scrolls the buffer one line up, dont overwrite vim settings though
+!URxvt.keysym.Control-M-i:		command:\033]720;1\007
+!URxvt.keysym.Control-M-k:		command:\033]721;1\007
+! add something similar for last commands as to avoid arrow keys
+URxvt.iso14755:					False
+URxvt.scrollstyle: 				plain
+URxvt.scrollBar:				True
+URxvt*scrollBar_right:			True
+! inner border or something
+! dunno about that
+URxvt*depth:					32
+!URxvt*background:				rgba:0000/0000/0000/ccc
+!URxvt.background:				[55]#000000
