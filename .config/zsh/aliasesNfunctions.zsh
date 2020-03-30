@@ -130,7 +130,12 @@ dotfileinit() {
 	[ -z "$DOTFILE" ];
 	git init --bare $DOTFILE
 	alias dotcfg="/usr/bin/git --git-dir=$DOTFILE --work-tree=$HOME"
-	branch="master"
+	alias dotcf="/usr/bin/git --git-dir=$DOTFILE --work-tree=$HOME"
+	alias .cfg="/usr/bin/git --git-dir=$DOTFILE --work-tree=$HOME"
+	alias .cf="/usr/bin/git --git-dir=$DOTFILE --work-tree=$HOME"
+	# branch="master"
+	# branch="nb-N850"
+	branch="$(hostname)"
 	dotcfg config --local status.showUntrackedFiles no
 	# dont add .ssh or share it to your own cloud
 	# if hostname nb-850
@@ -139,11 +144,13 @@ dotfileinit() {
 	# else
 	#     branch=unkown
 }
+
 # git init --bare $HOME/.cfg
 # alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 # config config --local status.showUntrackedFiles no
 # echo "alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'" >> $HOME/.bashrc
 # make different branches
+#
 ### EMERGE
 alias e="sudo emerge"
 alias e1="sudo emerge -1av"
