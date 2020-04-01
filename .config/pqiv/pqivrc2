@@ -1,0 +1,27 @@
+[options]
+fullscreen=1
+sort=1
+browse=1
+
+		<Mouse-2>  { quit() }
+		q  { quit() }
+		Q  { quit() }
+		<Mouse-Scroll-1>  { goto_file_relative(-1) }
+		<Mouse-Scroll-2>  { goto_file_relative(1) }
+		<Mouse-Scroll-1>  { goto_file_relative(-1) }
+		<l>  { goto_file_relative(1) }
+		J  { jump_dialog() }
+		<Control><Mouse-Scroll-1>  { set_scale_level_relative(0.9) }
+		<Control><Mouse-Scroll-2>  { set_scale_level_relative(1.1) }
+@MONTAGE {
+		<Page_Up>  { montage_mode_shift_y_pg(-1) }
+		<h>  { montage_mode_shift_x(-1) }
+		<k>  { montage_mode_shift_y(1) }
+				q  { quit() }
+			<Right>  { montage_mode_shift_x(1) }
+				f  { toggle_fullscreen(0) }
+	<Mouse-Scroll-1>  { montage_mode_shift_y_rows(1) }
+		<Page_Down>  { montage_mode_shift_y_pg(1) }
+			<KP_Up>  { montage_mode_shift_y(-1) }
+			<Escape>  { montage_mode_return_cancel() }
+			}

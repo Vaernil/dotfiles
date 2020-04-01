@@ -1,0 +1,49 @@
+# * Options
+[options]
+fullscreen=1
+sort=1
+browse=1
+# initially hide info display
+# pqiv also sets the title, so I just look at the information in my panel
+#hide-info-box=true
+slideshow-interval=2
+end-of-files-action=wrap-no-reshuffle
+# not using caching (but only 128 and 256 can be cached)
+# thumbnail-size=256x256
+
+# already defaults:
+scale-images-up=true
+fade=false
+transparent-background=false
+
+# * Startup Actions
+[actions]
+# hide cursor after 1 second inactivtity
+set_cursor_auto_hide(1)
+# keep user set zoom when switching images
+toggle_scale_mode(4)
+
+# * Keybindings
+[keybindings]
+# defaults:
+# q quit
+# f toggle full screen
+# r reload
+# m toggle montage mode
+
+# ** Toggle
+# <space> { toggle_slideshow(); }
+s { toggle_scale_mode(); }
+# t { toggle_scale_mode(4); }
+b { toggle_info_box(); }
+
+# ** Navigation/ Scrolling
+# file
+g { goto_file_byindex(0); }
+G { goto_file_byindex(-1); }
+A { goto_earlier_file(); }
+j { goto_file_relative(-1); }
+l { goto_file_relative(1); }
+J { goto_file_relative(-10); }
+L { goto_file_relative(10); }
+

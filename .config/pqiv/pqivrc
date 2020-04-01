@@ -1,0 +1,251 @@
+# * Options
+[options]
+window-title=$FILENAME ($WIDTHx$HEIGHT) $ZOOM% [$IMAGE_NUMBER/$IMAGE_COUNT]
+box-colors=#DEDEDE:#BF315C
+sort=1
+# allow-empty-window=1
+# x y better for external rules to control this
+# window-position=1,22
+window-position=off
+# recreate-window=1
+# sort-key=MTIME
+# browse=1
+# max-depth=0
+# with ranger it doubles browse and opens bazilion images
+# i dont know what it does
+watch-directories=1
+# fullscreen=1
+# initially hide info display
+# hide-info-box=true
+# pqiv also sets the title, so I just look at the information in my panel
+slideshow-interval=2
+end-of-files-action=wrap-no-reshuffle
+# not using caching (but only 128 and 256 can be cached)
+# already defaults:
+scale-images-up=true
+# scale-images-up=false
+# enforce-window-aspect-ratio=9:16
+# zoom-level=1
+# disable scaling?
+fade=false
+transparent-background=true
+# transparent-background=false
+# default 0.8
+# scale-mode-screen-fraction=0.99
+# scale-mode-screen-fraction=1.0
+# scale-mode-level-absolute=1.2
+# shift-align-corner=SW
+thumbnail-size=256x256
+thumbnail-preload=30
+# $XDG_CACHE_HOME/thumbnails/*.
+thumbnail-persistence=yes
+# * Startup Actions
+[actions]
+# set_shift_align_corner(SW);
+# set_shift_align_corner(SW);
+# toggle_scale_mode(5);
+# toggle_scale_mode(4);
+# set_scale_level_absolute(1);
+# hide cursor after 1 second inactivtity
+set_cursor_auto_hide(1)
+# 5 maintain the window's size
+# keep user set zoom when switching images
+# 4 best
+# 1 auto based on the image sise
+# set_interpolation_quality(1)
+# x y
+# 1920 x 1080 - border
+# set_scale_mode_fit_px(1900, 556)
+# set_scale_mode_fit_px(1400,1057)
+# set_scale_mode_fit_px(1000,1057)
+# set_shift_align_corner(W)
+# set_shift_align_corner(E)
+toggle_scale_mode(5)
+# set_scale_level_absolute(2)
+# set_scale_level_absolute(1)
+# toggle_scale_mode(INT)
+#     Change the scale mode: Use 1 to disable scaling, 2 for automated
+#     scaledown	 (default), 3 to always scale images up, 4 to maintain
+#     the user-set zoom level, and 5 to maintain the window's size.  0
+#     cycles through modes 1-3.
+# the align only works without scaling
+# toggle_scale_mode(5)
+# * Keybindings
+[keybindings]
+# Always  adjust  the  scale  level	 such that each image fits the
+# given dimensions.
+# defaults:
+# q quit
+# f toggle full screen
+# r reload
+# m toggle montage mode
+i { nop(); }
+I { nop(); }
+j { nop(); }
+J { nop(); }
+k { nop(); }
+K { nop(); }
+l { nop(); }
+L { nop(); }
+# <Mouse-Button-2> { quit(); }
+# ł { quit(); }
+<Menu>, { quit(); }
+
+# ** Toggle
+# <space> { toggle_slideshow(); }
+S { toggle_slideshow(); }
+s { toggle_scale_mode(); }
+# t { toggle_scale_mode(4); }
+b { toggle_info_box(); }
+# m { toggle_montage_mode(); }
+
+# B { set_shift_align_corner(SW); }
+# ** Navigation/ Scrolling
+# file
+# first
+g { goto_file_byindex(0); }
+# last
+G { goto_file_byindex(-1); }
+# previous
+A { goto_earlier_file(); }
+i { goto_directory_relative(-1); }
+k { goto_directory_relative(1); }
+K { jump_dialog(); }
+<control> k { jump_dialog(); }
+# ijkl vim like
+j { goto_file_relative(-1); }
+J { goto_file_relative(-10); }
+l { goto_file_relative(1); }
+L { goto_file_relative(10); }
+<Mouse-Scroll-1> { goto_file_relative(-1); }
+<Mouse-Scroll-2> { goto_file_relative(1); }
+
+<Alt><Mouse-Scroll-1> { goto_directory_relative(-1); }
+<Alt><Mouse-Scroll-2> { goto_directory_relative(1); }
+
+# scrolling
+# TODO percentage shifts
+<Alt> i { shift_y(50); }
+<Alt> j { shift_x(20); }
+<Alt> k { shift_y(-50); }
+<Alt> l { shift_x(-20); }
+
+
+@MONTAGE {
+	m { montage_mode_return_proceed(); }
+	g { montage_mode_return_cancel(); goto_file_byindex(0); montage_mode_enter(); }
+	G { montage_mode_return_cancel(); goto_file_byindex(-1); montage_mode_enter(); }
+	i { montage_mode_shift_y(-1); }
+	j { montage_mode_shift_x(-1); }
+	k { montage_mode_shift_y(1); }
+	l { montage_mode_shift_x(1); }
+	<Mouse-Scroll-1> { montage_mode_shift_x(-1); }
+	<Mouse-Scroll-2> { montage_mode_shift_x(1); }
+	<Control><Mouse-Scroll-1> { montage_mode_shift_y(-1); }
+	<Control><Mouse-Scroll-2> { montage_mode_shift_y(1); }
+	# <Alt> i { goto_directory_relative(-1); }
+	# <Alt> k { goto_directory_relative(1); }
+	# I { goto_directory_relative(-2); }
+	# K { goto_directory_relative(2); }
+	I { montage_mode_return_cancel(); goto_directory_relative(-1); montage_mode_enter(); }
+	K { montage_mode_return_cancel(); goto_directory_relative(1); montage_mode_enter(); }
+	<Alt> k { montage_mode_show_binding_overlays(1); }
+	<Control> k { jump_dialog(); }
+}
+
+# ** Zooming
+y { set_scale_level_relative(0.8); }
+u { set_scale_level_relative(1.2); }
+<equal> { set_scale_level_absolute(1); }
+<U> { set_scale_level_absolute(1); }
+<Control><Mouse-Scroll-1> { set_scale_level_relative(1.2); }
+<Control><Mouse-Scroll-2> { set_scale_level_relative(0.8); }
+# found it's not really necessary to change; auto works well
+z { set_interpolation_quality(0); }
+
+# changing thumbnail size
+@MONTAGE {
+	u { send_keys(:t320); }
+	y { send_keys(:t192); }
+	:t128 {
+		set_thumbnail_size(128, 128);
+		bind_key(@MONTAGE { u { send_keys(:t384\); }});
+		bind_key(@MONTAGE { y { send_keys(:t192\); }});
+	}
+	:t192 {
+		set_thumbnail_size(192, 192);
+		bind_key(@MONTAGE { u { send_keys(:t128\); }});
+		bind_key(@MONTAGE { y { send_keys(:t256\); }});
+	}
+	:t256 {
+		set_thumbnail_size(256, 256);
+		bind_key(@MONTAGE { u { send_keys(:t192\); }});
+		bind_key(@MONTAGE { y { send_keys(:t320\); }});
+	}
+	:t320 {
+		set_thumbnail_size(320, 320);
+		bind_key(@MONTAGE { u { send_keys(:t256\); }});
+		bind_key(@MONTAGE { y { send_keys(:t384\); }});
+	}
+	:t384 {
+		set_thumbnail_size(384, 384);
+		bind_key(@MONTAGE { u { send_keys(:t320\); }});
+		bind_key(@MONTAGE { y { send_keys(:t128\); }});
+	}
+	# :t512 {
+	# 	set_thumbnail_size(512, 512);
+	# 	bind_key(@MONTAGE { u { send_keys(:t384\); }});
+	# 	bind_key(@MONTAGE { y { send_keys(:t128\); }});
+	# }
+}
+
+# ** Rotating/ Alignment
+w { flip_horizontally(); }
+v { flip_vertically(); }
+a { rotate_left(); }
+d { rotate_right(); }
+
+# comic keybindings
+<space> { send_keys(:comic_on); }
+:comic_on {
+	set_scale_level_absolute(1);
+	send_keys(:cycleCN);
+	bind_key(<space> { send_keys(:comic_off\); });
+}
+:comic_off {
+	toggle_scale_mode(4);
+	bind_key(h { goto_file_relative(-1\); });
+	bind_key(i { goto_file_relative(1\); });
+	bind_key(<space> { send_keys(:comic_on\); });
+}
+:cycleCN {
+	set_shift_align_corner(CN);
+	bind_key(h { goto_file_relative(-1\); send_keys(:cycleCS\); });
+	bind_key(i { send_keys(:cycleCS\); });
+}
+:cycleCS {
+	set_shift_align_corner(CS);
+	bind_key(h { send_keys(:cycleCN\); });
+	bind_key(i { goto_file_relative(1\); send_keys(:cycleCN\); });
+}
+
+# ** Filters
+cg { command(|convert - -colorspace Gray -); }
+cn { command(|convert - -negate -); }
+
+# ** Animation
+, { animation_set_speed_relative(0.9); }
+. { animation_set_speed_relative(1.1); }
+# TODO keys for pausing and stepping
+#
+# set_shift_align_corner(STRING) Align the image to the window/screen border.
+# Possible parameter values are the cardinal directions, e.g. NE will align the
+# image to the north east, i.e. top right, corner. You can prepend the parameter
+# by an additional C to perform the adjustment only if the image dimensions
+# exceed the available space, and to center the image elsewise.
+
+# remove_file_byindex(INT) Remove a file given by its number.
+
+# remove_file_byname(STRING) Remove a file given by its displayed name.
+
+# reset_scale_level() Reset the scale level to the default value.
