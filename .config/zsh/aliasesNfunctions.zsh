@@ -494,9 +494,18 @@ function extract() {      # Handy Extract Program
 
 # print color map
 # find better ones
-prcolor() {
-	for i in {0..255};
-	do print -Pn "%K{$i} %k%F{$i}${(l:3::0:)i}%f " ${${(M)$((i%8)):#7}:+$'\n'};
+pcolor() {
+	# for i in {0..255};
+	# too lazy to test if the are only 2 arguments, that they're integers etc.
+	# later maybe
+	_j="0"
+	_k="255"
+	# if [ "$1" -eq {0..255} -a "$2" -eq {0..255} ]; then
+		_j="$1"
+		_k="$2"
+	# fi
+	for i in {"$_j".."$_k"}; do
+		print -Pn "%K{$i} %k%F{$i}${(l:3::0:)i}%f " ${${(M)$((i%8)):#7}:+$'\n'};
 	done
 }
 # BRUH

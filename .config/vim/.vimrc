@@ -4,6 +4,7 @@
 " sort option via help options
 " fix indent
 " https://gist.github.com/mattratleph/4026987
+" https://karl-voit.at/unmaintained/vim-emacs-cheatsheet_of_freezing_hell.shtml
 "===========
 " █▓▒░ INIT ░▒▓█
 " INIT & PATHS {{{
@@ -30,7 +31,7 @@
 	set encoding=utf-8 fileencoding=utf-8
 	set fileencodings=ucs-bom,utf-8,latin2
 	set fileformats=unix,dos,mac
-	set clipboard=unnamedplus               " global clipboard
+	set clipboard=unnamedplus          " global clipboard
 	" activate it via keybind
 	" tab, indentation
 	filetype plugin indent on
@@ -145,14 +146,23 @@
 	" indent line character
 	set list
 	set listchars=
-	set listchars+=tab:▓░
+	 " ['|', '¦', '┆', '┊']
+	" set listchars+=tab:\ \ \¦,
+	set listchars+=tab:\ \ \┊,
+	" set listchars+=tab:\ \ \│,
+	" set listchars+=tab:▒░
+	" set listchars+=tab:▓░
 	" set listchars+=trail:⣿
 	set listchars+=trail:·
+	" set listchars+=trail:~
 	set listchars+=extends:»
 	set listchars+=precedes:«
 	" set listchars+=nbsp:␣
 	set listchars+=nbsp:⣿
 	" set listchars+=eol:↲
+	" set listchars+=eol:¶
+	" set listchars+=eol:¬
+	" set listchars+=eol:⏎
 	set listchars+=eol:§
 	set fillchars+=vert:│
 	" show linebreak
@@ -217,6 +227,8 @@
 		noremap <silent><M-p> :bnext<CR>
 		noremap <silent><M-n> :bprev<CR>
 		" go back to C-h as backspace?
+		" ESCAPE
+		" Ctrl-[ and Ctrl-c is the default, be wary of Ctrl-c though
 		map <C-h> <ESC>
 		imap <C-h> <ESC>
 		cmap <C-h> <ESC>
@@ -429,9 +441,9 @@
 
 	"noremap <silent> <Leader> :WhichKey '<Space>'<CR>
 	" fucks uo everything, buffers, why?
-	" 
 	" noremap <Leader>re :so %<CR>
 	" maps ,s to :w for faster saving and proper echo
+	noremap <C-s> :w<CR>
 	noremap <Leader>s :w<CR>
 	" noremap <Leader>w :w<CR>
 	noremap <Leader>W :w!<CR>
@@ -560,9 +572,10 @@
 		let g:instant_markdown_slow = 0
 		let g:instant_markdown_autostart = 0
 		let g:instant_markdown_mathjax = 1
-		let g:instant_markdown_logfile = '/tmp/instant_markdown.log'
+		" let g:instant_markdown_logfile = '/tmp/instant_markdown.log'
+		let g:instant_markdown_logfile = '${TMP}/instant_markdown.log'
 		let g:instant_markdown_autoscroll = 1
-		let g:instant_markdown_browser = "google-chrome-stable --new-window"
+		let g:instant_markdown_browser = "firefox --new-window"
 
 	" }}}
 
@@ -583,10 +596,10 @@
 		" nnoremap \tb :TagbarToggle<CR>
 	"}}}
 
-	" fzf & searching stuff {{{
 	" TODO rebind
-   " - Customizable extra key bindings for opening selected files in different
-   "   ways
+	" fzf & searching stuff {{{
+		" - Customizable extra key bindings for opening selected files in different
+		"   ways
 		let g:fzf_action = {
 				\ 'alt-t': 'tab split',
 				\ 'alt-k': 'split',
@@ -683,6 +696,7 @@
 		let g:ale_python_flake8_options = "--max-line-length=80"
 		let g:ale_python_pylint_use_msg_id = 1
 		" error navigation
+		" TODO make sure it doesnt conflict with leader map ,
 		nmap <silent> ,e <Plug>(ale_previous_wrap)
 		nmap <silent> ,d <Plug>(ale_next_wrap)
 	"}}}
@@ -721,6 +735,7 @@
 		"  }}}
 	" }}}
 
+		" TODO make the proper theme
 		" Airline overrides, colors hardcoded for now {{{
 		let g:airline_theme='jellybeans'
 		" let g:airline_theme='base16_monokai'
@@ -814,20 +829,25 @@
 		let g:indentLine_bgcolor_term = 0
 		" let g:indentLine_color_gui = '#3b4252'
 		" let g:indentLine_bgcolor_gui = 'NONE'
-                " Specify whether the first indent level should be shown.
-                " This is useful if you use indentLine in combination with
-                " |listchars| in order to show tabs.
-                " Default value is 0.
+			" Specify whether the first indent level should be shown.
+			" This is useful if you use indentLine in combination with
+			" |listchars| in order to show tabs.
+			" Default value is 0.
 		" }}}
 		" indentguides {{{
 			"" indentguides, kinda at odds with my lines and indentline plug, i feel like it should highlight
-		" background not characters
-		let g:indent_guides_enable_on_vim_startup = 1
-		let g:indent_guides_auto_colors = 0
-		" colors IndentGuides
-		autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  ctermbg=8 ctermfg=4
-		" its not 16 colors bro
-		autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=237 ctermfg=4
+			" maybe remove
+			" background not characters
+			let g:indent_guides_enable_on_vim_startup = 1
+			let g:indent_guides_auto_colors = 0
+			" Invisible character colors 
+			" colors IndentGuides
+			autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  ctermbg=8 ctermfg=6
+			" its not 16 colors bro, to rethink
+			autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=237 ctermfg=6
+			autocmd VimEnter,Colorscheme * :hi NonText ctermfg=5
+			" autocmd VimEnter,Colorscheme * :hi NonText ctermfg=88
+			" highlight SpecialKey ctermfg=#4a4a59
 		" }}}
 		" fzf {{{
 		" Default fzf layout
@@ -904,8 +924,8 @@
 			autocmd User CocJumpPlaceholder call CocActionAsync("showSignatureHelp")
 		augroup end
 
-
 		" Create mappings for function text object, requires document symbols feature of languageserver
+		" TODO understand
 		xmap if <Plug>(coc-funcobj-i)
 		xmap af <Plug>(coc-funcobj-a)
 		omap if <Plug>(coc-funcobj-i)
@@ -922,12 +942,13 @@
 
 		" Use K to show documentation in preview window
 		" noremap better or worse?
+		" TODO CHECK
 		nnoremap <silent> K :call <SID>show_documentation()<CR>
 
 		" Remap keys for gotos
 		nmap <silent> gd <Plug>(coc-definition)
 		nmap <silent> gy <Plug>(coc-type-definition)
-		" remember that langmap i=h
+		" remember that langmap i=h, so it's gh
 		nmap <silent> gi <Plug>(coc-implementation)
 		nmap <silent> gr <Plug>(coc-references)
 		" Use <c-space> to trigger completion.
@@ -986,8 +1007,8 @@
 		let g:polyglot_disabled = ['markdown']
 	" }}}
 	" highlightedyank {{{
-		" highlight yanked for 3s
-		let g:highlightedyank_highlight_duration = 4500
+		" highlight yanked for 5s
+		let g:highlightedyank_highlight_duration = 5000
 	" }}}
 	" SimpylFold {{{
 	" wrong folds atm, i dont know how to fold inner folds
@@ -1066,7 +1087,25 @@
 		" git commit browser
 		Plug 'junegunn/gv.vim'
 	" }}}
+	" vim --startuptime
+	" TODO
 	" THEMES | asthethics {{{
+		" distraction free editor, hides the UI, limits the column width,
+		" centers the text
+		" using for man for now
+		" loads only for markdown
+		Plug 'junegunn/goyo.vim', { 'for': 'markdown' }
+		" Goyo {{{
+			autocmd! User goyo.vim echom 'Goyo is now loaded!'
+			" let g:goyo_width = 100
+			let g:goyo_width = 100
+			let g:goyo_height = 95
+			" let g:goyo_linenr = 0
+			let g:goyo_linenr = 1
+		" }}}
+		" TODO configure and read https://github.com/junegunn/limelight.vim
+		" highlights current line, works great with goyo
+		Plug 'junegunn/limelight.vim', { 'for': 'markdown' }
 		" Plug 'joshdick/onedark.vim'
 		Plug 'fcpg/vim-fahrenheit'              " this one is my own mod, I need to upload it
 		Plug 'chriskempson/base16-vim'

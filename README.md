@@ -61,7 +61,7 @@ Install .dotfiles tracking in your $HOME by running:
 curl -Lks bit.do/cfg_install | /bin/bash
 ```
 This is a short url that leads to:
-[my-dotfiles/.scripts/idot_new_cfg](https://raw.githubusercontent.com/Vaernil/my-dotfiles/master/.scripts/idot_new_cfg)
+[dotfiles/.scripts/idot_new_cfg](https://raw.githubusercontent.com/Vaernil/dotfiles/master/.scripts/idot_new_cfg)
 doesn't work atm
 
 ## Reading material for myself

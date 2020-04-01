@@ -1,4 +1,9 @@
 #!/bin/sh
+
+#!/bin/bash
+
+# not sure if its POSIX because of variable expansion for now
+#!/bin/sh
 #
 # bspwm: external_rules_command
 #
@@ -27,7 +32,9 @@
 #
 # 	   -l, --list
 # 		   List the rules.
-
+#
+################################################################
+#
 # $1, $2, $3, ... are the positional parameters.
 # "$@" is an array-like construct of all positional parameters, {$1, $2, $3 ...}.
 # "$*" is the IFS expansion of all positional parameters, $1 $2 $3 ....
@@ -38,17 +45,19 @@
 # $IFS is the (input) field separator.
 # $? is the most recent foreground pipeline exit status.
 # $! is the PID of the most recent background command.
-numberparam="$#"
 
+_dno="${#}"
+
+# bspwm variables
 border="" \
 center="" \
-class="$2" \
+class="${2}" \
 desktop="" \
 focus="" \
 follow="" \
 hidden="" \
 id="${1?}" \
-instance="$3" \
+instance="${3}" \
 layer="" \
 locked="" \
 manage="" \
@@ -81,126 +90,148 @@ urgent=""
 
 # WM_WINDOW_ROLE(STRING) = "GtkFileChooserDialog"
 
-_wm_helper() {
-	_wmid="$(xdo id)"
-}
-discord() {
-	desktop="^4"
-	state="tiled"
-	follow="off"
-}
-
-firefox() {
-	desktop="^6"
+################################################################
+# TODO consolidate, group by category, don't split it down to per app
+wmhelp() {
+	# copy id
+	_id="$id"
+	_wmid="$(xdo "$id")"
+	# _wmid="$(xdo id)"
 }
 
-gimp() {
-	follow="on"
-}
+## apps {{{
+	discord() {
+		desktop="^4"
+		state="tiled"
+		follow="off"
+	}
 
-mplayer() {
-	state="floating"
-	layer="normal"
-}
+	## browser
+	firefox() {
+		desktop="^6"
+	}
 
-spotify() {
-	desktop="^4"
-}
+	chromium() {
+		desktop="^2"
+	}
 
-steam() {
-	desktop="^3"
-}
+	chrome() {
+		desktop="^2"
+		follow="off"
+	}
 
-chromium() {
-	desktop="^2"
-}
+	# games
+	# todo make friend window floating, whole desktop fullscreen?
+	steam() {
+		desktop="^3"
+	}
 
-chrome() {
-	desktop="^2"
-	follow="off"
-}
+	# text
+	libreoffice() {
+		state="tiled"
+		layer="normal"
+	}
 
-libreoffice() {
-	state="tiled"
-	layer="normal"
-}
+	# media
+	mplayer() {
+		state="floating"
+		layer="normal"
+	}
 
-mpv() {
-	state="floating"
-	layer="normal"
-	wm_cardinal="NE"
-	# desktop=^10;
-	# state="tiled"
-	# state="pseudo_tiled"
-}
+	mpv() {
+		state="floating"
+		layer="normal"
+		wm_cardinal="NE"
+		wmhelp
+		# desktop=^10;
+		# state="tiled"
+		# state="pseudo_tiled"
+	}
 
-feh() {
-	desktop="^10"
-	state="tiled"
-	layer="normal"
-}
+	spotify() {
+		desktop="^4"
+	}
 
-pqiv() {
-	# desktop=^10;
-	rectangle="800x800+0+20"
-	# state="floating"
-	# state="pseudo_tiled"
-	state="tiled"
-	# layer=normal;
-	# layer=above;
-}
+	# image
+	feh() {
+		desktop="^10"
+		state="tiled"
+		layer="normal"
+	}
 
-nemo() {
-	desktop="^10"
-}
+	pqiv() {
+		# desktop=^10;
+		rectangle="800x800+0+20"
+		# state="floating"
+		# state="pseudo_tiled"
+		state="tiled"
+		# layer=normal;
+		# layer=above;
+	}
 
-pavucontrol() {
-	# desktop=^1;
-	state="floating"
-	# works but not sure if right approach
-	#notify-send --app-name=$class "'$class' spawned | id : $id | instance : $instance | misc : $4 "
-	# hidden="on"
-}
+	gimp() {
+		follow="on"
+	}
 
-keepassxc() {
-	desktop="^9"
-	# hidden="on"
-	# sticky="on"
-}
+	# file manager
+	nemo() {
+		desktop="^10"
+	}
 
-discord() {
-	desktop="^4"
-	follow=off
-}
+	ranger() {
+	# rename for the sake of notifications
+		class="ranger"
+	}
 
-alacritty() {
-	_sendstop="$1"
-	# desktop=^4;
-	# follow=off;
-	# FUNCNAME is builtin that shows the name of the
-	# function it was called in
-	# func="${FUNCNAME}"
-	# dollar1="$1"
-	# test2="LOL2"
-	# loldesk=`xprop -id \$id`;
-	# alltest+=$0
-	# desktop=^9;
-}
+	# audio
+	pavucontrol() {
+		# desktop=^1;
+		state="floating"
+		# works but not sure if right approach
+		#notify-send --app-name=$class "'$class' spawned | id : $id | instance : $instance | misc : $4 "
+		# hidden="on"
+	}
 
-kitty() {
-	# state="floating"
-	# state="$instance"
-	desktop="^5"
-}
+	# utility
+	keepassxc() {
+		desktop="^9"
+		# hidden="on"
+		# sticky="on"
+	}
 
-ranger() {
-# rename for the sake of notifications
-	class="ranger"
-}
+	# chat
+	discord() {
+		desktop="^4"
+		follow="off"
+	}
+
+	# term
+	alacritty() {
+		_sendstop="${1}"
+		# desktop="^4";
+		# follow=off;
+		# FUNCNAME is builtin that shows the name of the
+		# function it was called in
+		# func="${FUNCNAME}"
+		# dollar1="$1"
+		# test2="LOL2"
+		# loldesk=`xprop -id \$id`;
+		# alltest+=$0
+		# desktop=^9;
+	}
+
+	kitty() {
+		state="floating"
+		# state="$instance"
+		# desktop="^5"
+	}
+# }}}
 # source "${XDG_CONFIG_HOME}/wm/themes/wm_numixlike"
 # top_padding="$t_pad"
 # borderw="$brd_w"
+#
 ########
+# is there better way than rectangle?
 quakeNWtest() {
 	rectangle="300x200+10+21"
 	state="floating"
@@ -212,6 +243,7 @@ fterm() {
 }
 
 floatNW() {
+	# make external function that gathers monitor information
 	rectangle="$((1920/2-4))x$((1080-20-2))+0+20"
 	state="floating"
 	#state=floating
@@ -219,11 +251,10 @@ floatNW() {
 	# state="pseudo_tiled"
 	# 1920
 	# rectangle="$((1920/2-4))x1058+0+20"
-	numberparam="$#"
+	_dno="${#}"
 	# id="$1"
 	# class="$2"
 	# instance="$3"
-
 }
 
 # maybe pass it through a few functions? reuse code and simplify
@@ -236,7 +267,7 @@ NW_f_quake() {
 	# state="pseudo_tiled"
 	# 1920
 	# rectangle="$((1920/2-4))x1058+0+20"
-	numberparam="$#"
+	_dno="${#}"
 	# id="$1"
 	# class="$2"
 	# instance="$3"
@@ -245,32 +276,31 @@ NW_f_quake() {
 #####
 # learn about positional parameters
 # doubles spaces?
+
+# dunst
 # wrapper for notify-send
+# just testing how to collect other function variables and information?
 sendnotif() {
 	# ff="$FUNCNAME"
 	# notify-send "$@"
-	notify-send "$@"
+	if [ "${1}" = 0 ]; then
+		return
+	fi
+	notify-send "${@}"
 }
 
+# utilize TRAP and make error function
 # use unset or something for _NET_WM
 # bspc subscribe reports state of bspwm
 # debug doesnt work with app name
 #
-# notify-send --app-name="$class" asd
-# notify-send asdf $*;
-# notify-send "$@" --app-name="$class"
-# notify-send --app-name="$class" "$@"
-# notify-send --app-name="Pavucontrol" "$@"
-# notify-send --app-name="$class" "$*"
-# sendnotif --app-name="$class" "$*"
-# sendnotif --app-name="$class" "'$class' spawned | id : $id | instance : $instance state:$state | test : $test test2 : $test2 d : $desktop | func:$func d1:$dollar1 ";
 # you can name instance via tdrop with -n
 # ranger gets class from terminal
 # notify-send appname
 # call function in case of class eq to
-case "$instance.$class" in
+case "${instance}.${class}" in
 	# position flags
-	(NW_f_quake.*)NW_f_quake "$@";;
+	(NW_f_quake.*)NW_f_quake "${@}";;
 	(fterm.*) fterm;;
 	(instancetest.*) quakeNWtest;;
 	(quake50.*) ;;
@@ -290,7 +320,7 @@ case "$instance.$class" in
 	# somehow here it doubles notificiation and kitty goes through, how?
 	# unless i return after the function
 	#
-	(*.[Pp]qiv) floatNW "$@";;
+	(*.[Pp]qiv) floatNW "${@}";;
 	(*.discord) discord;;
 	(*.[Pp]avucontrol) pavucontrol;;
 	(*.[Kk]ee[Pp]ass[Xx][Cc]) keepassxc;;
@@ -327,9 +357,17 @@ esac
 # exit codes
 # https://shapeshed.com/unix-exit-codes/
 # if [ _sendstop ]; then
-#     exit 1
+#     exit 0
 # fi
 # sendnotif "SUMMARY i:$instance c:$class " "BODY f:$ff ALL: $* evaltest: echo $eee" --app-name="mpv.png" --icon="/usr/share/icons/hicolor/16x16/apps/mpv.png";
+
+# make it prettier? don't even echo if it's empty?
+
+# ${parameter:+word}
+# Use Alternate Value. If 'parameter' is null or unset,
+# nothing is substituted, otherwise 'word' (which may be an expansion) is
+# substituted.
+
 echo \
 	${border:+"border=$border"} \
 	${center:+"center=$center"} \
@@ -350,23 +388,26 @@ echo \
 	${state:+"state=$state"} \
 	${sticky:+"sticky=$sticky"} \
 	${urgent:+"urgent=$urgent"};
-	# ${urgent:+"urgent=$urgent"};
 
 # https://stackoverflow.com/questions/1378274/in-a-bash-script-how-can-i-exit-the-entire-script-if-a-certain-condition-occurs
 # exit script, dont send notification if set but still allow bspwm to change
 # rule
 # find a way to put it in a function
-if [ "$_sendstop" = 0 ]; then
-	exit 1;
+if [ "${_sendstop}" = 0 ]; then
+	exit 0;
 fi
 # sendnotif "SUMMARY i:$instance c:$class " "BODY all:$* $_sendstop"
-sendnotif "number=$numberparam SUMMARY i:$instance c:$class " "BODY id:$id $_sendstop";
-# notify-send "	number=$number SUMMARY i:$instance c:$class " "BODY id:$id $_sendstop";
+sendnotif "'\$#'=${_dno} SUMMARY 'i':${instance} 'c':${class} " "BODY 'id':${id} ${_sendstop}";
 exit 0
-# sendnotif "SUMMARY i:$instance c:$class " "BODY id:$id $_sendstop $(printf "$id")"
+# _test=true
+# _test=false
+# _test="1"
+# _test="0"
+# if [ "${_test}" = 1 ]; then sendnotif "BLALBALBA"; fi
 # wait
+
 # sendnotif -h int:value:50 "SUMMARY i:$instance c:$class " "BODY id:$id $_sendstop $(print "$id")"
 # could I overwrite things with echo or printf?
 # notify-send [OPTION…] <SUMMARY> [BODY] - create a notification
 
-# vim: set ft=sh :
+# vim: set ft=sh

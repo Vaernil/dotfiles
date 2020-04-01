@@ -1,14 +1,21 @@
 ! vim: set ft=xdefaults
 
+! basic syntax
+! name.Class.resource: value
+
 ! source theme
 #include "/home/vaernil/.colors/greyredpurple"
 ! set settings based on theme
 ! if termname=*rxvt*
-! st.termName:					xterm-256color
-! st.shell:						/bin/zsh
+st.termName:                  st-256color
+xst.termName:                  st-256color
+st.shell:                       /bin/zsh
+! st.shell:                       /bin/dash
 !URxvt.termName:					rxvt-unicode-256color
 ! URxvt*termName:					rxvt-unicode-256color
-st.cursorshape:					1
+st.cursorshape:                  1
+! st.cursorshape:                  2
+! st.cursorshape:                  3
 ! use script here to set dpi
 ! Xft.dpi:						200
 ! Xft.dpi:						144
@@ -25,13 +32,15 @@ Xft.antialias:					True
 ! Xcursor.theme: Capitaine Cursors
 Xcursor.theme: deepin
 Xcursor.size: 12
+! URxvt
+! to remove or separate file or something
 URxvt.letterSpace:				0
 URxvt*cursorBlink:				False
 ! font settings
 ! *font:						xft:Iosevka Nerd Font:style=Medium:pixelsize=18:antialias=true
 ! Xft.font:						xft: Iosevka Nerd Font:style=Book:pixelsize=17:antialias=true;
 Xft.font:						xft: Iosevka Nerd Font:style=Medium:pixelsize=17:antialias=true;
-st.font:						Iosevka Nerd Font:style=Regular:pixelsize=17:antialias=true;
+st.font:						Iosevka Nerd Font:style=Regular:pixelsize=18:antialias=true;
 ! *.font:						Iosevka Nerd Font:style=Regular:pixelsize=10:antialias=true;
 ! Xft.font:                         Iosevka Nerd Font:style=Medium:pixelsize=14:antialias=true; \
 !                                 MesloLGS NF:style=Regular:pixelsize=14:antialias=true; \

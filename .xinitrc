@@ -1,7 +1,7 @@
+#!/bin/sh
 #!/usr/bin/env dash
 
 #!/bin/dash
-#!/bin/sh
 # https://github.com/koalaman/shellcheck/wiki/SC2046
 #change to bash?
 # redirect errors to a file in user's home directory if we can
