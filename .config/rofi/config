@@ -1,5 +1,3 @@
-! vim: ft=xdefaults
-!ROFI config
 ! "Enabled modi"
 rofi.modi:  run,drun,window,ssh
 
@@ -29,7 +27,6 @@ rofi.window-command: xkill -id {window}
 !rofi.window-match-fields: title
 rofi.window-match-fields: all
 
-! DRUN OPTIONS
 ! "Theme to use to look for icons"
 rofi.icon-theme: Tela Red
 rofi.drun-icon-theme: Tela
@@ -159,3 +156,4 @@ rofi.kb-move-char-back:              Left,Control+b,Alt+j
 ! "Move forward one char" Set from: Default
 rofi.kb-move-char-forward:           Right,Control+f,Alt+l
 
+! vim: ft=xdefaults
