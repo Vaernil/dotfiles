@@ -1,0 +1,25 @@
+!black
+*color0: #151515
+*color8: #666666
+!red
+*color1: #E84F4F
+*color9: #D23D3D
+!green
+*color2: #00FF80 
+*color10: #00B25A
+!yellow
+*color3: #D64937
+*color11: #FFE863
+!blue
+*color4: #66AABB
+*color12: #AACCBB
+!magenta
+*color5: #B7416E
+*color13: #E16A98
+!cyan
+*color6: #6D878D
+*color14: #42717B
+!white
+*color7: #DeDeDe
+
+*color15: #CCCCCC

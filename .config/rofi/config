@@ -1,0 +1,161 @@
+! vim: ft=xdefaults
+!ROFI config
+! "Enabled modi"
+rofi.modi:  run,drun,window,ssh
+
+! "Terminal to use"
+!rofi.terminal: alacritty
+!rofi.terminal: rofi-sensible-terminal
+!set TERMINAL env or set it here
+!sensible is just a wrapper
+rofi.terminal: alacritty
+!rofi.terminal: st
+! rofi.terminal: xst
+!rofi.terminal: rofi-sensible-terminal
+
+! env is wrong when running rofi
+! "Run command to execute"
+! interactive, but seems like wrong apprach
+!rofi.run-command: zsh -c -i '{cmd}'
+rofi.run-command: zsh -i -c '{cmd}'
+
+! "Run command to execute that runs in shell"
+rofi.run-shell-command: {terminal} -e {cmd}
+
+! "Command executed on accep-entry-custom for window modus"
+rofi.window-command: xkill -id {window}
+
+! "Window fields to match in window mode"
+!rofi.window-match-fields: title
+rofi.window-match-fields: all
+
+! DRUN OPTIONS
+! "Theme to use to look for icons"
+rofi.icon-theme: Tela Red
+rofi.drun-icon-theme: Tela
+rofi.drun-icon-theme: Yltra Flat
+! rofi.drun-icon-theme: Papirus
+!rofi.drun-icon-theme: Papirus
+
+rofi.icon-theme: Yltra
+rofi.drun-show-actions: true
+!rofi.icon-theme
+
+rofi.ssh-client: ssh
+! rofi.ssh-command: {terminal} -e {ssh-client} {host} [-p {port}]
+rofi.ssh-command: {terminal} -e {ssh-client} {host} [-p {port}]
+! "Disable history in run/ssh"
+rofi.ssh-parse-hosts: true
+rofi.disable-history: false
+
+! "Use sorting"
+rofi.sort: false
+
+! "Use levenshtein sorting also for fuzzy matching"
+rofi.levenshtein-sort: true
+
+! "Set case-sensitivity"
+rofi.case-sensitive: false
+
+! "Cycle through the results list"
+rofi.cycle: true
+
+! "Fullscreen"
+rofi.fullscreen: false
+
+! "Enable sidebar-mode"
+rofi.sidebar-mode: false
+! rofi.sidebar-mode: true
+
+! "Enable auto select mode"
+rofi.auto-select: false
+
+! "Set the matching algorithm. (normal, regex, glob, fuzzy)"
+rofi.matching: normal
+
+! "Threads to use for string matching"
+rofi.threads: 0
+
+! "Scrolling method. (0: Page, 1: Centered)"
+rofi.scroll-method: 1
+
+! "Click outside the window to exit"
+rofi.click-to-exit: true
+
+! "Indicate how it match by underlining it."
+rofi.show-match: true
+
+! "New style theme file"
+rofi.theme: ~/.config/rofi/numixliketest-vaernil.rasi
+
+!rofi.parse-hosts: true
+! ------------------------------------------------------------------------------
+! ROFI Color theme
+! ------------------------------------------------------------------------------
+! rofi -dump-xresources
+! colors
+! rofi.color-enabled: 			true
+! rofi.color-window:				argb:ff2d2d2d, #d64937, #d64937
+! rofi.color-normal: 				argb:00000000, #dcdcdc, argb:00000000, #d64937, #2d2d2d
+! rofi.color-active: 				argb:00000000, #6699cc, argb:00000000, #6699cc, #1b2b34
+! rofi.color-urgent: 				argb:00000000, #d64937, argb:00000000, #d64937, #2d2d2d
+! rofi.separator-style: 			solid
+! rofi.fake-transparency: 		false
+!rofi.fake-transparency: true
+! "Window width"
+rofi.width: 24
+
+! "Number of lines"
+rofi.lines: 12
+
+! "Number of columns"
+rofi.columns: 1
+
+! "Font
+! rofi.font: Hasklug Nerd Font Regular 11
+! rofi.font: Iosevka Nerd Font Regular 11
+! rofi.font: Iosevka Nerd Font Light 11
+
+! "Border width"
+! rofi.bw: 0
+
+! make it read panel height
+! "Location on screen"
+rofi.location: 3
+
+! "Padding"
+! rofi.padding: 4
+
+! "X-offset relative to location"
+rofi.xoffset: -5
+
+! "Y-offset relative to location"
+rofi.yoffset: 23
+
+! "Always show number of lines"
+rofi.fixed-num-lines: true
+!rofi.fixed-num-lines: false
+
+! "Whether to load and show icons"
+rofi.show-icons: true
+
+! "Row height (in chars)"
+rofi.eh: 1
+
+! "DPI"
+rofi.dpi: -1
+!rofi.dpi: 1
+! KEYBINDS
+
+! "Quit rofi" Set from: Default
+rofi.kb-cancel:                      Escape,Control+g,Control+bracketleft
+rofi.kb-remove-to-eol:               Control+K
+rofi.kb-row-up:                      Up,Control+p,ISO_Left_Tab,Control+i
+! "Select next entry" Set from: Default
+rofi.kb-row-down:                    Down,Control+n,Control+k
+! "Go to next row, if one left, accept it, if no left next mode." Set from: Default
+! ! "Move back one char" Set from: Default
+rofi.kb-move-char-back:              Left,Control+b,Alt+j
+! "Move forward one char" Set from: Default
+rofi.kb-move-char-forward:           Right,Control+f,Alt+l
+

@@ -101,7 +101,7 @@ xsetroot -cursor_name left_ptr &
 # NVIDIA fixes
 xrandr --setprovideroutputsource modesetting NVIDIA-0
 xrandr --auto
-dunst &
+dunst >> "${HOME}/.log/dunstlog.log" 2>&1 &
 # hotkey daemon
 # set SXHKD_EXTRA_CONFIGS to empty for DE/WMs with their own keybinding config
 # if [[ ! -v $SXHKD_EXTRA_CONFIGS ]]; then

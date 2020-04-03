@@ -1,6 +1,14 @@
 # vim: ft=config
-
-# xev to get names
+# xev | grep -E button\|keysym
+# Control_L
+# r alt = keycode 108 Isolevel3shift
+# menu
+# control_r
+# shift_r
+# button 8 is the one closer to palm on both sides, seems that the other 2 have
+# assigned keyboard shortcuts ctrl w and t
+# iso left Tab, shift Tab? and Tab on scroll right left
+# xev to get names,
 # https://wiki.archlinux.org/index.php/Sxhkd
 # * The '@' modifier runs the command on key release, otherwise key press.
 # remember: comments after a command break the functionality
@@ -45,9 +53,9 @@ super + space
 	exec zsh -i -c "rofi -modi run,drun,window,ssh -show run"
 # TODO just make function and clean this up
 super + shift + space
-	tdrop -am -w 1918 -x 0 -h 33% -y 22 -n quake50nvimN -f "--class quake50" alacritty
+	tdrop -am -w 1918 -x 0 -h 33% -y 22 -n "quake50nvimN" -f "--class quake50" alacritty
 super + alt + space
-	tdrop -am -w 1918 -x 0 -h 33% -y 722 -n quake50nvim -f "--class quake50" alacritty
+	tdrop -am -w 1918 -x 0 -h 33% -y 722 -n "quake50nvim" -f "--class quake50" alacritty
 
 super + Return
 	alacritty
@@ -56,20 +64,45 @@ super + Return
 # maybe dont call class but name
 # name = instance ?
 super + shift + Return
-	alacritty --class "fterm"
+	alacritty --class "term_f"
 	# kitty --name "floatingterm"
 	# kitty --name "tiled"
 	# kitty --class "floating"
 	# alacritty --class floatingterm
+## i could either use alacritty --name or instance via -- class x,y
 # interactive why enviromnent is different?!
+# persistent ranger
 super + r
-	tdrop -am -w 50% -x -962 -h 50% -y -542 -n quake33ranger -f "--class fterm -e zsh -i -c ranger" alacritty
+	tdrop -am -w 50% -x -962 -h 50% -y -542 -n "quake33ranger" -f "--class term_f,ranger -e zsh -i -c ranger" alacritty
+	# tdrop -am -w 50% -x -962 -h 50% -y -542 -n "quake33ranger" -f "--class term_f -e zsh -i -c ranger" alacritty
+	# spawns fresh instance every time
+	# kill if more than 3?
 super + shift + r
-	alacritty --class fterm -e zsh -i -c ranger
+	alacritty --class "term_f,ranger" -e "zsh" -i -c "ranger"
 	# kill window if quit ranger?
-# make maybe cardinal directions mapping
-# NW | NN | NE
-# WW | CC | EE
+# keepas sticky hidden
+# remember that -n is for the sake of tdrop and name uniqeness so your keybind
+# doesnt hijack other one, maybe use id, maybe something
+# figure out auto load lat database?
+# super + NumPad8
+# doesnt add name or anything
+# no idea why, but it spawn without any pattern or reason, also it spawn as
+# bash mostly
+# spawn like 3 bash processes at once, what
+# does it spawn bash to print the warning?
+# it spawn terminal just fine
+# class doesnt set the class for a window
+# but it should still be captured by external rules
+# i can set it with xdotool but is there a point
+# i could either spawn it in terminal and set the class name, but that seems
+# dumb or just spawn keepass and give it properties inside external rules, but
+# that seems like it would always spawn that way which i dont want
+# bspc rule -l made me discover that i added rules this way
+# *:qsouth -> state=floating
+# is the answer to spawn keepass from within exrules? seems dumb
+super + shift + e
+	tdrop --class=qsouth -am -n qsouth alacritty
+	# tdrop -am -n q50south --class=quake50Skp keepassxc
 # SW | SS | SE
 # https://devhub.io/repos/noctuid-tdrop
 # /tmp/tdrop_vaernil/log
@@ -151,6 +184,7 @@ super + {_,shift + }c
 # add mouse wheel controls?
 super + bracket{left,right}
 	bspc desktop -f {prev,next}
+
 super + {_,shift + }Tab
 	bspc desktop -f {next,prev}
 # windows+scrollwheel switches desktops
@@ -241,6 +275,8 @@ XF86Battery
 {XF86MonBrightnessDown, XF86MonBrightnessUp}
 	xbacklight -{dec,inc} 10%
 
+
+# Fn + F3 ?
 # Mute key top right
 XF86AudioMute
 	#amixer sset Master toggle; echo "Mute toggled"
