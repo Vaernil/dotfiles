@@ -13,7 +13,7 @@
 # * The '@' modifier runs the command on key release, otherwise key press.
 # remember: comments after a command break the functionality
 # helper commands:
-
+# rofi -dmenu -theme .config/rofi/numixlike-vaernil-dmenu.rasi
 # WM KEYBINDS
 # make sxhkd reload its configuration files:
 # send singal to process
