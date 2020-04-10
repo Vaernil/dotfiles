@@ -1,4 +1,45 @@
 #!/usr/bin/env zsh
+set -x
+#     SORS="${(%):-%N}"
+#     sors="${(%):-%x}"
+#     __SETIN__="${__SETIN__}:${SORS}|${sors}"
+#     export __SETIN__
+#     echo "${__SETIN__}"
+#     env | grep __SETIN__
+
+# source /home/vaernil/najto.zsh
+# . /home/vaernil/najto && main
+#  . /home/vaernil/najto
+# main
+# source <(source /home/vaernil/najto ; main)
+# eval $(source /home/vaernil/najto && main)
+# _sers=$(</home/vaernil/najto.zsh)
+# echo ${_sers}
+# echo $(_sers)
+# source ${_sers}
+# while read line; do
+#     echo $line
+# done < /home/vaernil/najto.zsh
+#
+# . /home/vaernil/.local/bin/_funtest.sh
+# get_sorsys
+# echo $0
+# emulate bash
+# emulate -L bash
+# _me="${BASH_SOURCE[0]}"
+# _currentdir="${_me%/*}"
+# echo "${_me}"
+# echo "${_currentdir}"
+# emulate zsh
+# emulate -L zsh
+. /home/vaernil/.local/bin/_funtest.sh
+set +x
+# main
+# zsh -c /home/vaernil/najto.zsh
+# echo "$(pstree -pal)" >> /home/vaernil/ZZZ.log
+# source /home/vaernil/najto
+# main
+# /bin/zsh /home/vaernil/najto.zsh
 #
 _getdate="$(date +%Y.%m.%d-%H:%M:%S.%6N)"
 _name="$(lsof -e /run/user/1000 -nPp $$ | awk '{print $9}' | tail --lines=1)" 2>/dev/null

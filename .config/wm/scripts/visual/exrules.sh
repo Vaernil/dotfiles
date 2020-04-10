@@ -1,3 +1,5 @@
+#!/bin/bash
+
 #!/bin/sh
 
 # debug
@@ -44,27 +46,31 @@ set -x
 #  $! is the PID of the most recent background command.
 ################################################################################
 {
-dALL="${@}"
-dALLa="${*}"
-dNO="${#}"
-dOPTS="${-}"
-dPIDs="${$}"
-dDASH_="${_}"
+# dALL="${@}"
+dALL=( "$@" )
+dALLa="$*"
+dNO="$#"
+dOPTS="$-"
+dPIDs="$$"
+dDASH_="$_"
 dIFS="${IFS}"
-dPIPE="${?}"
-dPIDb="${!}"
+dPIPE="$?"
+dPIDb="$!"
 ################################################################################
 # bspwm variables
+# those are local variables that i change later
+# im emptying them here
+# seems fucked, i could probably iterate over them and shift
 # are the backslashes needed?
 border="" \
 center="" \
-class="${2}" \
+class="$2" \
 desktop="" \
 focus="" \
 follow="" \
 hidden="" \
 id="${1?}" \
-instance="${3}" \
+instance="$3" \
 layer="" \
 locked="" \
 manage="" \
@@ -78,6 +84,9 @@ split_ratio="" \
 state="" \
 sticky="" \
 urgent=""
+_testd4="$4"
+_testd5="$5"
+# so $4 is a string containing all the flags and variables
 } >"${HOME}/.log/brules_param.log" 2>&1
 # this is awesome, way better debugger
 # truncated so it only shows last command
@@ -110,7 +119,7 @@ wmhelp() {
 	_id="${id}"
 
 	# this doesnt seems to work, is it because its background only?
-	_pidlast="${!}"
+	_pidlast="$!"
 	# it doesnt record the bashpid since it wasnt run at the time of this, hmm
 	# also its equal to $$
 	_bashpid="${BASHPID}"
@@ -329,9 +338,13 @@ _rect() {
 
 	# terminals
 	alacritty() {
-		_sendstop="${1}"
+		_sendstop="$1"
 		# desktop="^4";
 		# follow=off;
+		# change it to tile, consolidate and make it sane
+		# seems that without it it sometimes inherits flaoting for some reason
+		# to investigate
+		# state="floating"
 		# FUNCNAME is builtin that shows the name of the
 		# function it was called in
 		# func="${FUNCNAME}"
@@ -349,8 +362,25 @@ _rect() {
 
 ########
 term() {
-	_sendstop="${1}"
-	state="pseudo_tiled"
+	_sendstop="$1"
+	_state="$2"
+	case "${_state}" in
+		-[Ff]|--float|--floating)
+			state="floating"
+		;;
+		-[Pp]|--psuedo*)
+			state="pseudo_tiled"
+		;;
+		-[Tt]|--tiled*)
+			state="tiled"
+		;;
+		# every elese default to null because tdrop interferes with it
+		(*)
+			state=""
+		;;
+	esac
+	# state="tiled"
+	# state="pseudo_tiled"
 }
 	# tdrop -a rofi
 	# tdrop -am -n q50keep --class=quake50Skp keepassxc
@@ -368,7 +398,7 @@ quakeNWtest() {
 
 floatNW() {
 	# make external function that gathers monitor information
-	_dno="${#}"
+	_dno="$#"
 	rectangle="$((1920/2-4))x$((1080-20-2))+0+20"
 	state="floating"
 	#state=floating
@@ -382,14 +412,14 @@ floatNW() {
 
 # maybe pass it through a few functions? reuse code and simplify
 quake50S() {
-	_dno="${#}"
+	_dno="$#"
 	rectangle="$((1920-2))x$((1080/2-20-2))+0+$((1080/2+20))"
 	state="floating"
 	# class="$1"
 }
 
 NW_f_quake() {
-	_dno="${#}"
+	_dno="$#"
 	rectangle="$((1920/2-4))x$((1080-20-2))+0+20"
 	state="floating"
 	#state=floating
@@ -425,12 +455,13 @@ _notif() {
 	# _f="${FUNCNAME[1]}"
 	# seems its consistent with $$
 	# _dunst_pid="${$}"
-	_dNO="${#}"
-	_d1="${1}"
+	_dNO="$#"
+	_d1="$1"
 	# doesn't show, is it because of the scope or IFS or smth else?
-	_dALL="${@}"
-	_dALLa="${*}"
-	dunstify "${@}"
+	# _dALL="$@"
+	_dALL=( "$@" )
+	_dALLa="$*"
+	dunstify "$@"
 }
 
 # utilize TRAP and make error function
@@ -445,16 +476,21 @@ _notif() {
 # order matters, it executes first found match
 # {{{
 case "${instance}.${class}" in
+	# (quakenvim.*) term "$@" ;;
+	(quakenvim.*) term 1 -f ;;
 	# (quake50Skp.*) quake50S;;
 	# (qsouth.*) term_f ;;
 	(*.qsouth) term_f ;;
 	# (*.quake50Skp) quake50S;;
 	# position flags
 
-	(NW_f_quake.*) NW_f_quake "${@}" ;;
-	(*.[Rr]anger) ranger ;;
+	(NW_f_quake.*) NW_f_quake "$@" ;;
 	(term_f.*) term_f ;;
+	(*.[Rr]anger) ranger ;;
 	(instancetest.*) quakeNWtest ;;
+	# should set the position as parameters to function or call external
+	# program,
+	(*.classtest) quaketest NW 33 ;;
 	(quake50.*) ;;
 	(*.[Kk]ee[Pp]ass[Xx][Cc]) quake50S ;;
 	# (*.[Kk]ee[Pp]ass[Xx][Cc]) keepassxc;;
@@ -479,13 +515,15 @@ case "${instance}.${class}" in
 	# unless i return after the function
 	# media
 	# seems that because of passing the arguments it gets doubled in logs
-	(*.[Pp]qiv) floatNW "${@}" ;;
+	(*.[Pp]qiv) floatNW "$@" ;;
 	(*.feh) feh ;;
 	(*.Gimp) gimp ;;
 	(*.discord) discord ;;
 	(*.[Pp]avucontrol) pavucontrol ;;
 	# terminals
-	(*.[Aa]lacritty) alacritty 0 ;;
+	# (*.[Aa]lacritty) alacritty 1 ;;
+	# (*.[Aa]lacritty) term "$@" ;;
+	(*.[Aa]lacritty) term 1 -t ;;
 	(*.[Kk]itty) kitty ;;
 	(*.[Ss]t-256color) term 0 ;;
 	# other cases and then use ps to search for pid
@@ -527,6 +565,10 @@ esac >>"${HOME}/.log/brules_case.log" 2>&1
 # it also need precisely the number of parameters it already has
 # {
 # echo "\
+# _notif -u "critical" "
+# _:| _local |:_ ||| _:| STORED |:_
+# \$*: _:| ${_dALLa} |:_ ||| _:| ${dALLa} |:_
+# "
 echo \
 	${border:+"border=$border"} \
 	${center:+"center=$center"} \
@@ -552,6 +594,10 @@ echo \
 # } >"${HOME}/.log/brules_echo_final.log" 2>&1
 # }}}
 
+# how can i know catch changed flags? will $* suffice?
+# it will not suffice
+_newflags="$*"
+# &>>"${HOME}/.log/brules_case.log"
 # https://stackoverflow.com/questions/1378274/in-a-bash-script-how-can-i-exit-the-entire-script-if-a-certain-condition-occurs
 
 # Dunstify
@@ -588,8 +634,10 @@ urgency: ${d_urgency} ||
 
 # debugging
 # {{{
-# _ddebug="1"
-if [ "${_ddebug}" = "1" ]; then
+_ddebug="0"
+_ddebug="1"
+# _ddebug="4"
+if [ "${_ddebug}" -gt "0" ]; then
 {
 d_urgency="critical"
 # seems that $_ sends last notification's arguments
@@ -597,11 +645,21 @@ d_urgency="critical"
 # one
 # what is pid in this context? current shell but why does it change ?
 
+# _local means function arguments
+# soted seems to be always equal to S*
+# it seems that i lose the state and the other variables once it arrives here,
+# why?
+# kk, because thats inital state of flags
 _notif -u "${d_urgency}" "
-_local || STORED || \$X
-\$@: ${_dALL} || ${dALL} || ${@}
-\$\*: ${_dALLa} || ${dALLa} || ${*}
+_:| _local |:_ ||| _:| STORED |:_
+\$*: _:| ${_dALLa} |:_ ||| _:| ${dALLa} |:_
+\$4: _:| $4 |:_
 "
+# _notif -u "${d_urgency}" "
+# _:| _local |:_ ||| _:| STORED |:_ ||| _:| \$X |:_
+# \$*: _:| ${_dALLa} |:_ ||| _:| ${dALLa} |:_ ||| _:| $* |:_
+# "
+# \$@: ${_dALL[1]} || ${dALL[1]} || ${[1]}
 # so pid of this notification is saved value of $$?
 # thought it seems that $$ also works
 
@@ -611,13 +669,13 @@ _local || STORED || \$X
 _notif -u "${d_urgency}" "
 _local = STORED = \$X
 ------------------------------------------
-${dOPTS} = ${-}
-${_dNO} = ${dNO} = ${#}
-${dPIDs} = ${$}
-${dPIDb} = ${!}
-${dPIPE} = ${?}
+${dOPTS} = $-
+${_dNO} = ${dNO} = $#
+${dPIDs} = $$
+${dPIDb} = $!
+${dPIPE} = $?
 --------------
-${instance}.${class} = ${3}.${2}
+${instance}.${class} = $3.$2
 "
 
 # ${_d_} = ${_}
@@ -656,9 +714,9 @@ ${instance}.${class} = ${3}.${2}
 
 _notif -u "${d_urgency}" "
 _\$!= ${_pidlast}
-\$!= ${!}
+\$!= $!
 _\$\$= ${_dpid}
-\$\$=${$}
+\$\$=$$
 ------------------------------------------
 $(wmhelp --echo)
 "
@@ -667,16 +725,23 @@ $(wmhelp --echo)
 # _notif -u "${d_urgency}" --replace="${_dpid}" "
 _notif -u "${d_urgency}" "
 _\$!= ${_pidlast}
-\$!= ${!}
+\$!= $!
 _\$\$= ${_dpid}
-\$\$=${$}
+\$\$=$$
 ------------------------------------------
 $(wmhelp --pid1)
 $(wmhelp --pid2)
 $(wmhelp --pid3)
 "
-# BASHPID=${_bashpid}=${BASHPID}
-# "
+if [ "${_ddebug}" -gt "3" ]; then
+{
+	# flags debug
+	_notif -u "${d_urgency}" "
+	\$state=${state}
+	\$*=${_newflags}
+	"
+}
+fi
 # --pid2 and 3 are identical and
 # x.pid.id
 # is the pid of the command that was spawned by external rules
@@ -694,7 +759,6 @@ $(wmhelp --pid3)
 } >>"${HOME}/.log/debug-rules-dunst.log" 2>&1
 fi
 # }}}
-
 exit 0
 
 # _test=true

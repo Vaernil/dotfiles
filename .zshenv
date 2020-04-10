@@ -1,5 +1,7 @@
 #!/bin/sh
 
+# . /home/vaernil/supertest
+# ./supertest
 #
 #add shell later
 

@@ -108,8 +108,11 @@ super + shift + e
 # /tmp/tdrop_vaernil/log
 # flicker setup compositor fade
 	# tdrop -a -m -w 33% -h 33% -x 766 -y 22 alacritty --class quake
+	# remember that -f just passes the arguments to the app it calls in this case
+	# alacritty, so here u set class for alacritty not for tdrop
 super + v
-	tdrop -am -w 33% -x 0 -h 1056 -y 22 -n quake33west alacritty
+	tdrop -am -w 33% -x 0 -h 1056 -y 22 -n quake33west -f "--class quakenvim" alacritty
+	# tdrop -am -w 33% -x 0 -h 1056 -y 22 -n quake33west -f "--class quakenvim,quakenvim" alacritty
 # dropdown file explorer, persistent, disable notifications
 super + shift + v
 	tdrop -am -w 870 -x 0 -h 540 -y 538 -n quakewestnvim -f "--class quakenvim -e zsh -i -c 'nvim ~/text/2020-notes'" alacritty
@@ -118,7 +121,7 @@ super + shift + v
 # mnemo n lower right quadrant N upper
 # v left
 super + n
-	tdrop -am -w 33% -h 1056 -x 1285 -y 22 -n quake33east alacritty
+	tdrop -am -w 33% -h 1056 -x 1285 -y 22 -n quake33east -f "--class quakenvim" alacritty
 # nvim 100 colum wide at least
 super + shift + n
 	tdrop -am -w 870 -x 1048 -h 540 -y 538 -n quakeeastnvim -f "--class quakenvim -e zsh -i -c 'nvim ~/.config/vim/.vimrc'" alacritty
@@ -316,5 +319,5 @@ alt + Print
 # TESTING AREA
 #     echo "Menu pressed " >> /home/vaernil/scripts/keytest
 super + e
-	alacritty --class instancetest
+	alacritty --class instancetest,classtest
 # hide all quakes and floats with one button
