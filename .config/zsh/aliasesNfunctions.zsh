@@ -21,7 +21,16 @@ alias sE="sudo -E "
 # KERNEL
 # working genkernel working using current config.gz and substituting gold
 # kernel that is not working
-alias gksafe="sudo genkernel --kernel-ld=/usr/bin/ld.bfd --utils-ld=/usr/bin/ld.bfd --kernel-config=/proc/config.gz --xconfig all"
+# duno, but it seems like it it uses the default one even tho i edited it
+# make old config uses old configuration, but settings couldve been added
+# https://wiki.gentoo.org/wiki/Kernel/Upgrade
+alias gksafedef="sudo genkernel --kernel-ld=/usr/bin/ld.bfd --utils-ld=/usr/bin/ld.bfd --kernel-config=/proc/config.gz --xconfig all"
+alias gkernoldx="sudo genkernel --oldconfig --kernel-ld=/usr/bin/ld.bfd --utils-ld=/usr/bin/ld.bfd --xconfig all"
+alias gksafemenu="sudo genkernel --kernel-ld=/usr/bin/ld.bfd --utils-ld=/usr/bin/ld.bfd --menuconfig all"
+alias -g makebfd="make LD=/usr/bin/ld.bfd"
+# zcat /proc/config.gz > running.config
+# shows kernel paramenters it was booted with
+# cat /proc/cmdline
 ### PROCESS
 alias gpid="ps -A -e -l | rg"
 ### NAVIGATION
@@ -156,10 +165,21 @@ alias e="sudo emerge"
 alias e1="sudo emerge -1av"
 # sync
 alias es="sudo eix-sync"
+# isnt that just uDN?
 alias erd="sudo emerge --update --newuse --deep --keep-going @world" # run before depclean
+# -u update
+# -D deep
+# -U changed-use
+# emerge -uDNqva @world
+# how to get packages from overlays?
+# https://forums.gentoo.org/viewtopic-t-1089544-start-0.html
+# eix --installed-in-overlay
 alias eupd="sudo emerge -uDU --with-bdeps=y --keep-going @world"
+#
+alias eupd100="sudo emerge -uDU --with-bdeps=y --keep-going --backtrack=100 @world"
 ## monthly upgrade, backtracks trhough dep tree to make sure
 alias eupd1k="sudo emerge -uDU --with-bdeps=y --keep-going --backtrack=1000 @world"
+# -c depclean
 alias edep="sudo emerge -av --depclean"
 alias ewrld="sudo emerge -av --noreplace"
 # https://wiki.gentoo.org/wiki/Gentoo_Cheat_Sheet
@@ -207,6 +227,7 @@ alias genv="env | rg "
 # ❖ nvim /etc/wpa_supplicant/wpa_supplicant.conf
 # alias ln="ln -vi --backup=existing"
 # p p10k.zsh{,~}
+alias pgug="ping -c 3 www.google.com"
 ### .CONFIGS
 # vim
 alias vimrc="${EDITOR} ${MYVIMRC}"
@@ -228,6 +249,7 @@ alias .envA="sudo env-update && source /etc/zsh/zprofile && source ${ZDOTDIR}/.z
 # always use su - because otherwise you keep the user env
 # reload | source Xresources
 # X
+# xrdb -query -all
 alias xmrg="xrdb -merge ~/.Xresources && printf 'reloaded .Xresources'"
 alias vxinit="${EDITOR} ${HOME}/.xinitrc"
 # alias vxorg="sudoedit /etc/X11/xorg.conf"
@@ -261,6 +283,7 @@ alias vworld="sudo -e /var/lib/portage/world"
 # TODO REDO
 alias blayout="bspc query -T -m"
 
+# print n field 0 is whole line
 alias brl="xprop | awk '/WM_CLASS/{print \$0}'"               # name of a window for bspwm rules
 # alias brl='xprop | awk "/WM_CLASS/{print "$0" "$4" "$3"}"'               # name of a window for bspwm rules
 alias brl2="xprop | awk '/WM_NAME/{print \$0}'"               # instance name
@@ -460,7 +483,7 @@ fif() {
 fifrga() {
 	if [ ! "$#" -gt 0 ]; then echo "Need a string to search for!"; return 1; fi
 	local file
-	file="$(rga --max-count=1 --ignore-case --files-with-matches --no-messages "$@" | fzf-tmux +m --preview="rga --ignore-case --pretty --context 10 '"$@"' {}")" && open "$file"
+	file="$(rga --max-count=1 --ignore-case --files-with-matches --no-messages "$@" | fzf-tmux +m --preview="rga --ignore-case --pretty --context 10 '"$@"' {}")" && open "${file}"
 }
 
 function extract() {      # Handy Extract Program
@@ -504,7 +527,7 @@ pcolor() {
 		_j="$1"
 		_k="$2"
 	# fi
-	for i in {"$_j".."$_k"}; do
+	for i in {"${_j}".."${_k}"}; do
 		print -Pn "%K{$i} %k%F{$i}${(l:3::0:)i}%f " ${${(M)$((i%8)):#7}:+$'\n'};
 	done
 }
@@ -529,15 +552,15 @@ fdebug() {
 # fkill - kill processes - list only the ones you can kill. Modified the earlier script.
 fkill() {
 	local pid
-	if [ "$UID" != "0" ]; then
-		pid=$(ps -f -u $UID | sed 1d | fzf -m | awk '{print $2}')
+	if [ "${UID}" != "0" ]; then
+		pid="$(ps -f -u ${UID} | sed 1d | fzf -m | awk '{print $2}')"
 	else
-		pid=$(ps -ef | sed 1d | fzf -m | awk '{print $2}')
+		pid="$(ps -ef | sed 1d | fzf -m | awk '{print $2}')"
 	fi
 
-	if [ "x$pid" != "x" ]
+	if [ "x${pid}" != "x" ]
 	then
-		echo $pid | xargs kill -${1:-9}
+		echo ${pid} | xargs kill -${1:-9}
 	fi
 }
 

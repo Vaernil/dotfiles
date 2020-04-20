@@ -1,4 +1,3 @@
-# vim: ft=config
 # xev | grep -E button\|keysym
 # Control_L
 # r alt = keycode 108 Isolevel3shift
@@ -17,8 +16,13 @@
 # WM KEYBINDS
 # make sxhkd reload its configuration files:
 # send singal to process
+# reload dunst configuration, remember to wait for first usr
+# this only pauses dunst
 super + Escape
-	pkill -USR1 -x sxhkd
+	pkill -USR1 -x sxhkd & \
+	pkill dunst
+	# pkill -USR1 dunst; \
+	# pkill -USR2 dunst
 
 super + ctrl + Escape
 	pkill -9 -f vaerpanel & \
@@ -34,10 +38,12 @@ super + ctrl + Escape
 #     limebar
 # quit bspwm normally
 super + alt + Escape
-	bspc quit & \
-	pkill -9 -f limebar & \
-	pkill -9 -f bar-border & \
-	rm ${PANEL_FIFO}
+	wm-bspwm-logout
+	# pkill -9 -f dunst && \
+	# pkill -9 -f limebar && \
+	# pkill -9 -f bar-border && \
+	# bspc quit && \
+	# rm ${PANEL_FIFO}
 # numpad idea {_,shift + }{1-9,0}
 # to send to specific area on the display
 
@@ -47,15 +53,27 @@ super + alt + Escape
 # hidden keepass that follows
 
 super + F1
-	tdrop -am  -n NWKeepass -f "--class NW_f_quake" alacritty
+	tdrop -am -w 1918 -h 518 -x 0 -y 560 -n "quake_S_keepass" keepassxc
+	# tdrop -am -w 1918 -h 518 -x 0 -y 560 -n "quake_S_keepass" kitty
+	# tdrop -am -w 1918 -h 50% -x 0 -y 560 -n "quake_S_keepass" -f "--class quake50sssss" kitty
+	# tdrop -m -n "quake_S_keepass" -f "--class=quake50S" kitty
+	# tdrop -am -n "quake_S_keepass" -f "--class=NW_f_quake" kitty
+	# tdrop --class=NW_f_quake -am -n quake_S_keepass alacritty
+
+super + F4
+	wm-bspwm-logout
 	# tdrop -am -w {$((1920)/2-4))} -x 0 -h {$((1080/2-2)) -y 20 -n NWKeepass -f "--class NW_f_quake" alacritty
+	# isn't this why my settings won't save? because it's in subshell env?
 super + space
-	exec zsh -i -c "rofi -modi run,drun,window,ssh -show run"
+	rofi -modi run,drun,window,ssh -show run
+	# exec zsh -i -c "rofi -modi run,drun,window,ssh -show run"
 # TODO just make function and clean this up
 super + shift + space
-	tdrop -am -w 1918 -x 0 -h 33% -y 22 -n "quake50nvimN" -f "--class quake50" alacritty
+	dmenu -config .config/rofi/config-dmenu.rasi
+	# tdrop -am -w 1918 -x 0 -h 33% -y 22 -n "quake50nvimN" -f "--class quake50" alacritty
 super + alt + space
-	tdrop -am -w 1918 -x 0 -h 33% -y 722 -n "quake50nvim" -f "--class quake50" alacritty
+	rofi -modi drun,window -show drun -config .config/rofi/config-dmenu.rasi
+	# tdrop -am -w 1918 -x 0 -h 33% -y 722 -n "quake50nvim" -f "--class quake50" alacritty
 
 super + Return
 	alacritty
@@ -128,7 +146,8 @@ super + shift + n
 
 # toggle redshift
 control + apostrophe
-	pkill -USR1 redshift; notify-send "redshift toggled"
+	pkill -USR1 redshift; wm_notify "redshift toggled"
+	# pkill -USR1 redshift; notify-send "redshift toggled"
 
 # change notification to yoour own
 
@@ -163,8 +182,7 @@ super + {t,shift + t,s,f}
 super + ctrl + {x,y,z}
 	bspc node -g {locked,sticky,private}
 
-#
-# focus/swap
+# FOCUS/SWAP
 #
 
 # focus or send to the given desktop
@@ -287,37 +305,40 @@ XF86AudioMute
 XF86Calculator
 	 ~/.config/panel/notifications/popitup_cal 0
 	# screenshots then passes the filesname ($f) to imgurscript which waits for upload, passes it to clipboard, then after the command finished play a success sound
-Print
-	play $HOME/audio/_notifications/camera-shutter.mp3; \
-	scrot $HOME/'images/screenshots/%Y-%m-%d_%H:%M:%S-$wx$h_scrot.png' -e 'imgur $f' | xclip; \
-	play $HOME/audio/_notifications/camera-shutter.mp3
-	#send notification "screenshot taken"
-control + Print
-	sleep 0.2s; \
-	scrot -s $HOME/'images/screenshots/%Y-%m-%d_%H%M%S-$wx$h_scrot.png' && \
-	play $HOME/audio/_notifications/camera-shutter.mp3
-	#scrot -s $HOME/'images/screenshots/%Y-%m-%d_%H:%M:%S-$wx$h_scrot.png' -e 'imgur $f' | xclip; \
-alt + Print
-	sleep 0.2s; \
-	scrot -u $HOME/'images/screenshots/%Y-%m-%d_%H%M%S-$wx$h_scrot.png' && \
-	play $HOME/audio/_notifications/camera-shutter.mp3
+# Print
+#     play $HOME/audio/_notifications/camera-shutter.mp3; \
+#     scrot $HOME/'images/screenshots/%Y-%m-%d_%H:%M:%S-$wx$h_scrot.png' -e 'imgur $f' | xclip; \
+#     play $HOME/audio/_notifications/camera-shutter.mp3
+#     #send notification "screenshot taken"
+# control + Print
+#     sleep 0.2s; \
+#     scrot -s $HOME/'images/screenshots/%Y-%m-%d_%H%M%S-$wx$h_scrot.png' && \
+#     play $HOME/audio/_notifications/camera-shutter.mp3
+#     #scrot -s $HOME/'images/screenshots/%Y-%m-%d_%H:%M:%S-$wx$h_scrot.png' -e 'imgur $f' | xclip; \
+# alt + Print
+#     sleep 0.2s; \
+#     scrot -u $HOME/'images/screenshots/%Y-%m-%d_%H%M%S-$wx$h_scrot.png' && \
+#     play $HOME/audio/_notifications/camera-shutter.mp3
 # Terminal navigation, but i think it will work on top of my other keybinds like vim
 #alt + i
-# something wonky to check out
-# middle click paste disable
-~button2
-	echo -n | xsel -n -i
-~control + c
-	echo -n | xsel -n -i
-~control + shift + c
-	echo -n | xsel -n -i
-~control + x
-	echo -n | xsel -n -i
 
 # fn key doesnt work
 # menu key does, use it
 # TESTING AREA
 #     echo "Menu pressed " >> /home/vaernil/scripts/keytest
+
+# rofi_menu_cf scripts echoes a string from an associative array where conf files are
+# hardcoded in the manner "editor path"
+# the script spawns rofi dmenu in a subshell waiting for user selection then
+# that output is read via tail and used in a new terminal window
+# with ;zsh the terminal stays, without it dies
+# I'm 100% sure it's overly complicated, but it does work the way I wanted it
+# to
 super + e
-	alacritty --class instancetest,classtest
+	rofi-edit-config; \
+	alacritty --class "quake_dmenu" -e "zsh" -c "$(tail -n 1 /tmp/rofi_menu_cf)"
+	# rofi_menu_cf; alacritty --class "quake_roficf" -e "zsh" -c "$(tail -n 1 /tmp/rofi_menu_cf); zsh"
+	# alacritty --class instancetest,classtest
 # hide all quakes and floats with one button
+
+# vim: ft=config

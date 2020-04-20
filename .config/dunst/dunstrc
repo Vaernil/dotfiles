@@ -29,9 +29,8 @@
 	# the top and down respectively.
 	# The width can be negative.  In this case the actual width is the
 	# screen width minus the width defined in within the geometry option.
-	#geometry = "300x5+0+19"
-	# TODO get monitor geometry
-	geometry = "350x50-0-0"
+	geometry = "384x5-0-0"
+	# geometry = "0x5-0-0"
 	# Show how many messages are currently hidden (because of geometry).
 	indicate_hidden = yes
 
@@ -52,7 +51,7 @@
 	# Draw a line of "separator_height" pixel height between two
 	# notifications.
 	# Set to 0 to disable.
-	separator_height = 2
+	separator_height = 4
 
 	# Padding between text and separator.
 	padding = 4
@@ -62,8 +61,9 @@
 
 	# Defines width in pixels of frame around the notification window.
 	# Set to 0 to disable.
-	frame_width = 0
+	frame_width = 6
 
+# it doesn't get inherited
 	# Defines color of the frame around the notification window.
 	frame_color = "#dedede"
 
@@ -73,22 +73,26 @@
 	#  * foreground: use the same color as the foreground;
 	#  * frame: use the same color as the frame;
 	#  * anything else will be interpreted as a X color.
-	separator_color = frame
+# not sure about the approach, because in case of the normal notification its
+# invisbile cuz of the colro as background
+	# separator_color = frame
+	separator_color = foreground
 
 	# Sort messages by urgency.
 	sort = yes
 
-	# Don't remove messages, if the user is idle (no mouse or keyboard input)
-	# for longer than idle_threshold seconds.
-	# Set to 0 to disable.
-	# Transient notifications ignore this setting.
+    # Don't remove messages, if the user is idle (no mouse or keyboard input)
+    # for longer than idle_threshold seconds.
+    # Set to 0 to disable.
+    # A client can set the 'transient' hint to bypass this. See the rules
+    # section for how to disable this if necessary
 	idle_threshold = 120
 
 	### Text ###
 
 	#font = Monospace 8
 	# source the theme
-	# font = Hasklug Nerd Font Regular 10
+	# font = Hasklug Nerd Font Regular 8
 	font = Iosevka Nerd Font Regular 8
 
 	# The spacing between lines.  If the height is smaller than the
@@ -130,11 +134,21 @@
 	#   %%  Literal %
 	# Markup is allowed
 	# format = "<b>%s</b>\n%b"
-	format = "<b>%s</b>\n%b"
+	# play with it, make bigger font for summary, add decorations etc
+	# debugging config
+	# <img src="..." not implemented, you can add icon though
+	# https://github.com/dunst-project/dunst/issues/631
+	format = "<b>appname [-a]:</b> %a\n<b>iconname [-i]:</b> %i\n<b>%s</b>\n%b\n"
 
 	# Alignment of message text.
 	# Possible values are "left", "center" and "right".
 	alignment = right
+
+    # Vertical alignment of message text and icon.
+    # Possible values are "top", "center" and "bottom".
+    # vertical_alignment = center
+    vertical_alignment = bottom
+    # vertical_alignment = top
 
 	# Show age of message if message is older than show_age_threshold
 	# seconds.
@@ -145,17 +159,17 @@
 	# geometry.
 	word_wrap = yes
 
-	# When word_wrap is set to no, specify where to ellipsize long lines.
+    # When word_wrap is set to no, specify where to make an ellipsis in long lines.
 	# Possible values are "start", "middle" and "end".
 	ellipsize = middle
 
 	# Ignore newlines '\n' in notifications.
 	ignore_newline = no
 
-	# Merge multiple notifications with the same content
+    # Stack together notifications with the same content
 	stack_duplicates = true
 
-	# Hide the count of merged notifications with the same content
+    # Hide the count of stacked notifications with the same content
 	hide_duplicate_count = false
 
 	# Display indicators for URLs (U) and actions (A).
@@ -165,10 +179,17 @@
 
 	# Align icons left/right/off
 	icon_position = left
-	# icon_position = off
+
+    # Scale small icons up to this size, set to 0 to disable. Helpful
+    # for e.g. small files or high-dpi screens. In case of conflict,
+    # max_icon_size takes precedence over this.
+    min_icon_size = 16
 
 	# Scale larger icons down to this size, set to 0 to disable
-	max_icon_size = 32
+	# max_icon_size = 32
+	# INFO: Max width was set but max_icon_size is unlimited. Limiting icons to 192 pixels
+	# max_icon_size = 0
+	max_icon_size = 256
 
 	# Paths to default icons.
 	# icon_path = /usr/share/icons/gnome/16x16/status/:/usr/share/icons:/usr/share/themes/
@@ -186,12 +207,12 @@
 	### Misc/Advanced ###
 
 	# dmenu path.
-	dmenu = /usr/bin/dmenu -p dunst:
+	dmenu = /usr/bin/dmenu -p dunst
 	# rofi or terminal
 
 	# Browser for opening urls in context menu.
-	browser = /usr/bin/firefox -new-tab
 	# browser = /usr/bin/google-chrome-stable -new-tab
+	browser = /usr/bin/firefox -new-tab
 
 	# Always run rule-defined scripts, even if the notification is suppressed
 	always_run_script = true
@@ -205,7 +226,30 @@
 	# Print a notification on startup.
 	# This is mainly for error detection, since dbus (re-)starts dunst
 	# automatically after a crash.
-	startup_notification = false
+	# i dont fucking get it, only this notification starts wheni use dunst -p
+	# then dbus spawns another one
+	# also it says the urgency is CRITICAL yet it uses low settings, colors
+	# timeout
+	startup_notification = true
+	# startup_notification = false
+
+    # Manage dunst's desire for talking
+    # Can be one of the following values:
+    #  crit: Critical features. Dunst aborts
+    #  warn: Only non-fatal warnings
+    #  mesg: Important Messages
+    #  info: all unimportant stuff
+    # debug: all less than unimportant stuff
+    # verbosity = debug
+	verbosity = mesg
+
+    # Define the corner radius of the notification window
+    # in pixel size. If the radius is 0, you have no rounded
+    # corners.
+    # The radius will be automatically lowered if it exceeds half of the
+    # notification height to avoid clipping text and/or icons.
+    # corner_radius = 10
+    corner_radius = 0
 
 	### Legacy
 
@@ -219,6 +263,21 @@
 	# layout changes.
 	force_xinerama = false
 
+    ### mouse
+
+    # Defines list of actions for each mouse event
+    # Possible values are:
+    # * none: Don't do anything.
+    # * do_action: If the notification has exactly one action, or one is marked as default,
+    #              invoke it. If there are multiple and no default, open the context menu.
+    # * close_current: Close current notification.
+    # * close_all: Close all notifications.
+    # These values can be strung together for each mouse event, and
+    # will be executed in sequence.
+    mouse_left_click = close_current
+    mouse_middle_click = do_action, close_current
+    mouse_right_click = close_all
+
 # Experimental features that may or may not work correctly. Do not expect them
 # to have a consistent behaviour across releases.
 [experimental]
@@ -231,6 +290,7 @@
 	# per_monitor_dpi = false
 
 [shortcuts]
+
 	# Shortcuts are specified as [modifier+][modifier+]...key
 	# Available modifiers are "ctrl", "mod1" (the alt-key), "mod2",
 	# "mod3" and "mod4" (windows-key).
@@ -252,26 +312,32 @@
 	context = ctrl+shift+period
 
 [urgency_low]
-	# IMPORTANT: colors have to be defined in quotation marks.
-	# Otherwise the "#" and following would be interpreted as a comment.
 	background = "#2d2d2d"
 	foreground = "#dedede"
-	frame_color = "dedede"
+	frame_color = "#525252"
+	# frame_color = "#dedede"
 	timeout = 3
 	# Icon for notifications with low urgency, uncomment to enable
 	#icon = /path/to/icon
 
 [urgency_normal]
+	# background = "#525252"
 	background = "#2d2d2d"
 	foreground = "#dedede"
-	timeout = 5
+	# you can't disable border once enabled, but you can set it to the same
+	# color as background
+	# it does add pixels, just a hack
+	# rethink with envsubst
+	frame_color = "#2d2d2d"
+	timeout = 8
 	# Icon for notifications with normal urgency, uncomment to enable
 	#icon = /path/to/icon
+	# icon = /usr/share/icons/Tela-red/scalable/apps/
+	# icon = /usr/share/icons/Tela-red/scalable/apps/r.svg
 
 [urgency_critical]
 	background = "#2d2d2d"
 	foreground = "#d64937"
-	frame_width = 1
 	frame_color = "#d64937"
 	timeout = 0
 	# Icon for notifications with critical urgency, uncomment to enable
@@ -279,10 +345,35 @@
 
 # Every section that isn't one of the above is interpreted as a rules to
 # override settings for certain messages.
-# Messages can be matched by "appname", "summary", "body", "icon", "category",
-# "msg_urgency" and you can override the "timeout", "urgency", "foreground",
-# "background", "new_icon" and "format".
+#
+# Messages can be matched by
+#    appname (discouraged, see desktop_entry)
+#    body
+#    category
+#    desktop_entry
+#    icon
+#    match_transient
+#    msg_urgency
+#    stack_tag
+#    summary
+#
+# and you can override the
+#    background
+#    foreground
+#    format
+#    frame_color
+#    fullscreen
+#    new_icon
+#    set_stack_tag
+#    set_transient
+#    timeout
+#    urgency
+#
 # Shell-like globbing will get expanded.
+#
+# Instead of the appname filter, it's recommended to use the desktop_entry filter.
+# GLib based applications export their desktop-entry name. In comparison to the appname,
+# the desktop-entry won't get localized.
 #
 # SCRIPTING
 # You can specify a script that gets run when the rule matches by
@@ -296,23 +387,30 @@
 # NOTE: It might be helpful to run dunst -print in a terminal in order
 # to find fitting options for rules.
 
-# is this urgency level also?
-[Pavucontrol]
-	appname = Pavucontrol
-	summary = "*"
-	urgency = critical
-	#script = dunst_espeak.sh
+# Disable the transient hint so that idle_threshold cannot be bypassed from the
+# client
+#[transient_disable]
+#    match_transient = yes
+#    set_transient = no
+#
+# Make the handling of transient notifications more strict by making them not
+# be placed in history.
+#[transient_history_ignore]
+#    match_transient = yes
+#    history_ignore = yes
 
-[Alacritty]
-	appname = Alacritty
-	urgency = normal
-	#script = dunst_espeak.sh
+# fullscreen values
+# show: show the notifications, regardless if there is a fullscreen window opened
+# delay: displays the new notification, if there is no fullscreen window active
+#        If the notification is already drawn, it won't get undrawn.
+# pushback: same as delay, but when switching into fullscreen, the notification will get
+#           withdrawn from screen again and will get delayed like a new notification
+#[fullscreen_delay_everything]
+#    fullscreen = delay
+#[fullscreen_show_critical]
+#    msg_urgency = critical
+#    fullscreen = show
 
-[kitty]
-	urgency = critical
-
-[bspwmexternal]
-	urgency = low
 #[espeak]
 #    summary = "*"
 #    script = dunst_espeak.sh
@@ -321,15 +419,21 @@
 #    summary = "*script*"
 #    script = dunst_test.sh
 
-[ignore]
-   # This notification will not be displayed
-   summary = "foobar"
-   format = ""
-
-#[history-ignore]
-#    # This notification will not be saved in history
+#[ignore]
+#    # This notification will not be displayed
 #    summary = "foobar"
-#    history_ignore = yes
+#    format = ""
+
+[history-ignore]
+	# appname = "*"
+   # This notification will not be saved in history
+   summary = "foobar"
+   history_ignore = yes
+
+#[skip-display]
+#    # This notification will not be displayed, but will be included in the history
+#    summary = "foobar"
+#    skip_display = yes
 
 #[signed_on]
 #    appname = Pidgin
@@ -351,4 +455,42 @@
 #    summary = *twitter.com*
 #    urgency = normal
 #
+#[stack-volumes]
+#    appname = "some_volume_notifiers"
+#    set_stack_tag = "volume"
+#
+# is this urgency level also?
+[Pavucontrol]
+	# appname = Pavucontrol
+	summary = "*"
+	urgency = critical
+	#script = dunst_espeak.sh
+
+# nothing fuckin works
+# passing hints work, but this is ignored even with *
+# [appname_Alacritty]
+[Alacritty]
+	# appname = "Alacritty"
+	# appname = "*"
+	# appname = alacritty
+	# desktop_entry = "*"
+	urgency = critical
+	urgency = low
+	history_ignore = yes
+	# background = "#dedede"
+	# why the fuck is background taken from here? its not default
+	# its like it read urgency wrong
+	# it shows critical and timeout 8, wtf?!?!?!
+	#script = dunst_espeak.sh
+
+[bspwmexternal]
+	urgency = low
+
+[discord]
+	urgency = critical
+
+# [Firefox]
+#     appname = Firefox
+#     urgency = critical
+#     summary = ""
 # vim: ft=cfg

@@ -9,9 +9,11 @@ sort=1
 window-position=off
 # recreate-window=1
 # sort-key=MTIME
+# with ranger it doubles browse and opens bazilion images
+# but also calling pqiv $filename from cli opens only the single file
+# should i just change th way ranger opens
 # browse=1
 # max-depth=0
-# with ranger it doubles browse and opens bazilion images
 # i dont know what it does
 watch-directories=1
 # fullscreen=1

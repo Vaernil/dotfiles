@@ -32,7 +32,7 @@ set -x
 # echo "${_currentdir}"
 # emulate zsh
 # emulate -L zsh
-. /home/vaernil/.local/bin/_funtest.sh
+# . /home/vaernil/.local/bin/_funtest.sh
 set +x
 # main
 # zsh -c /home/vaernil/najto.zsh
@@ -43,13 +43,13 @@ set +x
 #
 _getdate="$(date +%Y.%m.%d-%H:%M:%S.%6N)"
 _name="$(lsof -e /run/user/1000 -nPp $$ | awk '{print $9}' | tail --lines=1)" 2>/dev/null
-_namedot="$(lsof -e /run/user/1000 -nPp $$ | awk '{print $9}' | tail --lines=1 | tr '/ .' '_')" 2>/dev/null
 unset JN__zdzshr
 JN__zdzshr="::: ${_getdate} :: d0=${0} : #=${#} :: pwd=$(pwd) : PWD=${PWD} :: name=${_name} :::"
 export JN__zdzshr
-unset _getdate _name _namedot
+unset _getdate _name
 
 # unset ZINIT
+# not sure if needed, already set in .zpath and zprofile
 declare -A ZINIT
 export ZINIT[BIN_DIR]="$HOME/.local/bin/zinit"
 export ZINIT[HOME_DIR]="$XDG_DATA_HOME/zinit"

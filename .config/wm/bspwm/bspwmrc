@@ -1,5 +1,7 @@
-#!/usr/bin/env bash
-#!/usr/bin/env dash
+#!//bin/bash
+
+######!/usr/bin/env bash
+######!/usr/bin/env dash
 
 #### main bspwm config
 # colors theme
@@ -133,14 +135,45 @@ bspc config honor_size_hints			$hshin
 # bspc rule -a floatingcat state=floating
 # bspc rule -a *:floatingterm state=floating
 # bspc rule -a *:floatingterm state=floating
+# create oneshot rules so the first time it spawns its on dedicated desktop,
+# then it doesnt matter
+bspc rule -a *:keepassxc -o desktop=^8 state=floating
 
 #----------------
 # AUTOSTART
 #----------------
+# notifications
+# remember that because you parse stdout it might break
+# dunst >> "${HOME}/.log/dunstlog.log" 2>&1 &
+dunst 2>> "${HOME}/.log/dunst_error.log" &
+# sxhkd -c "${XDG_CONFIG_HOME}/wm/sxhkd/sxhkdrc" 2>> "${HOME}/.log/sxhkd_error.log" &
+fehbg &
+numlockx &
 # start first because of secret service
-keepassxc &
+# keepassxc &
+tdrop -am -w 1918 -h 518 -x 0 -y 560 -n "quake_S_keepass" keepassxc &
 #compton --config ~/.compton.conf &
 xiccd &
+# hotkey daemon
+# table of configs then pipe to error
+# sxhkd "${SXHKD_EXTRA_CONFIGS[@]}" &>> /tmp/sxhkd_"$DISPLAY".log &
+# why does it capture general X errors?
+
+# daemon that disables mousepad when typing
+# i- disable for x second(s) after last keypress
+# k- ignore modifier keys (i.e. control left click)
+# t- only disable scrolling and clicking
+# not found do i have synaptics?
+# syndaemon -k -i 1 -d
+
+# lockscreen script as screen saver
+# pixelizes the display
+# extreme as autostart
+# i3lock &
+# move this to some function that calls the theme so I can have theme specific wallpapers
+# redshift -c ~/.config/redshift.conf &
+# wallpaper
+
 # temporary disable touchpad
 # synclient TouchpadOff=1 &
 # "${XDG_CONFIG_HOME}/wm/panel/limebar" &
@@ -173,3 +206,9 @@ nemo &
 	#$HOME/.wm/startup.sh &
 	#"{{p_launch_cmd}}" &
 #fi
+
+# move dunst here?
+
+# send notification
+sleep 2s
+wm_notify "Bspwm loaded" "With $SHORTCOLOR color and $SHORTWALLPAPER wallpaper"

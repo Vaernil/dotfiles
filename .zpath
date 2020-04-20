@@ -1,8 +1,7 @@
-# vim: ft=sh
+# order and shit
 
 _getdate="$(date +%Y.%m.%d-%H:%M:%S.%6N)"
 _name="$(lsof -e /run/user/1000 -nPp $$ | awk '{print $9}' | tail --lines=1)" 2>/dev/null
-_namedot="$(lsof -e /run/user/1000 -nPp $$ | awk '{print $9}' | tail --lines=1 | tr '/ .' '_')" 2>/dev/null
 unset JN__zdpath
 JN__zdpath="::: ${_getdate} :: d0=${0} : #=${#} :: pwd=$(pwd) : PWD=${PWD} :: name=${_name} :::"
 export JN__zdpath
@@ -16,41 +15,52 @@ export PATH="${HOME}/.local/bin:/usr/non-portage/bin:${PATH}"
 # maybe ignore root?
 # does order matter
 
-    # Single dir where app should write user-specific non-essential data
-export XDG_CACHE_HOME="${XDG_CACHE_HOME:-"$HOME/.cache"}"
+# mount cache as tmpfs or shm?
 
+# $XDG_RUNTIME_DIR should be set by the system. Its access mode MUST be 0700
     # Single dir where app should write user-specific config
-export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-"$HOME/.config"}"
+export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-"${HOME}/.config"}"
 
     # Extra dirs where to search user-specific config
     # Preference-ordered set of dirs seperated with a colon ':'.
-export XDG_CONFIG_DIRS="${XDG_CONFIG_DIRS:-'/etc/xdg'}"
+export XDG_CONFIG_DIRS="${XDG_CONFIG_DIRS:-"/etc/xdg"}"
 
     # Single dir where app should write user-specific data
-export XDG_DATA_HOME="${XDG_DATA_HOME:-"$HOME/.local/share"}"
+export XDG_DATA_HOME="${XDG_DATA_HOME:-"${HOME}/.local/share"}"
 
     # Extra dirs where to search user-specific data
     # Preference-ordered set of dirs seperated with a colon ':'.
     # order?!!??!?!
-export XDG_DATA_DIRS="${XDG_DATA_DIRS:-'/usr/local/share/:/usr/share/'}"
+export XDG_DATA_DIRS="${XDG_DATA_DIRS:-"/usr/local/share/:/usr/share/"}"
 
-
-# $XDG_RUNTIME_DIR should be set by the system. Its access mode MUST be 0700
-
-export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
-
+#### CAREFUL
+# echo ${food:-Cake}  #=> $food or "Cake"
+# if nonroot
+# if [ "${USER}" ]; then
+    # Single dir where app should write user-specific non-essential data
+# export XDG_CACHE_HOME="${XDG_CACHE_HOME:-"$HOME/.cache"}"
+# problem is /tmp is loaded as tmpfs and it gets wiped on every boot, cache
+# should rather survive boots, put it to /var/tmp maybe and then use asd to
+# sync it to tmpfs and resync it back
+if [ "${EUID}" != 0 ]; then
+	# :- means if unset then set
+	export XDG_CACHE_HOME="${XDG_CACHE_HOME:-"/var/tmp/_cache/.${USER}-cache"}"
+	# export XDG_CACHE_HOME="${XDG_CACHE_HOME:-"/tmp/${USER}/.cache"}"
+fi
 # unset ZINIT
 declare -A ZINIT
-export ZINIT[BIN_DIR]="$HOME/.local/bin/zinit"
-export ZINIT[HOME_DIR]="$XDG_DATA_HOME/zinit"
-export ZINIT[PLUGINS_DIR]="$XDG_DATA_HOME/zinit/plugins"
-export ZINIT[SNIPPETS_DIR]="$XDG_DATA_HOME/zinit/snippets"
+export ZINIT[BIN_DIR]="${HOME}/.local/bin/zinit"
+export ZINIT[HOME_DIR]="${XDG_DATA_HOME}/zinit"
+export ZINIT[PLUGINS_DIR]="${XDG_DATA_HOME}/zinit/plugins"
+export ZINIT[SNIPPETS_DIR]="${XDG_DATA_HOME}/zinit/snippets"
 export ZINIT[ZCOMPDUMP_PATH]="$XDG_CACHE_HOME/zcompdump"
-export ZINIT[COMPLETIONS_DIR]="$XDG_DATA_HOME/zinit/completions"
-export _ZL_DATA="$XDG_DATA_HOME/zsh/z.lua"
+export ZINIT[COMPLETIONS_DIR]="${XDG_DATA_HOME}/zinit/completions"
+
+export _ZL_DATA="${XDG_DATA_HOME}/zsh/z.lua"
 # export MANPAGER="/bin/sh -c \"col -b | nvim -c 'set ft=man ts=8 nomod nolist nu rnu noma' -\""
 #TEMPORARY FOR TESTS
 
+# or just source earlier, yea
 # source "$HOME/.zshenv"
 # source "/etc/zsh/zprofile"
 # source "$HOME/80-xdg-respect"
@@ -73,46 +83,11 @@ export _ZL_DATA="$XDG_DATA_HOME/zsh/z.lua"
 # export SHELLCHECK_OPTS=""
 # unset SHELLCHECK_OPTS
 # zsh
-# export ZSH_CACHE_DIR="${CACHE_DIR}"
 
 # zinit
-
-# super important, sets the XDG_CONFIG_HOME so the files in xdg-respect can
-# follow, previously in .zshrc
-
-# if [[ -z "$XDG_CONFIG_HOME" ]]
-# then
-#     export XDG_CONFIG_HOME="$HOME/.config"
-# fi
-
-# if [[ -d "$XDG_CONFIG_HOME/zsh" ]]
-# then
-#     export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
-# fi
-
-# not sure if needed, move somewhere else
-
-
-#if zsh
-#export XDG_CONFIG_HOME="$HOME/.config"
-#
-## ZSH
-#export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
-#
 ##??!?
 ## not sure if unset
 ## ZINIT
-#unset ZINIT
-#declare -A ZINIT
-#export ZINIT[BIN_DIR]="$HOME/.local/bin/zinit"
-#export ZINIT[HOME_DIR]="$XDG_DATA_HOME/zinit"
-#export ZINIT[PLUGINS_DIR]="$XDG_DATA_HOME/zinit/plugins"
-#export ZINIT[SNIPPETS_DIR]="$XDG_DATA_HOME/zinit/snippets"
-#export ZINIT[ZCOMPDUMP_PATH]="$XDG_CACHE_HOME/zcompdump"
-# unset ZINIT
-
-# z.lua
-#export _ZL_DATA="$XDG_DATA_HOME/zsh/z.lua"
 
 # history should it be here? at least do shell check
 export HISTSIZE=9999999999
@@ -121,23 +96,22 @@ export SAVEHIST="${HISTSIZE}"
 export HISTORY_IGNORE="(ls|exa|cd|pwd|exit|cd|\ls --color=tty -la|\ls --color=tty|nvim|gitk)"
 # no duplicate entries
 export HISTCONTROL="ignoredups:erasedups"
-export HISTFILE="$XDG_DATA_HOME/zsh/zsh_history"
+export HISTFILE="${XDG_DATA_HOME}/zsh/zsh_history"
 
 # .dotfiles
-export DOTFILE="$HOME/_dotfiles"
+export DOTFILE="${HOME}/_dotfiles"
 
 # ripgrep
-export RIPGREP_CONFIG_PATH="$XDG_CONFIG_HOME/ripgrep/rg.conf"
-
+export RIPGREP_CONFIG_PATH="${XDG_CONFIG_HOME}/ripgrep/rg.conf"
 
 # ncurses something wrong with urxvt
-export TERMINFO="$XDG_DATA_HOME/terminfo"
-export TERMINFO_DIRS="$XDG_DATA_HOME/terminfo:/usr/share/terminfo"
+export TERMINFO="${XDG_DATA_HOME}/terminfo"
+export TERMINFO_DIRS="${XDG_DATA_HOME}/terminfo:/usr/share/terminfo"
 
 # THEMES
 # GTK
-export GTK_RC_FILES="$XDG_CONFIG_HOME/gtk-1.0/gtkrc"
-export GTK2_RC_FILES="$XDG_CONFIG_HOME/gtk-2.0/gtkrc"
+export GTK_RC_FILES="${XDG_CONFIG_HOME}/gtk-1.0/gtkrc"
+export GTK2_RC_FILES="${XDG_CONFIG_HOME}/gtk-2.0/gtkrc"
 
 # setting qt5 variables and shit
 # export QT_QPA_PLATFORMTHEME="qt5ct"
@@ -149,30 +123,31 @@ export GTK2_RC_FILES="$XDG_CONFIG_HOME/gtk-2.0/gtkrc"
 
 # BINARIES AND MANAGERS
 # npm
-export NPM_CONFIG_USERCONFIG="$XDG_CONFIG_HOME/npm/npmrc"
-export NPM_CONFIG_CACHE="$XDG_CACHE_HOME/npm"
+export NPM_CONFIG_USERCONFIG="${XDG_CONFIG_HOME}/npm/npmrc"
+export NPM_CONFIG_CACHE="${XDG_CACHE_HOME}/npm"
 # runtime, careful
-export NPM_CONFIG_TMP="$XDG_RUNTIME_DIR/npm"
-export NODE_PATH="$NPM_CONFIG_CACHE/node_modules"
-export NODE_REPL_HISTORY="$NPM_CONFIG_CACHE/node_repl_history"
-export NVM_DIR="$XDG_DATA_HOME/nvm"
+# i dont have it tho
+# export NPM_CONFIG_TMP="${XDG_RUNTIME_DIR}/npm"
+export NPM_CONFIG_TMP="/tmp/npm"
+export NODE_PATH="${NPM_CONFIG_CACHE}/node_modules"
+export NODE_REPL_HISTORY="${NPM_CONFIG_CACHE}/node_repl_history"
+export NVM_DIR="${XDG_DATA_HOME}/nvm"
 
 # Go
-export GOPATH="$XDG_CONFIG_HOME/go"
+export GOPATH="${XDG_CONFIG_HOME}/go"
 
 # PROGRAMS
 # vim
-export MYVIMRC="$XDG_CONFIG_HOME/vim/.vimrc"
-export VIMINIT="source $MYVIMRC"
+export MYVIMRC="${XDG_CONFIG_HOME}/vim/.vimrc"
+export VIMINIT="source ${MYVIMRC}"
 # VS?
-# export VIMINIT="source ${MYVIMRC}"
 
 # ranger
 # to avoid loading global config twice
 export RANGER_LOAD_DEFAULT_RC=FALSE
 
 # pqiv
-export PQIVRC_PATH="$XDG_CONFIG_HOME/pqiv/pqivrc"
+export PQIVRC_PATH="${XDG_CONFIG_HOME}/pqiv/pqivrc"
 
 # }}}
 
@@ -206,12 +181,14 @@ FZF_DEFAULT_OPTS+="--bind 'ctrl-o:execute(nvim {})' "
 FZF_DEFAULT_OPTS+="--bind 'ctrl-O:execute(mpv {})+abort' "
 FZF_DEFAULT_OPTS+="--bind=ctrl-t:toggle-preview "
 FZF_DEFAULT_OPTS+="--bind 'ctrl-r:execute(open -R {})+abort' "
-export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS"
-export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_DEFAULT_OPTS="${FZF_DEFAULT_OPTS}"
+export FZF_CTRL_T_COMMAND="${FZF_DEFAULT_COMMAND}"
 export FZF_CTRL_T_OPTS="--preview 'bat --style=numbers --color=always {} | head -500' "
-export FZF_CTRL_R_COMMAND="$FZF_DEFAULT_COMMAND"
-export FZF_CTRL_R_OPTS="$FZF_DEFAULT_OPTS"
+export FZF_CTRL_R_COMMAND="{$FZF_DEFAULT_COMMAND}"
+export FZF_CTRL_R_OPTS="${FZF_DEFAULT_OPTS}"
 export FZF_ALT_C_OPTS="--preview 'exa -ah --git --tree -L2 --icons --color=always {} | head -400' "
 # completion trigger from **
 export FZF_COMPLETION_TRIGGER="**"
 # bat doesnt work always redo
+
+# vim: ft=sh

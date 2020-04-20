@@ -1,7 +1,0 @@
-QToolTip{
-  background: palette(less dark);
-  border-radius: 3px;
-  border: 1px solid palette(highlight);
-  padding: 1px;
-  color: palette(text);
-}

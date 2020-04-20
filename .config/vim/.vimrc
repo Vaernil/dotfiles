@@ -840,7 +840,7 @@
 			" background not characters
 			let g:indent_guides_enable_on_vim_startup = 1
 			let g:indent_guides_auto_colors = 0
-			" Invisible character colors 
+			" Invisible character colors
 			" colors IndentGuides
 			autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  ctermbg=8 ctermfg=6
 			" its not 16 colors bro, to rethink

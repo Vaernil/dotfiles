@@ -6,10 +6,10 @@
             <bool>true</bool>
         </edit>
         <edit name="hinting" mode="assign">
-            <bool>true</bool>
+			<bool>true</bool>
         </edit>
         <edit name="hintstyle" mode="assign">
-            <const>hintnone</const>
+            <const>hintslight</const>
         </edit>
         <edit name="rgba" mode="assign">
             <const>rgb</const>
