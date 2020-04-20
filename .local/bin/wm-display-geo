@@ -1,0 +1,82 @@
+#!/bin/dash
+#
+# heavily inspired / stolen from github.com/noctuid/dotfiles
+
+# ported to dash, TODO just use python, man, come on
+# https://github.com/noctuid/dotfiles/blob/master/scripts/bin/helpers/monitor.sh
+# sudo eselect sh list its bash for now
+# so default shebang /sh points to bash
+display_fetch() {
+	# lies
+	# xrandr --current | awk '/primary/ {print $1}'
+	# awk prints $1 which is first column where the row says 'connected'
+	case "$1" in
+		(-[Nn]|--name)
+			# display_name="$(xrandr --current | awk '/ connected/ {print $1}')"
+			_result="$(xrandr --current | awk '/ connected/ {print $1}')"
+		;;
+		(-[Gg]|--geometry|--geo|--dim|--dimensions)
+			# display_name="$(xrandr --current | awk '/ connected/ {print $1}')"
+			# format 1920x1080+0+0
+			_result="$(xrandr --current | awk '/ connected/ {print $3}')"
+		;;
+		(*)
+			_result="error"
+		;;
+	esac
+	# format 1920x1080+0+0
+	# display_geometry="$(xrandr --current | awk '/ connected/ {print $3}')"
+	# eDP-1-1
+	# grabs tge whole line, why?
+	# xrandr --current | awk "/ connected/ {print $1}"
+	# eDP-1-1 connected 1920x1080+0+0 (normal left inverted right x axis y axis) 344mm x 194mm
+	# could also use grep
+	# xrandr --current | grep \ connected
+	# echo "${display_name}"
+	# echo "${display_geometry}"
+	echo "${_result}"
+}
+
+# weird, but awk seems faster
+display_geometry() {
+	# format 1920x1080+0+0
+	_geometry="$(display_fetch -g)"
+	case "$1" in
+		(-[Ff]|--full)
+			# display_name="$(xrandr --current | awk '/ connected/ {print $1}')"
+			# _result="$(display_fetch -g)"
+			_result="${_geometry}"
+		;;
+		(-[Ss]|-[Rr]|--size|--dim|--dimensions|--resolution)
+			# display_name="$(xrandr --current | awk '/ connected/ {print $1}')"
+			# format 1920x1080+0+0
+			# _result="$(xrandr --current | awk '/ connected/ {print $3}')"
+		;;
+		(--[Oo][Xx][Yy]|-[Oo]|--off|--offset)
+			_result="error"
+		;;
+		(*)
+			_result="error"
+		;;
+	esac
+	# either get it via connected keyword or previously fetched display name
+	# _geometry="$(xrandr --current | awk '/ connected/ {print $3}')"
+	# _geometry="$(xrandr --current | awk '/${display_name}/ {print $3}')"
+	# _geometry="$(display_fetch -g)"
+	# output format 1920x1080+0+0
+	# get width by from 'x'
+	# get everything until x
+	# split
+	# grab everyting before x as in 1920x1080
+	_x="${_geometry%x*}"
+	_y="${_geometry:x:+}"
+	_ox="${_geometry%+*}"
+	_oy="${_geometry%+*}"
+	echo "$_x $_y"
+}
+
+main() {
+# RIGHT=$(xrandr | grep \ connected | grep DVI | awk {'print $1'})
+
+}
+

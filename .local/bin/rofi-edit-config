@@ -1,0 +1,141 @@
+#!/bin/bash
+
+set -x
+# use rofi to open config files of different apps, it's an excercise, paths
+# stored as an array for now, maybe will use find from a file or json? to think
+# about
+# rofi_theme="rofi -config ${XDG_CONFIG_HOME}/rofi/config-dmenu.rasi"
+# all of those options are using :- syntax to write the value only if its
+# unassinged already, does it reduce time?
+ROFI_PROMPT="${ROFI_PROMPT:-Choose config file to edit using ${EDITOR##/usr/bin/}}"
+ROFI_THEME="${ROFI_THEME:-${XDG_CONFIG_HOME}/rofi/config-dmenu.rasi}"
+# ROFI_OPTIONS="${rofi_theme} -dmenu -selected-row 1"
+# () parentheses run in a subshell
+# ROFI_OPTIONS="(${ROFI_OPTIONS:--dmenu -selected-row 0 -config ${ROFI_THEME}})"
+ROFI_OPTIONS=(${ROFI_OPTIONS:--selected-row 0 -config ${ROFI_THEME}})
+# zenity is super cool btw
+
+# EDIT_HISTORY="/tmp/{USER}/rofi-edit-config.history"
+# export EDIT_HISTORY
+make_tempdir(){
+	mktemp
+}
+
+# Check whether a command exists
+command_exists() {
+	command -v "$1" &> /dev/null 2>&1
+}
+# either json or associative arrayh
+# first one edits root folder
+typeset -A configs
+configs=(
+	# do i go for some tags? like WM APPS SYSTEM whatever?
+	# top option edit DIR
+	[ _Edit ${XDG_CONFIG_HOME}]="${EDITOR} ${XDG_CONFIG_HOME}"
+	[1 '']="'${HOME}/.config/wm/bspwm/bspwmrc'"
+	[2 ""]=""${HOME}/.config/bspwmrc""
+	[3 nvim]="${EDITOR} ${HOME}/.config/bspwmrc"
+	[note scratchpad]="${EDITOR} ${HOME}/text/2020-notes"
+	# wm
+	[WM bspwm]="${EDITOR} ${XDG_CONFIG_HOME}/wm/bspwm/bspwmrc"
+	[WM bspwm external rules]="${EDITOR} ${XDG_CONFIG_HOME}/wm/scripts/visual/exrules.sh"
+	[WM sxhkd]="${EDITOR} ${XDG_CONFIG_HOME}/wm/sxhkd/sxhkdrc"
+	[WM bspwm panel limebar]="${EDITOR} ${XDG_CONFIG_HOME}/wm/panel/limebar"
+	[WM scripts]="${EDITOR} ${XDG_CONFIG_HOME}/wm/scripts"
+	[WM dunst notifications]="${EDITOR} ${XDG_CONFIG_HOME}/dunst/dunstrc"
+	[icons]="${EDITOR} ${XDG_CONFIG_HOME}/wm/panel/tools/icon"
+	[icons panel]="${EDITOR} ${XDG_CONFIG_HOME}/wm/themes/panel_colors"
+	[icons panel config]="${EDITOR} ${XDG_CONFIG_HOME}/wm/themes/panel_config"
+	[colors WM numix]="${EDITOR} ${XDG_CONFIG_HOME}/wm/themes/wm_numixlike"
+	[WM icon]="${EDITOR} ${XDG_CONFIG_HOME}/wm/themes/unicode_icons"
+	[neovim]="${EDITOR} ${XDG_CONFIG_HOME}/vim/.vimrc"
+	# .config programs
+	[mpd]="${EDITOR} ${XDG_CONFIG_HOME}/mpd/mpd.conf"
+	[mpv]="${EDITOR} ${XDG_CONFIG_HOME}/mpv/mpv.conf"
+	[mpv input.conf]="${EDITOR} ${XDG_CONFIG_HOME}/mpv/input.conf"
+	[neofetch]="${EDITOR} ${XDG_CONFIG_HOME}/neofetch/config.conf"
+	[picom]="${EDITOR} ${XDG_CONFIG_HOME}/picom.conf"
+	[pqiv]="${EDITOR} ${XDG_CONFIG_HOME}/pqiv/pqivrc"
+	[ranger]="${EDITOR} ${XDG_CONFIG_HOME}/ranger/rc.conf"
+	[ranger rifle]="${EDITOR} ${XDG_CONFIG_HOME}/ranger/rifle.conf"
+	[ranger scope]="${EDITOR} ${XDG_CONFIG_HOME}/ranger/scope.sh"
+	[rofi]="${EDITOR} ${XDG_CONFIG_HOME}/rofi/config.rasi"
+	[alacritty]="${EDITOR} ${XDG_CONFIG_HOME}/alacritty/alacritty.yml"
+	[zathura]="${EDITOR} ${XDG_CONFIG_HOME}/zathura/zathurarc"
+	# env and shit
+	# local
+	[bashrc]="${EDITOR} ${HOME}/.bashrc"
+	[zshrc and reload]="${EDITOR} ${XDG_CONFIG_HOME}/zsh/.zshrc && . ${XDG_CONFIG_HOME}/zsh/.zshrc"
+	[zshrc exp]="${EDITOR} ${XDG_CONFIG_HOME}/zsh/01-export.zsh && . ${XDG_CONFIG_HOME}/zsh/.zshrc"
+	[zsh aliases and functions]="${EDITOR} ${XDG_CONFIG_HOME}/zsh/aliasesNfunctions.zsh && . ${XDG_CONFIG_HOME}/zsh/.zshrc"
+	[xinitrc]="${EDITOR} ${HOME}/.xinitrc"
+	[Xresources]="${EDITOR} ${HOME}/.Xresources && xrdb -load ${HOME}/.Xresources"
+	# global
+	# sudoedit doesn't work sudo -E nvim works better
+	["[dir] profile.d"]="sudoedit /etc/profile.d/"
+	[sh profile]="sudoedit /etc/profile"
+	[zsh zprofile]="sudoedit /etc/zsh/zprofile"
+	[X11 xinitrc]="sudoedit /etc/X11/xinit/xinitrc"
+	# cd but jsut use nvim to navigate
+	["[dir] xinitrc.d"]="sudoedit /etc/X11/xinit/xinitrc.d/"
+	["[dir] xorg.conf.d"]="sudoedit /etc/X11/xorg.conf.d/"
+	# portage shit
+	[portage make.conf]="sudoedit /etc/portage/make.conf"
+	[portage package.use]="sudoedit /etc/portage/package.use"
+	[portage world]="sudoedit /var/lib/portage/world"
+	[hosts]="sudoedit /etc/hosts"
+	[sudoers]="sudoedit /etc/sudoers"
+)
+# number of elements in the array
+configs_nrows="${#configs[@]}"
+
+prepare_launcher() {
+	if [[ "$1" == "rofi" ]]; then
+		launcher_exe="rofi"
+		launcher_options=(-dmenu -i -p "${ROFI_PROMPT}" "${ROFI_OPTIONS[@]}")
+	elif [[ "$1" == "zenity" ]]; then
+		launcher_exe="zenity"
+		launcher_options=(--list --title="${ZENITY_TITLE}" --text="${ZENITY_TEXT}" \
+			"${ZENITY_OPTIONS[@]}")
+	fi
+}
+prepare_launcher rofi
+
+launcher=("${launcher_exe}" "${launcher_options[@]}")
+# launcher="${launcher_exe} ${launcher_options[@]}"
+
+# also spawn new terminal so it has where to launch, right?
+# just send the output of the script to tdrop
+# pipes to rofi -dmenu like basic echo -e "optionA\noptionB\n" but uses dynamic
+# arrays
+# selection is literally only the selected item
+# but it does start rofi, how? is it because its subsshell?
+# 99% because of the subshell
+selection="$(printf '%s\n' "${!configs[@]}" | sort | "${launcher[@]}")"
+# test
+# make function that reads it?
+# for now i just pass this value to temporary file that is then read by nvim
+_value=${configs[${selection}]}
+# remove quotes, but maybe just don't save the quotes in database?
+# echo "${_value//\'}" >> /home/vaernil/ROFI2.log
+# maybe don't overwrite to keep history? and just read last line?
+# like tail -n 1
+# so maybe add if longer than X lines
+# to delete history?
+echo "${_value}" >> /tmp/rofi_menu_cf
+# so maybe instead of executing it like this, just output the path and use
+# external tools to deal with it
+# echo "${selection}"
+# + echo ''\''/home/vaernil/.config/wm/bspwm/bspwmrc'\'''
+# echo "${configs[${selection}]}"
+# with double quotes
+# /usr/bin/nvim /home/vaernil/.config/wm/bspwm/bspwmrc: No such file or directory
+# why?
+# "${configs[${selection}]}"
+# echo ${configs[${selection}]}
+# exec ${configs[${selection}]}
+# ${configs[${selection}]} &&
+# i dont understand why exec
+# double quoting and globbing is hte thing im looking for
+# exec ${configs[${selection}]}
+# exec "${configs[${selection}]}"

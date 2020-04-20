@@ -1,0 +1,56 @@
+#!/bin/sh
+
+# just a wrapper for notify-send | dunstify
+
+set -x
+# $0 is the same here and in the function, though i thought its gonna print
+# function name
+# _dO="$0"
+# $# will also be the same cuz i pass the same amount of arguments
+_wm_notify_dNO="$#"
+# export _wm_notify_dNO="$#"
+# summary is bold because thats how it's set in the dunst's config file
+# which runs as deamon at startup, think about updating config file on the fly
+
+# i can't override timeout with -t, why?
+main() {
+	# set -v
+	# export _wm_notify_dNO="$#"
+	# _wm_notify_dNO="$#"
+	# export _dunst_dNO
+	# export dbus here?
+	_d0="$0"
+	_d1="$1"
+	_d2="$2"
+	_d3="$3"
+	_d4="$4"
+	_dd="$$"
+	# _d-="$_"
+	_dunst_IFS="${IFS}"
+	# echo "${_dunst_dNO}"
+	wm="bspwm"
+	# wm="dunst"
+	# IFS= read -r -d '' model </proc/device-tree/model || [[ $model ]]
+	pid="$(pidof "$wm" | awk '{print $1}')"
+	dbus="$(grep -z DBUS_SESSION_BUS_ADDRESS /proc/"${pid}"/environ)"
+	# export DBUS_SESSION_BUS_ADDRESS="${dbus#*=}"
+	# export DISPLAY=:0
+	set +x
+	_dALLa="$*"
+	# now all parameters are the ones passed to this function
+	# and i'm passing them via main $@ which is needed if dunstify
+	# msut do anything
+	set -x
+	# notify-send "$@"
+	# should i exec here?
+	exec dunstify "$@"
+# } 2>"${HOME}/.log/wm_notify"
+}
+
+# set -v
+# set -x
+# exec > "${HOME}/.log/wm_notify" 2>&1
+# main
+main "$@"
+# main "A" "B"
+# exec main "$@"

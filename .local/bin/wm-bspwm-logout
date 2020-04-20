@@ -1,0 +1,12 @@
+#!/bin/sh
+
+# gentler way of logging out of bspwm
+# iterates over every window and tries to close, not kill it
+# node = window
+for id_node in $(bspc query -N); do
+	bspc node "${id_node}" -c
+done
+
+# killing of bars
+rm "${PANEL_FIFO}"
+bspc quit
