@@ -132,8 +132,9 @@ super + v
 	tdrop -am -w 33% -x 0 -h 1056 -y 22 -n quake33west -f "--class quakenvim" alacritty
 	# tdrop -am -w 33% -x 0 -h 1056 -y 22 -n quake33west -f "--class quakenvim,quakenvim" alacritty
 # dropdown file explorer, persistent, disable notifications
+# https://edunham.net/2015/01/29/vim_open_file_with_cursor_at_the_end.html
 super + shift + v
-	tdrop -am -w 870 -x 0 -h 540 -y 538 -n quakewestnvim -f "--class quakenvim -e zsh -i -c 'nvim ~/text/2020-notes'" alacritty
+	tdrop -am -w 870 -x 0 -h 540 -y 538 -n quakewestnvim -f "--class quakenvim -e zsh -i -c 'nvim ~/Documents/_text/2020-notes'" alacritty
 # open todo to edit
 # make one vith vimdif and 2 files
 # mnemo n lower right quadrant N upper
@@ -253,8 +254,8 @@ super + ctrl + shift + space
 #     bspc node -z {right -20 0,top 0 20,bottom 0 -20,left 20 0}
 #problem with this is it only works if you are in NW node, use some conditional
 # based on geometry?
-super + alt + {j,k,i,l}
-	bspc node -z {right -20 0,bottom 0 20,bottom 0 -20,right 20 0}
+# super + alt + {j,k,i,l}
+#     bspc node -z {right -20 0,bottom 0 20,bottom 0 -20,right 20 0}
 
 # contract a window by moving one of its side inward
 # super + alt + shift + {j,k,i,l}
@@ -265,6 +266,17 @@ super + {Left,Down,Up,Right}
 
 # super + shift + alt + ctrl {j,k,i,l}
 #     bspc node -v {-20 0,0 20,0 -20,20 0}
+# expand/contract a window, works only with tiling
+super + alt + {j,k,i,l}
+	bspc node -z {left -20 0 || bspc node -z right -20 0, \
+				bottom 0 20 || bspc node -z top 0 20,\
+				top 0 -20 || bspc node -z bottom 0 -20,\
+				right 20 0 || bspc node -z left 20 0}
+
+# works ok with floating, doesnt with tiling,
+super + alt + ctrl + {j,k,i,l}
+	;dash ~/.config/wm/sxhkd/resize {x -, y +, y -, x +}
+	# ;dash ~/.config/wm/sxhkd/resize {x +, y -, y +, x -}
 # Mouse floating:
 bspc config pointer_modifier mod4
 bspc config pointer_action2 move
@@ -336,7 +348,7 @@ XF86Calculator
 # to
 super + e
 	rofi-edit-config; \
-	alacritty --class "quake_dmenu" -e "zsh" -c "$(tail -n 1 /tmp/rofi_menu_cf)"
+	alacritty --class "quake_dmenu" -e "zsh" -c "$(tail -n 1 /var/tmp/rofi-edit-config)"
 	# rofi_menu_cf; alacritty --class "quake_roficf" -e "zsh" -c "$(tail -n 1 /tmp/rofi_menu_cf); zsh"
 	# alacritty --class instancetest,classtest
 # hide all quakes and floats with one button

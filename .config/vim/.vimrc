@@ -35,6 +35,7 @@
 	" activate it via keybind
 	" tab, indentation
 	filetype plugin indent on
+	" switch to 2 spaces maybe?
 	set tabstop=4                      " Replace existing tab with 4 spaces width
 	set softtabstop=4                  " Number of spaces during insert mode
 	set shiftwidth=4                   " When indenting with '>', use 4 spaces width
@@ -1155,6 +1156,7 @@
 	" filetype HTML {{{
 		Plug 'mattn/emmet-vim'                  " expands abbreviations
 	" }}}
+	Plug 'xuhdev/vim-latex-live-preview', { 'for': 'tex' }
 	" syntax {{{
 	Plug 'liuchengxu/vista.vim'  "better than tagbar
 	" Plug 'majutsushi/tagbar'                " displays tags in a window

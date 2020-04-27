@@ -107,6 +107,9 @@ alias diff="nvim -d "
 alias v="nvim "
 alias nv="nvim "
 alias vim="nvim "
+# open file at the end and in instert mode
+# chaining nvim command G to go to the end and o to insert newline
+alias vG="nvim '+normal Go' "
 ### fzf
 # https://github.com/junegunn/fzf#using-the-finder
 alias fzfp="fzf --preview 'head -100 {}'"
@@ -562,64 +565,6 @@ fkill() {
 	then
 		echo ${pid} | xargs kill -${1:-9}
 	fi
-}
-
-# https://stackoverflow.com/questions/4554718/how-to-use-patterns-in-a-case-statement
-# edit configs, how to add to autocompletion?
-# Edit Config File
-ecf() {
-	case $1 in
-		# user notepad, rethink approach
-		# append date? every few days?
-		note)      $EDITOR $HOME/text/2020-notes ;;
-		# wm
-		bspwm)     $EDITOR $XDG_CONFIG_HOME/wm/bspwm/bspwmrc ;;
-		brules)    $EDITOR $XDG_CONFIG_HOME/wm/scripts/visual/exrules.sh ;;
-		sxhkd)     $EDITOR $XDG_CONFIG_HOME/wm/sxhkd/sxhkdrc ;;
-		panel)     $EDITOR $XDG_CONFIG_HOME/wm/panel/limebar ;;
-		tpicon)    $EDITOR $XDG_CONFIG_HOME/wm/panel/tools/icon ;;
-		tpcolor)   $EDITOR $XDG_CONFIG_HOME/wm/themes/panel_colors ;;
-		tpconf)    $EDITOR $XDG_CONFIG_HOME/wm/themes/panel_config ;;
-		twmcolor)  $EDITOR $XDG_CONFIG_HOME/wm/themes/wm_numixlike ;;
-		twmicon)   $EDITOR $XDG_CONFIG_HOME/wm/themes/unicode_icons ;;
-		nvim|vim[rc]) $EDITOR $XDG_CONFIG_HOME/vim/.vimrc ;;
-		wmscripts) $EDITOR $XDG_CONFIG_HOME/wm/scripts ;;
-		# .config programs
-		dunst)      $EDITOR $XDG_CONFIG_HOME/dunst/dunstrc ;;
-		mpd)		$EDITOR $XDG_CONFIG_HOME/mpd/mpd.conf ;;
-		mpvc)		$EDITOR $XDG_CONFIG_HOME/mpv/mpv.conf ;;
-		mpvin)		$EDITOR $XDG_CONFIG_HOME/mpv/input.conf ;;
-		neofetch)	$EDITOR $XDG_CONFIG_HOME/neofetch/config.conf ;;
-		picom)      $EDITOR $XDG_CONFIG_HOME/picom.conf ;;
-		pqiv)		$EDITOR $XDG_CONFIG_HOME/pqiv/pqivrc ;;
-		ranger)		$EDITOR $XDG_CONFIG_HOME/ranger/rc.conf ;;
-		rifle)		$EDITOR $XDG_CONFIG_HOME/ranger/rifle.conf ;;
-		scope)		$EDITOR $XDG_CONFIG_HOME/ranger/scope.sh ;;
-		rofi)		$EDITOR $XDG_CONFIG_HOME/rofi/config ;;
-		term)       $EDITOR $XDG_CONFIG_HOME/alacritty/alacritty.yml ;;
-		zathura)	$EDITOR $XDG_CONFIG_HOME/zathura/zathurarc ;;
-		# env and shit
-		# local
-		bashrc)		$EDITOR $HOME/.bashrc ;;
-		zshrc)		$EDITOR $XDG_CONFIG_HOME/zsh/.zshrc && source $XDG_CONFIG_HOME/zsh/.zshrc ;;
-		zexp)		$EDITOR $XDG_CONFIG_HOME/zsh/01-export.zsh && source $XDG_CONFIG_HOME/zsh/.zshrc ;;
-		zali)		$EDITOR $XDG_CONFIG_HOME/zsh/aliasesNfunctions.zsh && source $XDG_CONFIG_HOME/zsh/.zshrc ;;
-		xinitrc)		$EDITOR $HOME/.xinitrc ;;
-		xres)     $EDITOR $HOME/.Xresources && xrdb $HOME/.Xresources ;;
-		# global
-		zgenv)		sudoedit /etc/zsh/zprofile ;;
-		gxinitrc)		sudoedit /etc/X11/xinit/xinitrc ;;
-		gxinitrcd)		cd /etc/X11/xinit/xinirc.d/ ;;
-		x11)     cd /etc/X11/xorg.conf.d/ ;;
-		pgenv)		cd /etc/profile.d/ ;;
-		# portage shit
-		pconf)   sudoedit /etc/portage/make.conf ;;
-		puse)    sudoedit /etc/portage/package.use ;;
-		pworld)  sudoedit /var/lib/portage/world ;;
-		hosts)		sudoedit /etc/hosts ;;
-		sudo)		sudoedit /etc/sudoers ;;
-		*)			echo "Unknown application: $1" ;;
-	esac
 }
 
 # man piped to less

@@ -95,6 +95,7 @@ xsetroot -cursor_name left_ptr &
 xrandr --setprovideroutputsource modesetting NVIDIA-0
 xrandr --auto
 # export SXHKD_SHELL="/bin/sh"
+dunst 2>> "${HOME}/.log/dunst_error.log" &
 sxhkd -c "${XDG_CONFIG_HOME}/wm/sxhkd/sxhkdrc" 2>> "${HOME}/.log/sxhkd_error.log" &
 # should i use dbus lanuch in this manners?
 # start WM/DE with dbus

@@ -15,7 +15,9 @@ ROFI_THEME="${ROFI_THEME:-${XDG_CONFIG_HOME}/rofi/config-dmenu.rasi}"
 ROFI_OPTIONS=(${ROFI_OPTIONS:--selected-row 0 -config ${ROFI_THEME}})
 # zenity is super cool btw
 
-# EDIT_HISTORY="/tmp/{USER}/rofi-edit-config.history"
+# EDIT_HISTORY="/var/tmp/${USER}/rofi-edit-config.history"
+EDIT_HISTORY="/var/tmp/rofi-edit-config"
+export EDIT_HISTORY
 # export EDIT_HISTORY
 make_tempdir(){
 	mktemp
@@ -25,16 +27,13 @@ make_tempdir(){
 command_exists() {
 	command -v "$1" &> /dev/null 2>&1
 }
-# either json or associative arrayh
+# either json or associative array
 # first one edits root folder
 typeset -A configs
 configs=(
 	# do i go for some tags? like WM APPS SYSTEM whatever?
 	# top option edit DIR
 	[ _Edit ${XDG_CONFIG_HOME}]="${EDITOR} ${XDG_CONFIG_HOME}"
-	[1 '']="'${HOME}/.config/wm/bspwm/bspwmrc'"
-	[2 ""]=""${HOME}/.config/bspwmrc""
-	[3 nvim]="${EDITOR} ${HOME}/.config/bspwmrc"
 	[note scratchpad]="${EDITOR} ${HOME}/text/2020-notes"
 	# wm
 	[WM bspwm]="${EDITOR} ${XDG_CONFIG_HOME}/wm/bspwm/bspwmrc"
@@ -71,20 +70,23 @@ configs=(
 	[xinitrc]="${EDITOR} ${HOME}/.xinitrc"
 	[Xresources]="${EDITOR} ${HOME}/.Xresources && xrdb -load ${HOME}/.Xresources"
 	# global
-	# sudoedit doesn't work sudo -E nvim works better
-	["[dir] profile.d"]="sudoedit /etc/profile.d/"
+	# sudoedit doesn't work on directories sudo -E nvim works better
+	["[dir] profile.d"]="sudo -E nvim /etc/profile.d/"
 	[sh profile]="sudoedit /etc/profile"
 	[zsh zprofile]="sudoedit /etc/zsh/zprofile"
 	[X11 xinitrc]="sudoedit /etc/X11/xinit/xinitrc"
 	# cd but jsut use nvim to navigate
-	["[dir] xinitrc.d"]="sudoedit /etc/X11/xinit/xinitrc.d/"
-	["[dir] xorg.conf.d"]="sudoedit /etc/X11/xorg.conf.d/"
+	["[dir] xinitrc.d"]="sudo -E nvim /etc/X11/xinit/xinitrc.d/"
+	["[dir] xorg.conf.d"]="sudo -E nvim /etc/X11/xorg.conf.d/"
 	# portage shit
 	[portage make.conf]="sudoedit /etc/portage/make.conf"
 	[portage package.use]="sudoedit /etc/portage/package.use"
 	[portage world]="sudoedit /var/lib/portage/world"
 	[hosts]="sudoedit /etc/hosts"
 	[sudoers]="sudoedit /etc/sudoers"
+	# bin
+	["[dir] [bin] ~/.local/bin"]="${EDITOR} ${HOME}/.local/bin"
+	["[bin] rofi-edit-config"]="${EDITOR} ${HOME}/.local/bin/rofi-edit-config"
 )
 # number of elements in the array
 configs_nrows="${#configs[@]}"
@@ -122,7 +124,7 @@ _value=${configs[${selection}]}
 # like tail -n 1
 # so maybe add if longer than X lines
 # to delete history?
-echo "${_value}" >> /tmp/rofi_menu_cf
+echo "${_value}" >> /var/tmp/rofi-edit-config
 # so maybe instead of executing it like this, just output the path and use
 # external tools to deal with it
 # echo "${selection}"

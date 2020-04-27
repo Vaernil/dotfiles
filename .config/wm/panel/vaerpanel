@@ -1,3 +1,4 @@
+#!/bin/bash
 #!/usr/bin/env bash
 
 # Just a simple Lemonbar script
@@ -19,7 +20,7 @@
 # Cheers! Addy
 # breaks on error
 # set -eE  # same as: `set -o errexit -o errtrace`
-function notify {
+_notify() {
 	echo "Something went wrong!"
 }
 
@@ -55,92 +56,85 @@ trap '_error "${BASH_SOURCE}" "${LINENO}" "siemanko" ${_getdate}' ERR
 # Palette
 ####
 background="#151515"
-foreground="#DEDEDE"
+foreground="#dedede"
 color00="#151515"
-color08="#2D2D2D"
+color08="#2d2d2d"
 # red
-color01="#D64937"
-color09="#F9546D"
-# green
+color01="#d64937"
+color09="#f9546d"
 # color2="#FF513A"
 # can i use 0x notation?
 # color02="0x9DD7D7"
-color02="#9DD7D7"
-color10="#17B6B8"
+# green
+color02="#9dd7d7"
+color10="#17b6b8"
 # yellow
-color03="#EEDF77"
-color11="#FF9C8F"
+color03="#eedf77"
+color11="#ff9c8f"
 # blue
-color04="#F92672"
-color12="#FF6C6C"
+color04="#f92672"
+color12="#ff6c6c"
 # magenta
-color05="#922E3E"
-color13="#D700AF"
+color05="#922e3e"
+color13="#d700af"
 # cyan
-color06="#BF315C"
-color14="#CB5176"
+color06="#bf315c"
+color14="#cb5176"
 # white
-color07="#DEDEDE"
+color07="#dedede"
 color15="#525252"
 ####
-panel_bg="$color08"
-panel_fg="$color01"
+panel_bg="${color08}"
+panel_fg="${color07}"
+panel_accent="${color01}"
+title_fg="${color07}"
 ############
 
 # Panel configurations
 
 # fonts
 # panel_font1="Iosevka Nerd Font:style=Regular:size=10"
-panel_font1="Hasklug Nerd Font:style=Regular:size=10"
-panel_font2="Font Awesome 5 Free Regular:style=Regular:size=10"
-panel_font3="Font Awesome 5 Brands Regular:style=Regular:size=10"
+panel_font1="Hasklug Nerd Font:style=Regular:size=11"
+panel_font2="Font Awesome 5 Free Regular:style=Regular:size=11"
+panel_font3="Font Awesome 5 Brands Regular:style=Regular:size=11"
 # fallbackfont
 panel_underline=2
-underline_color="$foreground"
+underline_color="${foreground}"
 # panel geometry
-panel_border=1
-panel_height=20
+# copy bspwm top padding value
+panel_height=22
+
 # to fix right border adjust below
-#panel_width="1598"
+# full widht without value?
 panel_width=""
 panel_geometry="${panel_width}x${panel_height}+0+0"
 
-# notification geometry
-notify_height=$panel_height
-notify_width=135
-notify_geometry="${notify_width}x${notify_height}+0+0"
-
-# duration of popups
-pop_duration=5
-# volume change clip
-clip="/usr/share/sounds/freedesktop/stereo/audio-volume-change.oga"
-# length of volume bar
-bar_length=20
-bar_char="="
 ##
-COLOR_FOCUSED_OCCUPIED_FG="#F6F9F6"
-COLOR_FOCUSED_OCCUPIED_BG="#5C5955"
+# reversed so the icon is dark
+COLOR_FOCUSED_OCCUPIED_FG="${panel_bg}"
+# all focused should have the same bg imo
+COLOR_FOCUSED_OCCUPIED_BG="${panel_accent}"
 
-COLOR_FOCUSED_FREE_FG="#F6F9F6"
-COLOR_FOCUSED_FREE_BG="#6D561C"
+COLOR_FOCUSED_FREE_FG="${panel_bg}"
+COLOR_FOCUSED_FREE_BG="${panel_accent}"
 
 COLOR_FOCUSED_URGENT_FG="#34322E"
 COLOR_FOCUSED_URGENT_BG="#F9A299"
 
-COLOR_OCCUPIED_FG="#A3A6AB"
-COLOR_OCCUPIED_BG="#34322E"
+COLOR_OCCUPIED_FG="${panel_fg}"
+COLOR_OCCUPIED_BG="${panel_bg}"
 
-COLOR_FREE_FG="#6F7277"
-COLOR_FREE_BG="#34322E"
+COLOR_FREE_FG="${color15}"
+COLOR_FREE_BG="${panel_bg}"
 
 COLOR_URGENT_FG="#F9A299"
-COLOR_URGENT_BG="#34322E"
+COLOR_URGENT_BG="${panel_bg}"
 
 COLOR_LAYOUT_FG="#A3A6AB"
-COLOR_LAYOUT_BG="#34322E"
+COLOR_LAYOUT_BG="${panel_bg}"
 
 COLOR_TITLE_FG="#A3A6AB"
-COLOR_TITLE_BG="#34322E"
+COLOR_TITLE_BG="${panel_bg}"
 
 COLOR_STATUS_FG="#A3A6AB"
 COLOR_STATUS_BG="#34322E"
@@ -148,48 +142,55 @@ COLOR_STATUS_BG="#34322E"
 COLOR_STATE_FG="$background"
 COLOR_STATE_BG="$background"
 
-HOST_BG="$panel_bg"
-HOST_FG="$foreground"
-# COLOR_SYS_BG="$color8"
-COLOR_SYS_BG="$panel_bg"
-COLOR_SYS_FG="$foreground"
-CLOCK_BG="#2D2D2D"
-CLOCK_FG="#DEDEDE"
-
-VOL_BG="#2D2D2D"
-VOL_FG="#DEDEDE"
 # just change places
 # clickable shit
 bg="$background"
 fg="$foreground"
 bg_alt="$fg"
 fg_alt="$bg"
-# if exists remove fifo
 
-PANEL_FIFO="/tmp/p.fifo"
-
-pgrep -x bar-border > /dev/null && pkill -x bar-border &
+# its in tmpfs now, so i dont care that much about number of writes
+PANEL_FIFO="/tmp/panel-${USER}.fifo"
+PANEL_NAME="wm-limebar"
+# pgrep -x bar-border > /dev/null && pkill -x bar-border &
+_kill_panel() {
+	pgrep -x lemonbar > /dev/null && pkill -x lemonbar &
+	# pgrep -x ${PANEL_NAME} > /dev/null && pkill -x ${PANEL_NAME} &
+}
+_kill_panel &
 # set -x
-[ -e "$PANEL_FIFO" ] && rm "$PANEL_FIFO"
+# if exists remove fifo
+[ -e "${PANEL_FIFO}" ] && rm "${PANEL_FIFO}"
 # make fifo
-mkfifo "$PANEL_FIFO"
+mkfifo "${PANEL_FIFO}"
 
 # The various sequences %{..} are part of lemonbar's syntax for styling
 # the output.  See `man lemonbar`.
 #### modules to display
-
+# needs extra space to fit
+icon_calendar=" "
 _clock() {
 	# should i assign variables inline?
-		local interval="${1}" fifo_label="${2}" cmd output
+		local interval="$1" fifo_label="$2"
+		local cmd output icon separator_left separator_inner separator_right
 		# local fifo_label="${2}"
 		# local output
+		# make it more dynamic
+		separator_left=""
+		separator_inner=" "
+		separator_right=""
+		icon="${icon_calendar}"
 		cmd="$(date +'%a %-d %b %H:%M')"
 		output="${cmd}"
-		# output="$fifo_label$(date +'%a %-d %b %H:%M')"
-		# echo "${fifo_label}"
-		# echo "DDDD"
 		# remember the case item has tobe first
-		echo "${fifo_label}%{B$color15}%{F$color04}${output}%{B-}%{F-}"
+		# fifolabel=D form DATE
+		# add %A and make it use either rofi or zenity
+		echo "${fifo_label}\
+			${separator_left}\
+			%{B${panel_bg}}%{F${panel_accent}}${icon}%{B-}%{F-}\
+			${separator_inner}\
+			%{B${panel_bg}}%{F${panel_fg}}${output}%{B-}%{F-}\
+			${separator_right}"
 		sleep "${interval}"
 }
 
@@ -208,25 +209,28 @@ _title() {
     # -i — Try to retrieve the title from the _NET_WM_VISIBLE_NAME atom.
     # -f FORMAT — Use the given printf-style format. The only supported sequences are %s (for title), %u (for window id) and \n.
 	# -t truncate to 70 symbols
+	set -x
 	local cmd output
 	# ifi do this it will update not on trugger
 	# output="$(xtitle -t 70 -f 'T%s\n')"
-	output="$(xtitle -t 70 -sf 'T%s\n')"
+	output="$(xtitle -t 70 -sf 'S%s\n')"
 	echo "${output}"
-}
+	set +x
+} 2> ~/.log/panel-title.log
+
 _update_fifo() {
 	set -x
-	local interval="${1}"
-	xtitle -t 70 -sf 'TZ%s\n' &
+	local interval="$1"
+	xtitle -t 70 -sf 'XT:%s\n' &
 	# while true; do _title; done &
 	# _title &
 	# while true; do echo "D" "$(_clock 60s)"; done &
 	# no difference between escaping and not
-	while true; do _clock "60s" "S"; done &
+	while true; do _clock "60s" "DF:"; done &
 	sleep "${interval}"
-# } > /home/vaernil/DOCHUJAPANA
-set +x
-}
+	set +x
+} 2> ~/.log/panel-updatefifo.log
+# send to fifo
 _update_fifo "0.1s" > "$PANEL_FIFO" &
 bspc subscribe report > "$PANEL_FIFO" &
 
@@ -234,148 +238,175 @@ bspc subscribe report > "$PANEL_FIFO" &
 # set +x
 
 # Then read those value
-panel_bar() {
-# query monitor id | count numer of monitors
-num_mon="$(bspc query -M | wc -l)"
+_DEBUG=0
+_panel_bar() {
+	# query monitor id | count numer of monitors
+	num_mon="$(bspc query -M | wc -l)"
+	icon_wm_free=""
+	icon_wm_occupied=""
+	# make either dynamic desktp icon, or at least change ocupied icon to full dot
+	# set -x
+	# The read builtin will read multiple whitespace-separated (or, really,
+	# separated by whatever is in $IFS) values.
+	# i dont get why anything longer than 1 character in case shows up in title
+	# it all depends on line variable, #? only cuts single character so the other
+	# one stays
+	while read -r line ; do
+		case $line in
+			DF:*)
+				# current date and time
+				date="${line#???}"
+				;;
+			XT:*)
+				# xtitle output
+				title="%{B${panel_bg}}%{F${title_fg}} ${line#???} %{B-}%{F-}"
+				;;
+				# test out
+			TEST:*)
+				_test="%{B$COLOR_TITLE_BG}%{F$COLOR_TITLE_FG} ${line#?????} %{B-}%{F-}"
+				;;
+			W*)
+				# samepl output
+				# WMeDP-1-1:o:f:f:O:o:o:o:o:o:o:LT:TF:G
+				# read manual later
+				# TT at the end means STATE TILED
+				# TP STATE PSEUDO-TILED
+				# TF STATE FLOATING
 
-# set -x
-# The read builtin will read multiple whitespace-separated (or, really,
-# separated by whatever is in $IFS) values.
-while read -r line ; do
-	case $line in
-		S*)
-			# current date and time
-			datka="${line#?}"
-			;;
-		# D*)
-		#     # current date and time
-		#     datka="${line#?}"
-		#     ;;
-		T*)
-			# xtitle output
-			title="%{B$COLOR_TITLE_BG}%{F$COLOR_TITLE_FG} ${line#?} %{B-}%{F-}"
-			;;
-		W*)
-			# WMeDP-1-1:o:f:f:O:o:o:o:o:o:o:LT:TF:G
-			# IFS sets the separator
-			# workspaces output
-			# loop which iterates over bspwm's report to get desktop
-			# bspwm internal state
-			# (worskpaces) names and their states and apply color to it
-			wm=
-			IFS=":"
-			# shellcheck disable=SC2086
-			# TODO investigate
-			set -- ${line#?}
-			while [ $# -gt 0 ] ; do
-				item=$1
-				# name
-				name=${item#?}
-				case $item in
-					# m - monitor
-					# M - monitor focused
-					[mM]*)
-						case $item in
-							m*)
-								# monitor
-								FG=$COLOR_MONITOR_FG
-								BG=$COLOR_MONITOR_BG
-								on_focused_monitor=
-								;;
-							M*)
-								# focused monitor
-								FG=$COLOR_FOCUSED_MONITOR_FG
-								BG=$COLOR_FOCUSED_MONITOR_BG
-								on_focused_monitor=1
-								;;
-						esac
-						[ "$num_mon" -lt 2 ] && shift && continue
-						# [ $num_mon -lt 2 ] && shift && continue
-						wm="${wm}%{F${FG}}%{B${BG}}%{A:bspc monitor -f ${name}:} ${name} %{A}%{B-}%{F-}"
-						;;
+				# workspaces output
+				# loop which iterates over bspwm's report to get desktop
+				# bspwm internal state
+				# (worskpaces) names and their states and apply color to it
+				wm=
+				# number of desktops for correctly assigning cliclable areas A
+				wm_no=1
+				# IFS sets the separator
+				IFS=":"
+				# shellcheck disable=SC2086
+				# TODO investigate
+				set -- ${line#?}
+				while [ $# -gt 0 ] ; do
+					item=$1
+					# name
+					name=${item#?}
+					case $item in
+						# m - monitor
+						# M - monitor focused
+						[mM]*)
+							case $item in
+								m*)
+									# monitor
+									FG=$COLOR_MONITOR_FG
+									BG=$COLOR_MONITOR_BG
+									on_focused_monitor=
+									;;
+								M*)
+									# focused monitor
+									FG=$COLOR_FOCUSED_MONITOR_FG
+									BG=$COLOR_FOCUSED_MONITOR_BG
+									on_focused_monitor=1
+									;;
+							esac
+							[ "${num_mon}" -lt 2 ] && shift && continue
+							# TODO remove STATE and shit from displaying unless in
+							# DEBUG mode
+							# wm="${wm}%{F${FG}}%{B${BG}}%{A:bspc monitor -f ${name}:} ${name} %{A}%{B-}%{F-}"
+							wm="${wm}%{F${FG}}%{B${BG}}%{A:bspc monitor -f ^${wm_no}:} ${name} %{A}%{B-}%{F-}"
+							wm_no="$((wm_no+1))"
+							;;
 
-					# {Free,Occupied,Urgent} focused
-					[fFoOuU]*)
-						case $item in
-							f*)
-								# free desktop
-								FG=$COLOR_FREE_FG
-								BG=$COLOR_FREE_BG
-								UL=$BG
-								;;
-							F*)
-								if [ "$on_focused_monitor" ] ; then
-									# focused free desktop
-									FG=$COLOR_FOCUSED_FREE_FG
-									BG=$COLOR_FOCUSED_FREE_BG
-									UL=$BG
-								else
-									# active free desktop
+						# {Free,Occupied,Urgent} focused
+						[fFoOuU]*)
+							case $item in
+								f*)
+									# free desktop
 									FG=$COLOR_FREE_FG
 									BG=$COLOR_FREE_BG
-									UL=$COLOR_FOCUSED_FREE_BG
-								fi
-								;;
-							o*)
-								# occupied desktop
-								FG=$COLOR_OCCUPIED_FG
-								BG=$COLOR_OCCUPIED_BG
-								UL=$BG
-								;;
-							O*)
-								if [ "$on_focused_monitor" ] ; then
-									# focused occupied desktop
-									FG=$COLOR_FOCUSED_OCCUPIED_FG
-									BG=$COLOR_FOCUSED_OCCUPIED_BG
 									UL=$BG
-								else
-									# active occupied desktop
+									;;
+								F*)
+									if [ "$on_focused_monitor" ] ; then
+										# focused free desktop
+										FG=$COLOR_FOCUSED_FREE_FG
+										BG=$COLOR_FOCUSED_FREE_BG
+										UL=$BG
+									else
+										# active free desktop
+										FG=$COLOR_FREE_FG
+										BG=$COLOR_FREE_BG
+										UL=$COLOR_FOCUSED_FREE_BG
+									fi
+									;;
+								o*)
+									# occupied desktop
 									FG=$COLOR_OCCUPIED_FG
 									BG=$COLOR_OCCUPIED_BG
-									UL=$COLOR_FOCUSED_OCCUPIED_BG
-								fi
-								;;
-							u*)
-								# urgent desktop
-								FG=$COLOR_URGENT_FG
-								BG=$COLOR_URGENT_BG
-								UL=$BG
-								;;
-							U*)
-								if [ "$on_focused_monitor" ] ; then
-									# focused urgent desktop
-									FG=$COLOR_FOCUSED_URGENT_FG
-									BG=$COLOR_FOCUSED_URGENT_BG
 									UL=$BG
-								else
-									# active urgent desktop
+									;;
+								O*)
+									if [ "$on_focused_monitor" ] ; then
+										# focused occupied desktop
+										FG=$COLOR_FOCUSED_OCCUPIED_FG
+										BG=$COLOR_FOCUSED_OCCUPIED_BG
+										UL=$BG
+									else
+										# active occupied desktop
+										FG=$COLOR_OCCUPIED_FG
+										BG=$COLOR_OCCUPIED_BG
+										UL=$COLOR_FOCUSED_OCCUPIED_BG
+									fi
+									;;
+								u*)
+									# urgent desktop
 									FG=$COLOR_URGENT_FG
 									BG=$COLOR_URGENT_BG
-									UL=$COLOR_FOCUSED_URGENT_BG
-								fi
-								;;
-						esac
-						wm="${wm}%{F${FG}}%{B${BG}}%{U${UL}}%{+u}%{A:bspc desktop -f ${name}:} ${name} %{A}%{B-}%{F-}%{-u}"
-						;;
-					[LTG]*)
-						# internal bspwm flags
-						# layout, state and flags
-						wm="${wm}%{B$color07}%{F$color10} ${name} %{B-}%{F-}"
-						;;
-				esac
-				# shift variable
-				shift
-			done
-			;;
-	esac
-	printf "%s\n" "%{l}${wm}%{c}${title}%{r}${datka}"
-	# printf "%s\n" "%{l}${wm}%{c}${title}%{r}${sys}"
-done
+									UL=$BG
+									;;
+								U*)
+									if [ "$on_focused_monitor" ] ; then
+										# focused urgent desktop
+										FG=$COLOR_FOCUSED_URGENT_FG
+										BG=$COLOR_FOCUSED_URGENT_BG
+										UL=$BG
+									else
+										# active urgent desktop
+										FG=$COLOR_URGENT_FG
+										BG=$COLOR_URGENT_BG
+										UL=$COLOR_FOCUSED_URGENT_BG
+									fi
+									;;
+							esac
+							# does it only work with unique names?
+							# because when i changed to same icon for all it
+							# stopped
+							# wm="${wm}%{F${FG}}%{B${BG}}%{U${UL}}%{+u}%{A:bspc desktop -f ${name}:} ${name} %{A}%{B-}%{F-}%{-u}"
+							wm="${wm}%{F${FG}}%{B${BG}}%{U${UL}}%{+u}%{A:bspc desktop -f ^${wm_no}:} ${name} %{A}%{B-}%{F-}%{-u}"
+							wm_no="$((wm_no+1))"
+							;;
+						[LTG]*)
+							# internal bspwm flags
+							# layout, state and flags
+							# only show those if in debug mode
+							# the flags are still being passed by bspwm
+							if [ "${_DEBUG}" = 1 ] ; then
+								wm="${wm}%{B${color07}}%{F${color10}} ${name} %{B-}%{F-}"
+							fi
+							;;
+					esac
+					# shift variable
+					shift
+				done
+				;;
+		esac
+		# join strings and place them
+		printf "%s\n" "%{l}${wm}%{c}${title}${_test}%{r}${date}"
+		# printf "%s\n" "%{l}${wm}%{c}${title}%{r}${date}"
+	done
 
 # set +x
 }
 
-_PANEL_WM_NAME="jamjestpanel"
+_PANEL_WM_NAME="limebar"
 
 #
 # main() {
@@ -383,26 +414,30 @@ _PANEL_WM_NAME="jamjestpanel"
 
 # }
 # Get all the results of the modules above then pipe them to Lemonbar
-panel_bar < "$PANEL_FIFO" \
-	| bar-border -n "$_PANEL_WM_NAME" -p \
-				-R "$panel_fg" \
-				-r 0 \
+# bar-border is lemonbar with border support, lemonbar xft is called lemonbar
+
+	# | bar-border -n "$_PANEL_WM_NAME" -p \
+				# -R "$panel_fg" \
+				# -r 0 \
+# -n sets WM_NAME atom
+_panel_bar < "${PANEL_FIFO}" \
+	| lemonbar -n "${_PANEL_WM_NAME}" -p \
 				-a 20 \
-				-g "$panel_geometry" \
+				-g "${panel_geometry}" \
 				-o -0 -f "$panel_font1" \
 				-o -1 -f "$panel_font2" \
 				-o -1 -f "$panel_font3" \
-				-B "$panel_bg" \
-				-F "$panel_fg" | sh &
+				-B "${panel_bg}" \
+				-F "${panel_fg}" | sh &
 sleep 0.75
 # Trigger the PANEL_FIFO to make it instantly refreshed after bspwmrc reloaded
-echo "dummy" > "$PANEL_FIFO"
+# echo "dummy" > "$PANEL_FIFO"
 
 sleep 0.5
 # Rule the panel to make it hiding below fullscreen window
 # I add 'sleep 0.5' to avoid xdo executed before the Lemonbar fully loaded
 # grep panel name, it was set by lemonbar -n
-wid=$(xdo id -a "$_PANEL_WM_NAME")
-xdo above -t "$(xdo id -N Bspwm -n root | sort | head -n 1)" "$wid"
+wid=$(xdo id -a "${_PANEL_WM_NAME}")
+xdo above -t "$(xdo id -N Bspwm -n root | sort | head -n 1)" "${wid}"
 # Don't close this process
 wait
