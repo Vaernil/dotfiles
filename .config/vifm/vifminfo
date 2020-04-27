@@ -1,0 +1,88 @@
+# You can edit this file by hand, but it's recommended not to do that.
+
+# Marks:
+'H
+	/home/vaernil/
+	..
+1586538798
+'b
+	/home/vaernil/bin/
+	..
+1586538798
+'h
+	/home/vaernil/
+	..
+1586538798
+
+# Bookmarks:
+
+# Left window history (oldest to newest):
+d/home/vaernil
+	Public
+6
+d/home/vaernil/Public
+	..
+0
+d/home/vaernil
+	Pictures
+5
+d/home/vaernil/Pictures
+	..
+0
+d/home/vaernil
+	Pictures
+5
+d/home/vaernil/Pictures
+	satimg.jpg
+6
+
+# Right window history (oldest to newest):
+D/home/vaernil
+	Pictures
+6
+D/tmp/_asd/asd-vaernil/var/tmp/_cache/.vaernil-cache/stash/generated/screenshots
+	..
+0
+D/tmp/_asd/asd-vaernil/var/tmp/_cache/.vaernil-cache/stash/generated
+	screenshots
+2
+D/tmp/_asd/asd-vaernil/var/tmp/_cache/.vaernil-cache/stash/generated/screenshots
+	..
+0
+D/tmp
+	..
+0
+
+# Command line history (oldest to newest):
+:open
+:H
+:help
+:echo $VIMINIT
+:colorscheme Default
+:colorscheme?
+:set millerview
+:q
+:h
+
+# Search history (oldest to newest):
+
+# Prompt history (oldest to newest):
+
+# Local filter history (oldest to newest):
+
+# Registers:
+
+# Directory stack (oldest to newest):
+
+# Trash content:
+
+# State:
+f
+i1
+[.1
+[F
+F
+I1
+].1
+]F
+s0

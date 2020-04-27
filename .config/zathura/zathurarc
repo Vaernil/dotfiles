@@ -1,0 +1,100 @@
+# to use with tabbed:
+# tabbed zathura --reparent; -x doesn't work
+
+# bindings# {{{
+# index
+map [index] q quit
+# naviation
+map [index] i navigate_index up
+map [index] k navigate_index down
+map [index] e navigate_index expand
+
+# normal# {{{
+map [normal] I scroll half-up
+map [normal] K scroll half-down
+
+map [normal] i navigate previous
+map [normal] k navigate next
+
+map [normal] l jumplist backward
+map [normal] L jumplist forward
+
+map [normal] n search forward
+map [normal] N search backward
+
+# zoom
+map [normal] u zoom in
+map [normal] y zoom out
+map [normal] U adjust_window width
+map [normal] Y adjust_window best-fit
+
+# boomarks (different from marks; can be more than one letter)
+map [normal] a focus_inputbar ":bmark "
+map [normal] b focus_inputbar ":blist "
+map [normal] d focus_inputbar ":bdelete "
+
+map [normal] td toggle_page_mode 2
+
+map [normal] ; focus_inputbar :
+
+# visual mode does nothing currently
+# map [normal] v change_mode visual
+
+unmap <Space>
+
+unmap t
+# unmap '
+# won't let me map '
+# quickmarks
+map [normal] th feedkeys ":open ~/ag-sys/Large/Library/Books/programming/haskell/lyah.pdf"<Tab><Return>
+map [normal] tp feedkeys ":open ~/ag-sys/Large/Library/Books/programming/python/thinkpython_for_python_3.pdf"<Tab><Return>
+map [normal] tc feedkeys ":open ~/ag-sys/Large/Library/Books/programming/c/The.C.Programming.Language.2nd.Edition.pdf"<Tab><Return>
+map [normal] tr feedkeys ":open ~/school/LCRCalicoV2.pdf"<Tab><Return>
+# }}}
+#
+# same as vimrc with following search and replaces:
+# change " to #
+# change nnoremap to map [normal]
+# remove <silent>
+# change :silent ! to feedkeys ":exec
+# map <cr> to "<Return>
+# wm experementation#{{{
+unmap r
+unmap R
+unmap s
+# }}}
+
+# fullscreen# {{{
+# I'll do this later..
+map [fullscreen] e scroll up
+map [fullscreen] n scroll down
+# }}}
+
+# settings
+set zoom-step 20
+set n-completion-items 20
+set incremental-search true
+
+# copy to clipboard
+set selection-clipboard clipboard
+
+# appearance
+set statusbar-bg "#2d2d2d"
+# set statusbar-bg "#525252"
+# default; padding when statsubar opend (:something)
+set statusbar-v-padding 2
+set statusbar-h-padding 8
+# blank space between pages
+set page-padding 2
+# default
+set adjust-open best-fit
+set show-scrollbars false
+# default; on abort (<esc>) clear higlight (like :nohl)
+set abort-clear-search true
+
+# don't make window title fullpath
+set window-title-basename true
+# don't show fullpath in status bar
+# set statusbar-basename true
+
+# set database sqlite
