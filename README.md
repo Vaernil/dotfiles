@@ -23,10 +23,8 @@ To rethink
 
 ## Laptop
 ### Screenshot
-09-08-17</br>
-![Starting to take shape](images/screenshots/2017-08-09-210831_1600x900_scrot.png)</br>
-22-08-17</br>
-![Molding to my needs](images/screenshots/2017-08-22-184205_1600x900_scrot.png)</br>
+2020-04-26</br>
+![Starting to take shape](Pictures/_screenshots/_2020-recent-screenshot.png)</br>
 
 ## Install on new machines - not tested
 ## Requirements
