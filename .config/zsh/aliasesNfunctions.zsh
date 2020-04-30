@@ -755,3 +755,7 @@ getCurrentScript() {
 
 # lsof -nPp $$ | awk '{print $9}' | tail --lines=1
 
+# find and replace, careful, not sanitized at all
+fnr() {
+	find ./ -type f -exec sed -i "s/$1/$2/g" {} \;
+}
