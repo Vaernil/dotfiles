@@ -1,13 +1,6 @@
 # Vaernil's dotfiles of super fun and adventure
-
-It's just a bunch of dotfiles for my linux machines. It's very WIP and I'm starting to realize it's going to be WIP until the end of times, just like my car project</br>
-I'm still learning gentoo, basic scripting and git usage. This is basically my sandbox, so don't look at me and my files judgingly :)
-
-For now I decided to split it into branches, depending on the computer I'm using. Might reconsider it, as I learn more about git.
-I have no idea what master branch is supposed to be. Neutral configs I port anywhere I want? And then add the extras if needed? Dunno yet.<br>
-I'm starting to lean towards using just one - master - branch.
-
-To rethink
+coming back to this after few years hiatus, time to finally organize it
+ADHD lifestyle :)
 
 ## Inspiration
 * [r/unixporn](https://www.reddit.com/r/unixporn/)
@@ -21,38 +14,60 @@ To rethink
 ## PC
 ### Screenshot
 
-## Laptop
-### Screenshot
-2020-04-26</br>
-![Starting to take shape](Pictures/_screenshots/_2020-recent-screenshot.png)</br>
-
 ## Install on new machines - not tested
 ## Requirements
+I will try to make all the commands POSIX compliant, you can use the export function, but all my homies hate bash
 
-* Git
-	* [Gentoo](https://wiki.gentoo.org/wiki/Git)
-		``` bash
-		sudo emerge -av dev-vcs/git
-		git config --global user.name  "Vaernil"
-		git config --global user.email "vaernil@gmail.com"
-		```
-	* [Arch](https://wiki.archlinux.org/index.php/git)
-		``` bash
-		sudo pacman -S git
-		git config --global user.name  "Vaernil"
-		git config --global user.email "vaernil@gmail.com"
-		```
+## SETUP
 
-* Curl
-	* [Gentoo](https://packages.gentoo.org/packages/net-misc/curl)
-		``` bash
-		sudo emerge -av net-misc/curl
-		```
-	* [Arch](https://wiki.archlinux.org/index.php/Autofs)
-		``` bash
-		sudo pacman -S autofs
-		```
-## Install
+### ENV
+Temporarily set shell environment variables if the system doesn't do it for you.
+``` sh
+gituser='Vaernil'
+gitmail='vaernil@gmail.com'
+```
+	
+#### Git
+Setup your github account
+``` sh
+git config --global user.name  "${gituser}"
+git config --global user.email "${gitmail}"
+```
+		
+#### Distro specific
+* [NixOS](https://nixos.wiki/wiki/Main_Page)
+
+Backup your old configuration files first
+``` sh
+sudo mv /etc/nixos/hardware-configuration.nix{,.bak}
+sudo mv /etc/nixos/configuration.nix{,.bak}
+		
+sudo ln -s $(readlink -f ./machines/$(hostname)/configuration.nix) /etc/nixos/configuration.nix
+```
+Install git on your system
+* [NixOS](https://nixos.wiki/wiki/Git)
+``` sh
+nix-env -iA nixos.git
+```
+* [Gentoo](https://wiki.gentoo.org/wiki/Git)
+``` bash
+sudo emerge -av dev-vcs/git
+```
+* [Arch](https://wiki.archlinux.org/index.php/git)
+``` bash
+sudo pacman -S git
+```
+
+#### Alternatively use curl
+* [Gentoo](https://packages.gentoo.org/packages/net-misc/curl)
+``` bash
+sudo emerge -av net-misc/curl
+```
+* [Arch](https://wiki.archlinux.org/index.php/Autofs)
+``` bash
+sudo pacman -S autofs
+```
+### Install
 
 Install .dotfiles tracking in your $HOME by running:
 ``` bash
@@ -70,6 +85,10 @@ doesn't work atm
 * [Gentoo]
 * [Arch]
 ## TODO
+### NEW TODO
+* read up on nixos, niv-env vs NixOS Configuration vs nix-shell
+
+### OLD TODO
 * tweak vim colors and change few highlight groups
 * change vim airline prompt and also change colors
 * try changing gtk colors so I can distinguish active chrome tabs from inactive ones, right now it's way to dark, or find a way to add an accent somehow
