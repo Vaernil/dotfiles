@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /* vim: syntax=css */
 configuration {
 /* THEME */
@@ -159,3 +160,6 @@ configuration {
 /*	me-accept-custom: "Control+MouseDPrimary";*/
 /* }}} */
 }
+=======
+@theme "/nix/store/vkmsyrl9zhgm03m9g8qbvj7nr1irmy6y-rofi-1.7.5/share/rofi/themes/Arc-Dark.rasi"
+>>>>>>> a3e7742 (more files)
