@@ -240,8 +240,8 @@ ToolBoxButtonX=697
 ToolBoxButtonY=31
 
 [Containments][114]
-ItemGeometries-2560x1440=Applet-355:1728,736,96,64,0;Applet-437:1824,672,80,80,0;Applet-876:1296,1136,256,64,0;Applet-678:1552,1120,336,80,0;Applet-745:2208,544,80,80,0;
-ItemGeometriesHorizontal=Applet-355:1728,736,96,64,0;Applet-437:1824,672,80,80,0;Applet-876:1296,1136,256,64,0;Applet-678:1552,1120,336,80,0;Applet-745:2208,544,80,80,0;
+ItemGeometries-2560x1440=Applet-355:1728,736,96,64,0;Applet-437:1824,672,80,80,0;Applet-876:1296,1136,256,64,0;Applet-678:1552,1120,480,80,0;Applet-745:2208,544,80,80,0;
+ItemGeometriesHorizontal=Applet-355:1728,736,96,64,0;Applet-437:1824,672,80,80,0;Applet-876:1296,1136,256,64,0;Applet-678:1552,1120,480,80,0;Applet-745:2208,544,80,80,0;
 activityId=201cd657-a1fc-41fc-bae0-85f83670c3d5
 formfactor=0
 immutability=1
