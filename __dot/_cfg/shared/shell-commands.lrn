@@ -1,0 +1,22 @@
+# TESTING
+
+Workspaces
+
+    xrandr - check if primary on a output with 16:9 aspect ratio
+    record - check if screen recording is working on every workspace
+
+Network
+
+    dig +short txt qnamemintest.internet.nl - check if QNAME minimisation is enabled
+    sudo cat /var/log/dnscrypt-proxy/dnscrypt-proxy.log - check if dnscrypt is choosing a good DNS server with low latency
+    ssh -T git@github.com - check if ssh, gpg and pinentry are working
+    https://www.cloudflare.com/ssl/encrypted-sni/ - check DNSSEC (SNI will be unsuported)
+
+#Systemd
+
+    systemctl --user --failed - check failed user services
+    systemctl --failed - check failed system services
+    systemd-analyze security - check system security
+    systemd-analyze security --user - check user security
+
+
