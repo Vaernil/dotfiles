@@ -1,0 +1,285 @@
+{ config, pkgs, lib, ... }:
+
+{
+  imports =
+    [ # Include the results of the hardware scan.
+     ./hardware-configuration.nix
+     # ./modules-desktop.nix
+#     ../pkgs/desktop.nix
+      ../../pkgs/base-system-pkgs.nix
+ #       <home-manager/nixos>
+    ];
+
+  /* Nix preferences */
+  nix = {
+    #nixPath = [ "nixos-config=/home/boski/_dotfiles/os/nixos/configuration.nix" ];
+    package = pkgs.nixFlakes;
+#     package = pkgs.nixUnstable;
+    extraOptions = ''
+      experimental-features = nix-command flakes
+    '';
+    #Automatic garbage collection
+    gc.automatic = true;
+    gc.dates = "weekly";
+    gc.options = "--delete-older-than 30d";
+    settings = {
+      auto-optimise-store = true;
+    };
+  };
+
+  nixpkgs.config.allowUnfree = true;
+
+
+  # Bootloader.
+  boot = {
+    cleanTmpDir = true;
+#     initrd.luks.devices = {
+#       crootfs = { device = "/dev/nvme0n1p1"; preLVM = true; };
+#     };
+    loader = {
+      efi = {
+        canTouchEfiVariables = true;
+        efiSysMountPoint = "/boot/efi";
+      };
+      systemd-boot = {
+        enable = true;
+        # limit number of configurations to save in the boot menu
+        configurationLimit = 10;
+      };
+    };
+  };
+
+  powerManagement = {
+    enable = true;
+    powertop.enable = true;
+    cpuFreqGovernor = "ondemand";
+  # powerManagement.cpuFreqGovernor = "performance";
+  };
+
+  # LOCALE
+
+  # Set your time zone.
+  time.timeZone = "Europe/Oslo";
+  time.hardwareClockInLocalTime = true;
+
+  # Select internationalisation properties.
+  i18n = {
+    defaultLocale = "en_US.UTF-8";
+    supportedLocales = [ "en_US.UTF-8/UTF-8" ];
+  };
+
+  # FONTS
+  console = {
+    font = "Lat2-Terminus16";
+    keyMap = "pl";
+  #  useXkbConfig = true; # use xkbOptions in tty.
+  };
+
+  ### NETWORK
+  networking = {
+    hostName = "nixos-wintermute";
+    # hostName = "wintermute-i9-nixos";
+    # Enable networking
+    networkmanager.enable = true;
+    # wireless.enable = true;  # wpa_supplicant
+    # disable DHCP later
+    #useDHCP = false;
+    #useDHCP = lib.mkDefault true;
+    #interfaces.wlp3s0.useDHCP = true;
+    #interfaces.wlp114s0.useDHCP = lib.mkDefault true;
+  };
+
+### SERVICES
+
+
+	# AUDIO
+
+  # Enable sound with pipewire.
+  sound.enable = true;
+  #hardware.pulseaudio.enable = false;
+  nixpkgs.config.pulseAudio = true;
+  #hardware.pulseaudio.enable = true;
+  # Enable the X11 windowing system.
+
+  services = {
+    fwupd.enable = true;
+
+    dbus.packages = with pkgs; [ dconf ];
+    # needed for GNOME services outside of GNOME Desktop
+ #   dbus.packages = [pkgs.gcr];
+ #   udev.packages = with pkgs; [gnome.gnome-settings-daemon];
+
+    pipewire = {
+      enable = true;
+      alsa.enable = true;
+      alsa.support32Bit = true;
+      jack.enable = true;
+      pulse.enable = true;
+    };
+
+    # nvme?
+    fstrim.enable = true;
+    # add sshd and allow root login for further config
+    openssh = {
+      enable = true;
+      settings.permitRootLogin = "yes";
+      #passwordAuthentication = false;
+    };
+
+    printing = {
+      enable = true;
+      drivers = [ pkgs.gutenprint pkgs.gutenprintBin pkgs.hplipWithPlugin ];
+    };
+
+    # GPU
+    # NVIDIA
+    #https://nixos.wiki/wiki/Nvidia
+
+    xserver = {
+      enable = true;
+      videoDrivers = [ "nvidia" ];
+      deviceSection = ''
+      Option "VariableRefresh" "true"
+      '';
+      screenSection = ''
+      Option         "metamodes" "nvidia-auto-select +0+0 {ForceFullCompositionPipeline=On}"
+      Option         "AllowIndirectGLXProtocol" "off"
+      Option         "TripleBuffer" "on"
+      '';
+
+      desktopManager = {
+        # Enable the Plasma 5 Desktop Environment.
+        plasma5.enable = true;
+        xfce.enable  = true;
+      };
+
+      displayManager = {
+        # Enable automatic login for the user.
+        autoLogin.enable = true;
+        autoLogin.user = "boski";
+        sddm.enable = true;
+        #gdm.enable = true;
+        #gdm.wayland = true;
+      };
+
+      windowManager = {
+        bspwm.enable = true;
+        i3.enable = true;
+      };
+
+      libinput = {
+        enable = true;
+        #mouse.accelProfile = flat;
+      };
+      layout = "pl";
+      xkbVariant = "";
+      dpi = 96;
+    };
+  };
+
+  # HARDWARE
+
+  # bluetooth
+  hardware.bluetooth.enable = true;
+  services.blueman.enable = true;
+
+	# wireless receiver
+  hardware.logitech.wireless.enable = true;
+  hardware.logitech.wireless.enableGraphical = true; # for solaar to be included
+# https://github.com/NixOS/nixos-hardware/blob/master/common/gpu/intel/default.nix
+  hardware = {
+  # not sure firmware
+    enableAllFirmware = true;
+    opengl = {
+      enable = true;
+      extraPackages = with pkgs; [
+        vaapiVdpau
+        libvdpau-va-gl
+      ];
+    };
+
+    nvidia = {
+      package = config.boot.kernelPackages.nvidiaPackages.latest;
+      modesetting.enable = true;
+      forceFullCompositionPipeline = true;
+      powerManagement = {
+        enable = true;
+#        fringergrained = true;
+#        finegrained = lib.mkForce false;
+      };
+    };
+  };
+
+	#The services.xserver.videoDrivers setting is also valid for wayland installations despite it's name
+	#00:02.0 VGA compatible controller: Intel Corporation RocketLake-S GT1 [UHD Graphics 750] (rev 04)
+	#03:00.0 VGA compatible controller: NVIDIA Corporation TU104 [GeForce RTX 2080 SUPER] (rev a1)
+
+
+  ## PROGRAMS
+  # Some programs need SUID wrappers, can be configured further or are
+  # started in user sessions.
+
+  # programs.mtr.enable = true;
+
+  # QT
+  qt.platformTheme = "qt5ct";
+  
+  programs = {
+    dconf.enable = true;
+
+    gnupg.agent = {
+      enable = true;
+      enableSSHSupport = true;
+      pinentryFlavor  = "qt";
+    };
+
+    kdeconnect.enable = true;
+    partition-manager.enable = true;
+    steam = {
+      enable = true;
+      remotePlay.openFirewall = true;
+      dedicatedServer.openFirewall = true;
+    };
+  };
+
+   # security
+
+  security = {
+    pam.enableSSHAgentAuth = true;
+    pam.services.kwallet = {
+      name = "kwallet";
+      enableKwallet = true;
+    };
+
+    pam.services.sddm.enableKwallet = true;
+    # allow wayland lockers to unlock the screen
+    pam.services.swaylock.text = "auth include login";
+    # userland niceness
+    rtkit.enable = true;
+  };
+
+# needs flatpack
+#   xdg.portal = {
+#     enable = true;
+#     extraPortals = [pkgs.xdg-desktop-portal-gtk];
+#   };
+
+  users.extraUsers.boski = {
+    isNormalUser = true;
+    uid = 1000;
+    extraGroups= [
+      "video" "wheel" "disk" "audio" "audio" "networkmanager" "systemd-journal" "vboxusers"
+    ];
+
+    createHome = true;
+    #home = consts.home;
+    home = "/home/boski";
+    shell = "/run/current-system/sw/bin/bash";
+    initialPassword = "password";
+  };
+  # Copy the NixOS configuration file and link it from the resulting system
+  # (/run/current-system/configuration.nix). This is useful in case you
+  # accidentally delete configuration.nix.
+  system.copySystemConfiguration = true;
+  system.stateVersion = "22.11";
+}

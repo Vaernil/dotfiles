@@ -1,0 +1,12 @@
+[Dolphin]
+GroupedSorting=true
+SortHiddenLast=true
+SortOrder=1
+SortRole=modificationtime
+Timestamp=2023,3,26,12,41,0.174
+Version=4
+ViewMode=1
+VisibleRoles=Details_text,Details_size,Details_modificationtime,Details_permissions,Details_owner,Details_group,Details_extension,Details_creationtime,Details_path,Details_type,Details_tags,Details_title,CustomizedDetails
+
+[Settings]
+HiddenFilesShown=true
