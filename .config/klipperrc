@@ -1,0 +1,7 @@
+[General]
+IgnoreImages=false
+IgnoreSelection=false
+MaxClipItems=100
+SelectionTextOnly=false
+SyncClipboards=true
+Version=5.26.4

@@ -1,0 +1,12 @@
+[Show]
+Addexetolutris=true
+OpenAsRootKDE5=true
+SetAsWallpaperAndLockScreen=true
+forgetfileitemaction=true
+installFont=true
+kactivitymanagerd_fileitem_linking_plugin=true
+mountisoaction=true
+runInKonsole=true
+setAsWallpaper=true
+slideshowfileitemaction=true
+tagsfileitemaction=true

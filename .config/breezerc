@@ -1,0 +1,36 @@
+[Common]
+ShadowStrength=128
+
+[Style]
+DockWidgetDrawFrame=true
+ScrollBarAddLineButtons=2
+ScrollBarSubLineButtons=2
+TabBarDrawCenteredTabs=true
+
+[Windeco]
+DrawBorderOnMaximizedWindows=true
+DrawSizeGrip=true
+
+[Windeco Exception 0]
+BorderSize=0
+Enabled=true
+ExceptionPattern=firefox
+ExceptionType=0
+HideTitleBar=true
+Mask=16
+
+[Windeco Exception 1]
+BorderSize=0
+Enabled=true
+ExceptionPattern=discord
+ExceptionType=0
+HideTitleBar=true
+Mask=16
+
+[Windeco Exception 2]
+BorderSize=0
+Enabled=true
+ExceptionPattern=konsole
+ExceptionType=0
+HideTitleBar=false
+Mask=16

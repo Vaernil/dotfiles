@@ -1,0 +1,11 @@
+[MainWindow]
+DP-2 DP-4=DP-2
+DP-2 DP-4 Height 2560x1440 DP-2=574
+DP-2 DP-4 Width 2560x1440 DP-2=568
+DP-2 DP-4 XPosition 2560x1440 DP-2=1641
+DP-2 DP-4 YPosition 2560x1440 DP-2=395
+RestorePositionForNextInstance=false
+
+[WalletEditor]
+AlwaysShowContents=false
+SplitterSize=49,49

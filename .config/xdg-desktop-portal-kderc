@@ -1,0 +1,11 @@
+[Audio Preview Settings]
+Autoplay=false
+
+[FileDialogSize]
+DP-2 DP-4 Height 2560x1440 DP-2=764
+DP-2 DP-4 Width 2560x1440 DP-2=1300
+
+[KFileDialog Settings]
+Recent Files[$e]=file:$HOME/Downloads/insta001.gif,file:$HOME/Downloads/insta001.gif
+Recent URLs[$e]=file:$HOME/Downloads/
+detailViewIconSize=16

@@ -1,0 +1,45 @@
+[$Version]
+update_info=ksmserver_update_loginMode_value.upd:ksmserver_update_loginMode_value_default_enum
+
+[LegacySession: saved at previous logout]
+count=0
+
+[Session: saved at previous logout]
+clientId1=10d9db9ce1000167848992300000013960006
+clientId2=10d9db9ce1000167913397000000014100005
+clientId3=10d9db9ce1000167930747800000557540089
+clientId4=10d9db9ce1000167933572200000557540155
+count=4
+discardCommand2[$e]=rm,$HOME/.config/session/kwalletmanager5_10d9db9ce1000167913397000000014100005_1679345759_799177
+discardCommand4[$e]=rm,$HOME/.config/session/dolphin_10d9db9ce1000167933572200000557540155_1679345759_799195
+program1=/nix/var/nix/profiles/default/bin/qbittorrent
+program2=/run/current-system/sw/bin/kwalletmanager5
+program3=/nix/var/nix/profiles/default/bin/keepassxc
+program4=/run/current-system/sw/bin/dolphin
+restartCommand1=/nix/var/nix/profiles/default/bin/qbittorrent,-session,10d9db9ce1000167848992300000013960006_1679345759_799183,-name,qbittorrent
+restartCommand2=/run/current-system/sw/bin/kwalletmanager5,-session,10d9db9ce1000167913397000000014100005_1679345759_799177,-name,kwalletmanager5
+restartCommand3=/nix/var/nix/profiles/default/bin/keepassxc,-session,10d9db9ce1000167930747800000557540089_1679345759_799184,-name,keepassxc
+restartCommand4=/run/current-system/sw/bin/dolphin,-session,10d9db9ce1000167933572200000557540155_1679345759_799195,-name,dolphin
+restartStyleHint1=0
+restartStyleHint2=0
+restartStyleHint3=0
+restartStyleHint4=0
+userId1=boski
+userId2=boski
+userId3=boski
+userId4=boski
+
+[SubSession: 201cd657-a1fc-41fc-bae0-85f83670c3d5]
+count=0
+
+[SubSession: 94868a27-11de-4c58-83a1-20860fc039ed]
+clientId1=10d9db9ce1000167875488900000014020087
+count=1
+discardCommand1[$e]=rm,$HOME/.config/session/konsole_10d9db9ce1000167875488900000014020087_1679236640_751016
+program1=/etc/profiles/per-user/boski/bin/konsole
+restartCommand1=/etc/profiles/per-user/boski/bin/konsole,-session,10d9db9ce1000167875488900000014020087_1679236640_751016,-name,konsole
+restartStyleHint1=0
+userId1=boski
+
+[SubSession: b681e688-4f64-4400-8a51-926581610ad7]
+count=0

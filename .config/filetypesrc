@@ -1,0 +1,6 @@
+[EmbedSettings]
+embed-application/x-bittorrent=false
+embed-application/x-trash=false
+embed-inode/directory=false
+embed-text/plain=false
+embed-video/mp4=false

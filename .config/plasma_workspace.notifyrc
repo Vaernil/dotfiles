@@ -1,0 +1,17 @@
+[Event/fatalerror]
+Action=Sound|Popup
+Execute=
+Logfile=
+TTS=
+
+[Event/startkde]
+Action=Logfile
+Execute=
+Logfile=file:///home/boski/_library/_logs/_session.log
+TTS=
+
+[Event/warning]
+Action=Sound|Popup
+Execute=
+Logfile=
+TTS=

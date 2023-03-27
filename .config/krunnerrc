@@ -1,0 +1,9 @@
+[Plugins]
+baloosearchEnabled=true
+bookmarksEnabled=false
+browserhistoryEnabled=false
+
+[Runners][krunner_kill]
+sorting=1
+triggerWord=kill
+useTriggerWord=true

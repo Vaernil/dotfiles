@@ -1,0 +1,16 @@
+[HTML Settings]
+AutomaticDetectionLanguage=1
+
+[MainWindow]
+DP-2 DP-4=DP-4
+DP-2 DP-4 XPosition 2560x1440 DP-4=3507
+DP-2 DP-4 YPosition 2560x1440 DP-4=464
+MenuBar=Disabled
+State=AAAA/wAAAAD9AAAAAAAAAyAAAAH1AAAABAAAAAQAAAAIAAAACPwAAAABAAAAAgAAAAEAAAAWAG0AYQBpAG4AVABvAG8AbABCAGEAcgEAAAAA/////wAAAAAAAAAA
+ToolBarsMovable=Disabled
+
+[MainWindowState]
+Splitter=229,570
+
+[Search]
+ScopeSelection=0

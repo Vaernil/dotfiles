@@ -1,0 +1,23 @@
+[Desktop Entry]
+FullScreen=false
+
+[MainWindow]
+2 screens: XPosition=2645
+2 screens: YPosition=117
+DP-2 DP-4=DP-4
+DP-2 DP-4 Window-Maximized 2560x1440 DP-4=true
+DP-2 DP-4 XPosition 2560x1440 DP-4=3072
+DP-2 DP-4 YPosition 2560x1440 DP-4=302
+MenuBar=Disabled
+State=AAAA/wAAAAD9AAAAAAAABgAAAAMcAAAABAAAAAQAAAAIAAAACPwAAAADAAAAAQAAAAEAAAAsAHEAdQBpAGMAawBBAG4AbgBvAHQAYQB0AGkAbwBuAFQAbwBvAGwAQgBhAHICAAAAAP////8AAAAAAAAAAAAAAAIAAAABAAAAFgBtAGEAaQBuAFQAbwBvAGwAQgBhAHIBAAAAAP////8AAAAAAAAAAAAAAAIAAAABAAAAIgBhAG4AbgBvAHQAYQB0AGkAbwBuAFQAbwBvAGwAQgBhAHIAAAAAAP////8AAAAAAAAAAA==
+ToolBarsMovable=Disabled
+
+[Recent Files]
+File1[$e]=$HOME/Downloads/I feel gorgeous in lingerie xx.jpg
+File2[$e]=/boot/efi/EFI/refind/refind.conf
+File3[$e]=/etc/nixos/hardware-configuration.nix
+File4[$e]=$HOME/.dotfiles/os/nixos/hosts/wintermute/configuration.nix
+Name1[$e]=I feel gorgeous in lingerie xx.jpg
+Name2[$e]=refind.conf
+Name3[$e]=hardware-configuration.nix
+Name4[$e]=configuration.nix

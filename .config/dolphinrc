@@ -1,0 +1,58 @@
+MenuBar=Disabled
+
+[$Version]
+update_info=dolphin_detailsmodesettings.upd:rename-leading-padding
+
+[CompactMode]
+PreviewSize=96
+
+[ContextMenu]
+ShowCopyMoveMenu=true
+
+[DetailsMode]
+DirectorySizeCount=false
+PreviewSize=22
+
+[FoldersPanel]
+HiddenFilesShown=true
+
+[General]
+AutoExpandFolders=true
+BrowseThroughArchives=true
+EditableUrl=true
+FilterBar=true
+GlobalViewProps=false
+OpenNewTabAfterLastTab=true
+ShowFullPathInTitlebar=true
+ShowToolTips=true
+SplitView=true
+UseTabForSwitchingSplitView=true
+Version=202
+ViewPropsTimestamp=2023,3,7,23,37,3.2
+
+[IconsMode]
+IconSize=64
+MaximumTextLines=2
+PreviewSize=160
+TextWidthIndex=0
+
+[KFileDialog Settings]
+Places Icons Auto-resize=false
+Places Icons Static Size=22
+
+[KPropertiesDialog]
+DP-2 DP-4 Height 2560x1440 DP-2=672
+DP-2 DP-4 Height 2560x1440 DP-4=672
+DP-2 DP-4 Width 2560x1440 DP-2=596
+DP-2 DP-4 Width 2560x1440 DP-4=590
+
+[MainWindow]
+MenuBar=Disabled
+ToolBarsMovable=Disabled
+
+[Open-with settings]
+CompletionMode=1
+History=kate,mp,kwr,wra,wrap,qbit,mpv
+
+[PreviewSettings]
+Plugins=audiothumbnail,blenderthumbnail,comicbookthumbnail,djvuthumbnail,ebookthumbnail,exrthumbnail,directorythumbnail,fontthumbnail,imagethumbnail,jpegthumbnail,kraorathumbnail,windowsexethumbnail,windowsimagethumbnail,mobithumbnail,opendocumentthumbnail,gsthumbnail,rawthumbnail,svgthumbnail,textthumbnail,ffmpegthumbs

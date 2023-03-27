@@ -53,13 +53,21 @@ Section "Screen"
 
 # Removed Option "metamodes" "DP-2: 2560x1440_144 +0+0 {ForceCompositionPipeline=On, ForceFullCompositionPipeline=On}, DP-4: nvidia-auto-select +2560+0"
 # Removed Option "metamodes" "DP-2: nvidia-auto-select +0+0 {ForceCompositionPipeline=On, ForceFullCompositionPipeline=On}, DP-4: nvidia-auto-select +2560+0"
+<<<<<<< HEAD
+=======
+# Removed Option "metamodes" "DP-2: 2560x1440_144 +0+0 {ForceCompositionPipeline=On, ForceFullCompositionPipeline=On}, DP-4: 2560x1440_60 +2560+0 {ForceCompositionPipeline=On, ForceFullCompositionPipeline=On}"
+>>>>>>> 433d9ac (more files)
     Identifier     "Screen0"
     Device         "Device0"
     Monitor        "Monitor0"
     DefaultDepth    24
     Option         "Stereo" "0"
     Option         "nvidiaXineramaInfoOrder" "DFP-3"
+<<<<<<< HEAD
     Option         "metamodes" "DP-2: 2560x1440_144 +0+0 {ForceCompositionPipeline=On, ForceFullCompositionPipeline=On}, DP-4: 2560x1440_60 +2560+0 {ForceCompositionPipeline=On, ForceFullCompositionPipeline=On}"
+=======
+    Option         "metamodes" "DP-2: 2560x1440_144 +0+0, DP-4: nvidia-auto-select +2560+0"
+>>>>>>> 433d9ac (more files)
     Option         "SLI" "Off"
     Option         "MultiGPU" "Off"
     Option         "BaseMosaic" "off"

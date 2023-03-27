@@ -1,0 +1,4 @@
+[KFileDialog Settings]
+Recent Files[$e]=_session.log,file:$HOME/_library/_logs/_session.log
+Recent URLs[$e]=file:$HOME/,file:$HOME/_library/_logs/
+detailViewIconSize=16

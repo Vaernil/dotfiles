@@ -1,0 +1,6 @@
+[General]
+DefaultWebShortcut=google
+EnableWebShortcuts=true
+KeywordDelimiter=:
+PreferredWebShortcuts=wikipedia,wikit,google,youtube,protondb,yahoo,pgpkeys,yandex,reddit,opendesktop,python
+UsePreferredWebShortcutsOnly=false

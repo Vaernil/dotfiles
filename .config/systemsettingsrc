@@ -1,0 +1,36 @@
+[KFileDialog Settings]
+detailViewIconSize=16
+
+[KPropertiesDialog]
+DP-2 DP-4 Height 2560x1440 DP-2=527
+DP-2 DP-4 Height 2560x1440 DP-4=527
+DP-2 DP-4 Width 2560x1440 DP-2=427
+DP-2 DP-4 Width 2560x1440 DP-4=427
+
+[MainWindow]
+2 screens: XPosition=2593
+2 screens: YPosition=80
+DP-2 DP-4=DP-4
+DP-2 DP-4 Height 2560x1440 DP-2=736
+DP-2 DP-4 Height 2560x1440 DP-4=758
+DP-2 DP-4 Width 2560x1440 DP-2=1288
+DP-2 DP-4 Width 2560x1440 DP-4=1288
+DP-2 DP-4 XPosition 2560x1440 DP-2=710
+DP-2 DP-4 XPosition 2560x1440 DP-4=3179
+DP-2 DP-4 YPosition 2560x1440 DP-2=584
+DP-2 DP-4 YPosition 2560x1440 DP-4=360
+DP-3 DP-4=DP-4
+DP-3 DP-4 XPosition 2560x1440 DP-3=770
+DP-3 DP-4 XPosition 2560x1440 DP-4=2673
+DP-3 DP-4 YPosition 2560x1440 DP-3=362
+DP-3 DP-4 YPosition 2560x1440 DP-4=312
+MenuBar=Disabled
+State=AAAA/wAAAAD9AAAAAAAAA/wAAAK8AAAABAAAAAQAAAAIAAAACPwAAAABAAAAAgAAAAEAAAAWAG0AYQBpAG4AVABvAG8AbABCAGEAcgAAAAAA/////wAAAAAAAAAA
+ToolBarsMovable=Disabled
+
+[Open-with settings]
+CompletionMode=1
+History=spoti,disco
+
+[systemsettings_sidebar_mode]
+HighlightNonDefaultSettings=true

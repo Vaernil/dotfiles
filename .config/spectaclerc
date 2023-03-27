@@ -1,0 +1,24 @@
+[$Version]
+update_info=spectacle_clipboard.upd:clipboard-settings-change,spectacle_rememberregion.upd:spectacle-migrate-rememberregion
+
+[General]
+autoSaveImage=true
+clipboardGroup=PostScreenshotCopyImage
+useReleaseToCapture=true
+
+[GuiConfig]
+captureMode=3
+includePointer=true
+quitAfterSaveCopyExport=true
+window-position=0,54
+
+[KFileDialog Settings]
+Recent Files[$e]=file:$HOME/Pictures/nordlockeykey-4K2NV 2JE8Y 2WGXJ 63N6P NZV99.png,file:$HOME/Pictures/nordlockeykey-4K2NV 2JE8Y 2WGXJ 63N6P NZV99.png
+Recent URLs[$e]=file:$HOME/Pictures/
+detailViewIconSize=16
+
+[Save]
+compressionQuality=100
+defaultSaveLocation=file:///home/boski/Pictures/_screenshots
+lastSaveAsLocation=file:///home/boski/Pictures/nordlockeykey-4K2NV 2JE8Y 2WGXJ 63N6P NZV99.png
+lastSaveLocation=file:///home/boski/.config/plasmaConfSaver/adhd/screenshot.png
